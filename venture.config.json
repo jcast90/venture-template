@@ -1,0 +1,75 @@
+{
+  "name": "{{PRODUCT_NAME}}",
+  "tagline": "{{TAGLINE}}",
+  "description": "{{DESCRIPTION}}",
+  "domain": "{{DOMAIN}}",
+  "brand": {
+    "primary": "#3b82f6",
+    "primaryDark": "#2563eb",
+    "accent": "#8b5cf6",
+    "gradient": "from-blue-600 to-violet-600",
+    "gradientHover": "from-blue-500 to-violet-500",
+    "surface": "#0A0A0F",
+    "surfaceLight": "#111118"
+  },
+  "landing": {
+    "headline": "{{HEADLINE}}",
+    "subheadline": "{{SUBHEADLINE}}",
+    "painStats": [
+      { "stat": "{{STAT_1}}", "label": "{{STAT_1_LABEL}}" },
+      { "stat": "{{STAT_2}}", "label": "{{STAT_2_LABEL}}" },
+      { "stat": "{{STAT_3}}", "label": "{{STAT_3_LABEL}}" }
+    ],
+    "steps": [
+      { "title": "{{STEP_1}}", "desc": "{{STEP_1_DESC}}" },
+      { "title": "{{STEP_2}}", "desc": "{{STEP_2_DESC}}" },
+      { "title": "{{STEP_3}}", "desc": "{{STEP_3_DESC}}" }
+    ],
+    "painPoints": [
+      "{{PAIN_1}}",
+      "{{PAIN_2}}",
+      "{{PAIN_3}}",
+      "{{PAIN_4}}",
+      "{{PAIN_5}}",
+      "{{PAIN_6}}"
+    ],
+    "pricing": [
+      {
+        "plan": "Starter",
+        "price": "Free",
+        "period": "",
+        "desc": "{{STARTER_DESC}}",
+        "features": ["{{STARTER_F1}}", "{{STARTER_F2}}", "{{STARTER_F3}}", "{{STARTER_F4}}"],
+        "highlighted": false
+      },
+      {
+        "plan": "Pro",
+        "price": "{{PRO_PRICE}}",
+        "period": "/mo",
+        "desc": "{{PRO_DESC}}",
+        "features": ["{{PRO_F1}}", "{{PRO_F2}}", "{{PRO_F3}}", "{{PRO_F4}}", "{{PRO_F5}}", "{{PRO_F6}}"],
+        "highlighted": true
+      },
+      {
+        "plan": "Enterprise",
+        "price": "Custom",
+        "period": "",
+        "desc": "{{ENTERPRISE_DESC}}",
+        "features": ["Everything in Pro", "{{ENT_F1}}", "{{ENT_F2}}", "{{ENT_F3}}", "{{ENT_F4}}"],
+        "highlighted": false
+      }
+    ],
+    "finalCta": {
+      "headline": "{{FINAL_CTA_HEADLINE}}",
+      "subheadline": "{{FINAL_CTA_SUB}}"
+    }
+  },
+  "dashboard": {
+    "navItems": [
+      { "label": "Dashboard", "href": "/dashboard", "icon": "LayoutDashboard" },
+      { "label": "{{NAV_1}}", "href": "/dashboard/{{NAV_1_SLUG}}", "icon": "{{NAV_1_ICON}}" },
+      { "label": "{{NAV_2}}", "href": "/dashboard/{{NAV_2_SLUG}}", "icon": "{{NAV_2_ICON}}" },
+      { "label": "Settings", "href": "/dashboard/settings", "icon": "Settings" }
+    ]
+  }
+}
