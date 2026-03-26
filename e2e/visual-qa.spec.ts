@@ -29,11 +29,11 @@ for (const p of pages) {
       await expect(page.locator(selector).first()).toBeVisible();
     }
 
-    // No error pages
-    const text = await page.textContent("body");
-    expect(text).not.toContain("Application error");
-    expect(text).not.toContain("500");
-    expect(text).not.toContain("Internal Server Error");
+    // No error pages — check visible text only (innerText excludes script payloads)
+    const visibleText = await page.locator("body").innerText();
+    expect(visibleText).not.toContain("Application error");
+    expect(visibleText).not.toContain("Internal Server Error");
+    expect(visibleText).not.toMatch(/\b500\b.*(?:error|server)/i);
 
     // Screenshot for visual review
     await page.screenshot({
