@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { inngest } from "@/lib/inngest";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,18 +15,8 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.from("waitlist").insert([{ email }]);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    if (process.env.RESEND_API_KEY) {
-      const { Resend } = await import("resend");
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails
-        .send({
-          from: "hello@example.com",
-          to: email,
-          subject: `Welcome to the waitlist!`,
-          html: "<h2>You're on the list!</h2><p>We'll notify you when we launch.</p>",
-        })
-        .catch(() => {});
-    }
+    // Fire Inngest event to trigger the drip email campaign
+    await inngest.send({ name: "waitlist/signup", data: { email } });
 
     return NextResponse.json({ message: "Success" });
   } catch {
