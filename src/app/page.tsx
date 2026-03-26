@@ -19,6 +19,7 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function LandingPage() {
   const { landing } = config;
+  const waitlistMode = config.flags?.waitlistMode ?? true;
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -63,10 +64,10 @@ export default function LandingPage() {
             </span>
           </div>
           <a
-            href="#waitlist"
+            href={waitlistMode ? "#waitlist" : "/signup"}
             className="rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 py-2 text-sm font-medium transition-all hover:from-blue-500 hover:to-violet-500 hover:shadow-lg hover:shadow-blue-500/25"
           >
-            Get Early Access
+            {waitlistMode ? "Get Early Access" : "Get Started"}
           </a>
         </div>
       </nav>
@@ -93,7 +94,8 @@ export default function LandingPage() {
             {landing.subheadline}
           </p>
 
-          {/* Waitlist form */}
+          {/* Waitlist form (only in waitlist mode) */}
+          {waitlistMode ? (
           <div id="waitlist" className="mx-auto mt-10 max-w-md">
             {status === "success" ? (
               <div className="flex items-center justify-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-6 py-4 text-emerald-400">
@@ -135,6 +137,23 @@ export default function LandingPage() {
               No spam. Unsubscribe anytime.
             </p>
           </div>
+          ) : (
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a
+              href="/signup"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-8 py-3.5 text-sm font-semibold transition-all hover:from-blue-500 hover:to-violet-500 hover:shadow-lg hover:shadow-blue-500/25"
+            >
+              Get Started Free
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#pricing"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-8 py-3.5 text-sm font-medium transition-all hover:bg-white/5"
+            >
+              View Pricing
+            </a>
+          </div>
+          )}
         </div>
       </section>
 
@@ -228,8 +247,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Pricing ── */}
-      <section className="px-6 py-24 border-t border-white/[0.06]">
+      {/* ── Pricing (hidden in waitlist mode) ── */}
+      {!waitlistMode && (
+      <section id="pricing" className="px-6 py-24 border-t border-white/[0.06]">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -282,7 +302,7 @@ export default function LandingPage() {
                 </ul>
 
                 <a
-                  href="#waitlist"
+                  href="/signup"
                   className={`inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition-all ${
                     tier.highlighted
                       ? "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 hover:shadow-lg hover:shadow-blue-500/25"
@@ -297,6 +317,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── Final CTA ── */}
       <section className="relative px-6 py-32 overflow-hidden">
@@ -316,10 +337,10 @@ export default function LandingPage() {
 
           <div className="mt-10">
             <a
-              href="#waitlist"
+              href={waitlistMode ? "#waitlist" : "/signup"}
               className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-8 py-4 text-base font-semibold transition-all hover:from-blue-500 hover:to-violet-500 hover:shadow-xl hover:shadow-blue-500/25"
             >
-              Join the Waitlist
+              {waitlistMode ? "Join the Waitlist" : "Get Started Free"}
               <ArrowRight className="h-5 w-5" />
             </a>
           </div>

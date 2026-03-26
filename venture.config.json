@@ -3,6 +3,9 @@
   "tagline": "{{TAGLINE}}",
   "description": "{{DESCRIPTION}}",
   "domain": "{{DOMAIN}}",
+  "flags": {
+    "waitlistMode": true
+  },
   "brand": {
     "primary": "#3b82f6",
     "primaryDark": "#2563eb",
