@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { inngest } from "@/lib/inngest";
+import { inngest, ventureEvent } from "@/lib/inngest";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +15,11 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.from("waitlist").insert([{ email }]);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    // Fire Inngest event to trigger the drip email campaign
-    await inngest.send({ name: "waitlist/signup", data: { email } });
+    // Fire venture-scoped Inngest event to trigger the drip email campaign
+    await inngest.send({
+      name: ventureEvent("user.signup"),
+      data: { email },
+    });
 
     return NextResponse.json({ message: "Success" });
   } catch {

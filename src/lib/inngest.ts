@@ -1,3 +1,2 @@
-import { Inngest } from "inngest";
-
-export const inngest = new Inngest({ id: "venture-app" });
+// Re-export from the inngest module directory
+export { inngest, ventureEvent } from "./inngest/index";

@@ -3,8 +3,10 @@
   "tagline": "{{TAGLINE}}",
   "description": "{{DESCRIPTION}}",
   "domain": "{{DOMAIN}}",
+  "layout": "centered",
   "flags": {
-    "waitlistMode": true
+    "waitlistMode": true,
+    "mvpReady": false
   },
   "brand": {
     "primary": "#3b82f6",
