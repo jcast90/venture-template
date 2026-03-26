@@ -67,20 +67,21 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "bg-white/10 text-white"
-                : "text-white/50 hover:bg-white/[0.06] hover:text-white/80"
+                ? "bg-white/10 text-white border-l-[3px]"
+                : "text-white/50 hover:bg-white/[0.06] hover:text-white/80 border-l-[3px] border-l-transparent"
             }`}
+            style={isActive ? { borderLeftColor: "var(--brand-primary)" } : undefined}
           >
             <Icon
               className={`size-[18px] shrink-0 transition-colors duration-200 ${
                 isActive
-                  ? "text-blue-400"
+                  ? "text-brand-primary"
                   : "text-white/40 group-hover:text-white/60"
               }`}
             />
             <span>{item.label}</span>
             {isActive && (
-              <span className="ml-auto size-1.5 rounded-full bg-blue-400" />
+              <span className="ml-auto size-1.5 rounded-full bg-brand-primary" />
             )}
           </Link>
         );
@@ -98,7 +99,7 @@ function UserMenu({ variant = "sidebar" }: { variant?: "sidebar" | "header" }) {
         }`}
       >
         <Avatar size="sm">
-          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-violet-500 text-[10px] font-semibold text-white">
+          <AvatarFallback className="text-[10px] font-semibold text-white" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
             JD
           </AvatarFallback>
         </Avatar>
@@ -113,7 +114,7 @@ function UserMenu({ variant = "sidebar" }: { variant?: "sidebar" | "header" }) {
         side={variant === "sidebar" ? "top" : "bottom"}
         align="end"
         sideOffset={8}
-        className="w-56 bg-[#1a1a24] border-white/10"
+        className="w-56 bg-brand-surface-light border-white/10"
       >
         <DropdownMenuLabel className="text-white/60">
           My Account
@@ -143,10 +144,12 @@ function UserMenu({ variant = "sidebar" }: { variant?: "sidebar" | "header" }) {
 
 function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col border-r border-white/[0.06] bg-[#111118] lg:flex">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col border-r border-white/[0.06] bg-brand-surface-light lg:flex">
+      {/* Brand gradient top line */}
+      <div className="h-[2px] w-full shrink-0" style={{ background: `linear-gradient(to right, var(--brand-primary), var(--brand-accent))` }} />
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 px-6">
-        <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-violet-500">
+        <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
           <Zap className="size-4 text-white" />
         </div>
         <span className="text-base font-semibold tracking-tight text-white">
@@ -175,7 +178,7 @@ function MobileHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-white/[0.06] bg-[#0A0A0F]/80 px-4 backdrop-blur-xl lg:hidden">
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-white/[0.06] px-4 backdrop-blur-xl lg:hidden" style={{ backgroundColor: "color-mix(in srgb, var(--brand-surface) 80%, transparent)" }}>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={
@@ -187,13 +190,15 @@ function MobileHeader() {
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-[280px] border-r border-white/[0.06] bg-[#111118] p-0"
+          className="w-[280px] border-r border-white/[0.06] bg-brand-surface-light p-0"
           showCloseButton={false}
         >
           <SheetTitle className="sr-only">Navigation</SheetTitle>
+          {/* Brand gradient top line */}
+          <div className="h-[2px] w-full shrink-0" style={{ background: `linear-gradient(to right, var(--brand-primary), var(--brand-accent))` }} />
           {/* Logo */}
           <div className="flex h-16 items-center gap-3 px-6">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-violet-500">
+            <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
               <Zap className="size-4 text-white" />
             </div>
             <span className="text-base font-semibold tracking-tight text-white">
@@ -230,7 +235,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#0A0A0F]">
+    <div className="min-h-screen bg-brand-surface">
       <Sidebar />
       <MobileHeader />
       <main className="lg:pl-[260px]">

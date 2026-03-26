@@ -4,7 +4,19 @@ import config from "@/lib/config";
 const productName = config.name;
 const domain = config.domain;
 
+function hexToRgb(hex: string): string {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}`
+    : "59,130,246";
+}
+
 function emailWrapper(content: string): string {
+  const primary = config.brand?.primary || "#3b82f6";
+  const accent = config.brand?.accent || "#8b5cf6";
+  const surface = config.brand?.surface || "#0A0A0F";
+  const surfaceLight = config.brand?.surfaceLight || "#111118";
+
   return `
 <!DOCTYPE html>
 <html>
@@ -12,28 +24,42 @@ function emailWrapper(content: string): string {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f5; }
+    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: ${surface}; color: #e4e4e7; }
     .container { max-width: 580px; margin: 0 auto; padding: 40px 20px; }
-    .card { background: #ffffff; border-radius: 12px; padding: 40px 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    h1 { font-size: 24px; font-weight: 700; color: #18181b; margin: 0 0 16px 0; line-height: 1.3; }
-    h2 { font-size: 20px; font-weight: 600; color: #18181b; margin: 24px 0 12px 0; }
-    p { font-size: 16px; line-height: 1.6; color: #3f3f46; margin: 0 0 16px 0; }
-    .highlight { background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
-    .highlight p { margin: 0; color: #1e40af; }
-    .cta { display: inline-block; background: #3b82f6; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 16px; margin: 24px 0; }
-    .footer { text-align: center; padding: 24px 0; font-size: 13px; color: #a1a1aa; }
-    .footer a { color: #a1a1aa; }
+    .header { text-align: center; padding: 24px 0 32px; }
+    .logo { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, ${primary}, ${accent}); }
+    .logo-text { font-size: 18px; font-weight: 700; color: #ffffff; margin-left: 12px; display: inline-block; vertical-align: middle; }
+    .card { background: ${surfaceLight}; border-radius: 16px; padding: 40px 32px; border: 1px solid rgba(255,255,255,0.06); }
+    h1 { font-size: 24px; font-weight: 700; color: #ffffff; margin: 0 0 16px 0; line-height: 1.3; }
+    h2 { font-size: 20px; font-weight: 600; color: #ffffff; margin: 24px 0 12px 0; }
+    p { font-size: 16px; line-height: 1.7; color: #a1a1aa; margin: 0 0 16px 0; }
+    .highlight { background: rgba(${hexToRgb(primary)}, 0.08); border-left: 4px solid ${primary}; padding: 16px 20px; border-radius: 0 12px 12px 0; margin: 24px 0; }
+    .highlight p { margin: 0; color: ${primary}; }
+    .cta { display: inline-block; background: linear-gradient(to right, ${primary}, ${accent}); color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 16px; margin: 24px 0; }
+    .footer { text-align: center; padding: 24px 0; font-size: 13px; color: #52525b; }
+    .footer a { color: #52525b; }
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 32px 0; }
     ul { padding-left: 20px; }
-    li { font-size: 16px; line-height: 1.6; color: #3f3f46; margin-bottom: 8px; }
+    li { font-size: 16px; line-height: 1.7; color: #a1a1aa; margin-bottom: 8px; }
+    li strong { color: #e4e4e7; }
+    a { color: ${primary}; }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="header">
+      <div class="logo" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,${primary},${accent});">
+        <span style="color:#fff;font-weight:700;font-size:18px;">${productName.charAt(0)}</span>
+      </div>
+      <span class="logo-text">${productName}</span>
+    </div>
     <div class="card">
       ${content}
     </div>
     <div class="footer">
-      <p>${productName} &mdash; ${domain || "our website"}</p>
+      <div class="divider"></div>
+      <p>${productName} &mdash; <a href="https://${domain || 'example.com'}">${domain || 'our website'}</a></p>
+      <p style="font-size:11px;color:#3f3f46;">You received this because you signed up for ${productName}. <a href="https://${domain || 'example.com'}/unsubscribe" style="color:#3f3f46;">Unsubscribe</a></p>
     </div>
   </div>
 </body>

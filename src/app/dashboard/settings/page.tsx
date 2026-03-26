@@ -65,28 +65,28 @@ export default function SettingsPage() {
         >
           <TabsTrigger
             value="general"
-            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-blue-400"
+            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-brand-primary"
           >
             <Shield className="size-4" />
             General
           </TabsTrigger>
           <TabsTrigger
             value="billing"
-            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-blue-400"
+            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-brand-primary"
           >
             <CreditCard className="size-4" />
             Billing
           </TabsTrigger>
           <TabsTrigger
             value="team"
-            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-blue-400"
+            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-brand-primary"
           >
             <Users className="size-4" />
             Team
           </TabsTrigger>
           <TabsTrigger
             value="api-keys"
-            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-blue-400"
+            className="gap-2 text-white/50 data-active:text-white data-active:after:bg-brand-primary"
           >
             <Key className="size-4" />
             API Keys
@@ -95,7 +95,7 @@ export default function SettingsPage() {
 
         {/* General Tab */}
         <TabsContent value="general">
-          <Card className="border-white/[0.06] bg-[#111118]">
+          <Card className="border-white/[0.06] bg-brand-surface-light">
             <CardHeader>
               <CardTitle className="text-base font-semibold text-white">
                 General Settings
@@ -110,7 +110,7 @@ export default function SettingsPage() {
                   <Label className="text-white/70">Product Name</Label>
                   <Input
                     defaultValue={config.name}
-                    className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-blue-500/50 focus-visible:ring-blue-500/20"
+                    className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-brand-primary/50 focus-visible:ring-brand-primary/20"
                   />
                 </div>
                 <div className="space-y-2">
@@ -118,7 +118,7 @@ export default function SettingsPage() {
                   <Input
                     type="email"
                     defaultValue="admin@example.com"
-                    className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-blue-500/50 focus-visible:ring-blue-500/20"
+                    className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-brand-primary/50 focus-visible:ring-brand-primary/20"
                   />
                 </div>
               </div>
@@ -126,12 +126,12 @@ export default function SettingsPage() {
                 <Label className="text-white/70">Domain</Label>
                 <Input
                   defaultValue={config.domain}
-                  className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-blue-500/50 focus-visible:ring-blue-500/20"
+                  className="border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-brand-primary/50 focus-visible:ring-brand-primary/20"
                 />
               </div>
               <Separator className="bg-white/[0.06]" />
               <div className="flex justify-end">
-                <Button className="bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500">
+                <Button className="text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
                   Save Changes
                 </Button>
               </div>
@@ -142,7 +142,7 @@ export default function SettingsPage() {
         {/* Billing Tab */}
         <TabsContent value="billing">
           <div className="space-y-6">
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -153,7 +153,7 @@ export default function SettingsPage() {
                       You are currently on the Pro plan.
                     </CardDescription>
                   </div>
-                  <Badge className="bg-gradient-to-r from-blue-500 to-violet-500 border-0 text-white">
+                  <Badge className="border-0 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
                     Pro
                   </Badge>
                 </div>
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                 </div>
                 <Separator className="bg-white/[0.06]" />
                 <div className="flex gap-3">
-                  <Button className="bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500">
+                  <Button className="text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
                     Upgrade to Enterprise
                   </Button>
                   <Button
@@ -196,7 +196,7 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <CardTitle className="text-base font-semibold text-white">
                   Payment Method
@@ -234,7 +234,7 @@ export default function SettingsPage() {
         {/* Team Tab */}
         <TabsContent value="team">
           <div className="space-y-6">
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <CardTitle className="text-base font-semibold text-white">
                   Invite Members
@@ -248,9 +248,9 @@ export default function SettingsPage() {
                   <Input
                     type="email"
                     placeholder="colleague@example.com"
-                    className="flex-1 border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-blue-500/50 focus-visible:ring-blue-500/20"
+                    className="flex-1 border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-brand-primary/50 focus-visible:ring-brand-primary/20"
                   />
-                  <Button className="gap-2 bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500">
+                  <Button className="gap-2 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
                     <Plus className="size-4" />
                     Invite
                   </Button>
@@ -258,7 +258,7 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <CardTitle className="text-base font-semibold text-white">
                   Team Members
@@ -275,7 +275,7 @@ export default function SettingsPage() {
                       className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-white/[0.03] p-4"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20">
+                        <div className="flex size-9 items-center justify-center rounded-full" style={{ background: "linear-gradient(to bottom right, color-mix(in srgb, var(--brand-primary) 20%, transparent), color-mix(in srgb, var(--brand-accent) 20%, transparent))" }}>
                           <span className="text-sm font-semibold text-white/70">
                             {member.name
                               .split(" ")
@@ -297,9 +297,9 @@ export default function SettingsPage() {
                           variant="outline"
                           className={
                             member.role === "Owner"
-                              ? "border-blue-500/30 text-blue-400"
+                              ? "border-brand-primary/30 text-brand-primary"
                               : member.role === "Admin"
-                                ? "border-violet-500/30 text-violet-400"
+                                ? "border-brand-accent/30 text-brand-accent"
                                 : "border-white/20 text-white/50"
                           }
                         >
@@ -326,7 +326,7 @@ export default function SettingsPage() {
         {/* API Keys Tab */}
         <TabsContent value="api-keys">
           <div className="space-y-6">
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -337,7 +337,7 @@ export default function SettingsPage() {
                       Manage your API keys for programmatic access.
                     </CardDescription>
                   </div>
-                  <Button className="gap-2 bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500">
+                  <Button className="gap-2 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
                     <Plus className="size-4" />
                     Create Key
                   </Button>
@@ -359,7 +359,7 @@ export default function SettingsPage() {
                     </Badge>
                   </div>
                   <div className="mt-3 flex items-center gap-2">
-                    <div className="flex-1 rounded-md border border-white/[0.08] bg-[#0A0A0F] px-3 py-2 font-mono text-sm text-white/70">
+                    <div className="flex-1 rounded-md border border-white/[0.08] bg-brand-surface px-3 py-2 font-mono text-sm text-white/70">
                       {showApiKey
                         ? placeholderKey
                         : "vk_live_" + "\u2022".repeat(32)}
@@ -393,7 +393,7 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-white/[0.06] bg-[#111118]">
+            <Card className="border-white/[0.06] bg-brand-surface-light">
               <CardHeader>
                 <CardTitle className="text-base font-semibold text-white">
                   Usage
@@ -413,8 +413,8 @@ export default function SettingsPage() {
                     </div>
                     <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
-                        style={{ width: "25.7%" }}
+                        className="h-full rounded-full"
+                        style={{ width: "25.7%", background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
                       />
                     </div>
                   </div>
@@ -425,8 +425,8 @@ export default function SettingsPage() {
                     </div>
                     <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
-                        style={{ width: "32%" }}
+                        className="h-full rounded-full"
+                        style={{ width: "32%", background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
                       />
                     </div>
                   </div>

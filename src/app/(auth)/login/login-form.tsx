@@ -52,7 +52,7 @@ export default function LoginForm() {
   if (status === "sent") {
     return (
       <div className="flex items-center justify-center min-h-screen px-4">
-        <Card className="w-full max-w-md bg-[#111118] border-white/[0.06]">
+        <Card className="w-full max-w-md bg-brand-surface-light border-white/[0.06]">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-2"><Logo size={40} /></div>
             <CardTitle className="text-2xl mt-4">Check your email</CardTitle>
@@ -70,7 +70,9 @@ export default function LoginForm() {
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
-      <Card className="w-full max-w-md bg-[#111118] border-white/[0.06]">
+      <div className="relative w-full max-w-md">
+        <div className="absolute -inset-4 rounded-3xl opacity-15 blur-2xl pointer-events-none" style={{ background: "radial-gradient(circle, var(--brand-primary), transparent 70%)" }} />
+        <Card className="relative w-full bg-brand-surface-light border-white/[0.06]">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-2"><Logo size={40} /></div>
           <CardTitle className="text-2xl">{config.name}</CardTitle>
@@ -78,12 +80,12 @@ export default function LoginForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="border-white/10 hover:bg-white/5" onClick={() => handleOAuth("google")}>Google</Button>
-            <Button variant="outline" className="border-white/10 hover:bg-white/5" onClick={() => handleOAuth("github")}>GitHub</Button>
+            <Button variant="outline" className="border-white/10 hover:bg-white/5 hover:border-brand-primary/30 transition-colors" onClick={() => handleOAuth("google")}>Google</Button>
+            <Button variant="outline" className="border-white/10 hover:bg-white/5 hover:border-brand-primary/30 transition-colors" onClick={() => handleOAuth("github")}>GitHub</Button>
           </div>
           <div className="relative">
             <Separator className="bg-white/[0.06]" />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#111118] px-3 text-xs text-gray-500">or continue with email</span>
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-surface-light px-3 text-xs text-gray-500">or continue with email</span>
           </div>
           <form onSubmit={mode === "magic" ? handleMagicLink : handlePasswordLogin} className="space-y-4">
             <div className="space-y-2">
@@ -94,13 +96,13 @@ export default function LoginForm() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <button type="button" onClick={() => setMode("magic")} className="text-xs text-blue-400 hover:text-blue-300">Use magic link</button>
+                  <button type="button" onClick={() => setMode("magic")} className="text-xs text-brand-primary hover:opacity-80">Use magic link</button>
                 </div>
                 <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="bg-white/5 border-white/10" />
               </div>
             )}
             {errorMsg && <p className="text-sm text-red-400">{errorMsg}</p>}
-            <Button type="submit" disabled={status === "loading"} className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500">
+            <Button type="submit" disabled={status === "loading"} className="w-full text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
               {status === "loading" ? "Loading..." : mode === "magic" ? "Send Magic Link" : "Sign In"}
             </Button>
           </form>
@@ -108,10 +110,11 @@ export default function LoginForm() {
             {mode === "magic" ? "Use password instead" : "Use magic link instead"}
           </button>
           <p className="text-center text-sm text-gray-400">
-            Don&apos;t have an account? <Link href="/signup" className="text-blue-400 hover:text-blue-300">Sign up</Link>
+            Don&apos;t have an account? <Link href="/signup" className="text-brand-primary hover:opacity-80">Sign up</Link>
           </p>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
