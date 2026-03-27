@@ -73,7 +73,7 @@ All product-specific content lives in `venture.config.json`. Edit this file to c
 ```bash
 # Supabase (required)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key  # or NEXT_PUBLIC_SUPABASE_ANON_KEY for legacy projects
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 # Stripe (required for payments)
