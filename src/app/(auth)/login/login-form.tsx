@@ -43,7 +43,7 @@ export default function LoginForm() {
   if (status === "sent") {
     return (
       <div className="flex items-center justify-center min-h-screen px-4">
-        <Card className="w-full max-w-md bg-brand-surface-light border-white/[0.06]">
+        <Card className="w-full max-w-lg bg-brand-surface-light border-white/[0.06]">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-2"><Logo size={40} /></div>
             <CardTitle className="text-2xl mt-4">Check your email</CardTitle>
@@ -52,7 +52,7 @@ export default function LoginForm() {
               <br />Click the link in your email to sign in.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="p-6 space-y-3">
             <p className="text-xs text-gray-500 text-center">
               Didn&apos;t receive it? Check your spam folder or try again.
             </p>
@@ -67,7 +67,7 @@ export default function LoginForm() {
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-lg">
         <div className="absolute -inset-4 rounded-3xl opacity-15 blur-2xl pointer-events-none" style={{ background: "radial-gradient(circle, var(--brand-primary), transparent 70%)" }} />
         <Card className="relative w-full bg-brand-surface-light border-white/[0.06]">
           <CardHeader className="text-center">
@@ -77,7 +77,7 @@ export default function LoginForm() {
               Enter your email to sign in or create an account
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
