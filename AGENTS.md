@@ -66,6 +66,7 @@ import { Logo } from "@/components/logo";
 - Use password or OAuth login — OTP email only
 - Create files in `src/components/ui/` — use `npx shadcn add`
 - Create `src/utils/`, `src/helpers/`, `src/services/` — use `src/lib/`
+- Add non-functional buttons, links, or UI elements — every clickable element must work (navigate, open a dialog, submit a form, or perform an action). No placeholder `#` hrefs, no `onClick={() => {}}` stubs, no "coming soon" buttons unless explicitly requested
 
 ## Page conventions
 - Dashboard pages start with `"use client";`
