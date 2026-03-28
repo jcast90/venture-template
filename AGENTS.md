@@ -135,3 +135,11 @@ Read `docs/known-issues.md` before starting work — it contains lessons from pa
 - `docs/guide.md` — How to add pages, routes, tables, hooks + package doc links
 - `docs/patterns.md` — Copy-pasteable CRUD page pattern
 - `docs/components.md` — Component props and variants
+
+## Memory-loadable conventions (for OpenFang build agents)
+These small docs are loaded into OpenFang memory at build time for gpt-4.1-mini agents:
+- `docs/agents/imports.md` → `conventions:imports` — import paths, casing, available components
+- `docs/agents/styling.md` → `conventions:styling` — brand CSS vars, color patterns
+- `docs/agents/page-pattern.md` → `conventions:page-pattern` — page structure, CRUD, states
+- `docs/agents/schema.md` → `conventions:schema` — SQL conventions, RLS, base tables
+- `docs/agents/config-schema.md` → `conventions:config` — venture.config.json schema + validation
