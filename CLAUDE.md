@@ -14,7 +14,7 @@ This is a SaaS product built from the Venture OS template system. It includes a 
 - **Payments**: Stripe (Checkout, Billing Portal, Webhooks)
 - **Email**: Resend
 - **Hosting**: Vercel
-- **Auth**: Supabase Auth (magic link, password, Google/GitHub OAuth)
+- **Auth**: Supabase Auth (OTP email verification — 6-digit code)
 
 ## Project Structure
 
@@ -25,8 +25,8 @@ src/
 │   ├── layout.tsx                  # Root layout with Inter font + metadata
 │   ├── middleware.ts               # Auth middleware — protects /dashboard/*
 │   ├── (auth)/
-│   │   ├── login/page.tsx          # Login (magic link, password, OAuth)
-│   │   ├── signup/page.tsx         # Signup (email + password)
+│   │   ├── login/login-form.tsx     # Login (OTP email verification)
+│   │   ├── signup/page.tsx         # Redirects to /login
 │   │   └── layout.tsx              # Centered auth layout
 │   ├── auth/callback/route.ts      # OAuth callback handler
 │   ├── dashboard/
@@ -91,9 +91,9 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ## Auth Flow
 
 1. User visits `/login` → enters email
-2. **Magic link**: Supabase sends OTP email (via Resend if configured) → user clicks → `/auth/callback` → redirected to `/dashboard`
-3. **Password**: Email + password → Supabase Auth → redirected to `/dashboard`
-4. **OAuth**: Google/GitHub button → Supabase OAuth → `/auth/callback` → `/dashboard`
+2. Supabase sends a 6-digit OTP code via email
+3. User enters the code → `verifyOtp` → redirected to `/dashboard`
+4. New users are auto-created (`shouldCreateUser: true` in OTP options)
 5. Middleware checks session on every `/dashboard/*` request → redirects to `/login` if not authenticated
 6. Sign out: POST `/api/auth/signout`
 
@@ -102,9 +102,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 1. Create project at supabase.com
 2. Copy URL and anon key to `.env.local`
 3. Run schema: paste `supabase/schema.sql` in SQL Editor
-4. Enable Google/GitHub OAuth in Auth → Providers
-5. Set redirect URL: `https://your-domain.com/auth/callback`
-6. (Optional) Configure Resend as custom SMTP in Auth → Email Templates
+4. Set redirect URL: `https://your-domain.com/auth/callback`
+5. (Optional) Configure Resend as custom SMTP in Auth → Email Templates
 
 ## Stripe Setup
 
