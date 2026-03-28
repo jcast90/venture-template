@@ -162,5 +162,6 @@ npx playwright test    # E2E tests
 
 ## Reference docs
 
+- `docs/guide.md` — How to add pages, routes, hooks, tables, components (READ THIS FIRST)
 - `docs/components.md` — Full component API with usage examples
 - `docs/patterns.md` — Complete page patterns (CRUD, dashboard, settings)
