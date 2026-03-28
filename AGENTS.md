@@ -113,7 +113,25 @@ npm run build       # Must pass before deploy
 npx tsc --noEmit    # Type check
 ```
 
+## Self-healing: document what you learn
+
+If you encounter a build error, runtime bug, or repeated issue while working on this project:
+
+1. **Fix it** — resolve the immediate problem
+2. **Check `docs/known-issues.md`** — has this been documented before?
+3. **Document it** — append to `docs/known-issues.md` with this format:
+   ```
+   ### [Short description]
+   **Error**: The error message or symptom
+   **Cause**: Why it happened
+   **Fix**: What resolved it
+   ```
+4. **Update rules if systemic** — if the same class of error happens 3+ times, add a rule to this `AGENTS.md` file (in the DO NOT section or Page conventions) so it's prevented at the source
+
+Read `docs/known-issues.md` before starting work — it contains lessons from past builds.
+
 ## Reference docs (read on demand)
+- `docs/known-issues.md` — Lessons from past builds (READ BEFORE STARTING)
 - `docs/guide.md` — How to add pages, routes, tables, hooks + package doc links
 - `docs/patterns.md` — Copy-pasteable CRUD page pattern
 - `docs/components.md` — Component props and variants
