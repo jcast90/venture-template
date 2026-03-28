@@ -14,7 +14,7 @@ This is a SaaS product built from the Venture OS template system. It includes a 
 - **Payments**: Stripe (Checkout, Billing Portal, Webhooks)
 - **Email**: Resend
 - **Hosting**: Vercel
-- **Auth**: Supabase Auth (magic link, password, Google/GitHub OAuth)
+- **Auth**: Supabase Auth (OTP email verification — 6-digit code)
 
 ## Project Structure
 
@@ -25,8 +25,8 @@ src/
 │   ├── layout.tsx                  # Root layout with Inter font + metadata
 │   ├── middleware.ts               # Auth middleware — protects /dashboard/*
 │   ├── (auth)/
-│   │   ├── login/page.tsx          # Login (magic link, password, OAuth)
-│   │   ├── signup/page.tsx         # Signup (email + password)
+│   │   ├── login/login-form.tsx     # Login (OTP email verification)
+│   │   ├── signup/page.tsx         # Redirects to /login
 │   │   └── layout.tsx              # Centered auth layout
 │   ├── auth/callback/route.ts      # OAuth callback handler
 │   ├── dashboard/
@@ -73,7 +73,7 @@ All product-specific content lives in `venture.config.json`. Edit this file to c
 ```bash
 # Supabase (required)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key  # or NEXT_PUBLIC_SUPABASE_ANON_KEY for legacy projects
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 # Stripe (required for payments)
@@ -91,9 +91,9 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ## Auth Flow
 
 1. User visits `/login` → enters email
-2. **Magic link**: Supabase sends OTP email (via Resend if configured) → user clicks → `/auth/callback` → redirected to `/dashboard`
-3. **Password**: Email + password → Supabase Auth → redirected to `/dashboard`
-4. **OAuth**: Google/GitHub button → Supabase OAuth → `/auth/callback` → `/dashboard`
+2. Supabase sends a 6-digit OTP code via email
+3. User enters the code → `verifyOtp` → redirected to `/dashboard`
+4. New users are auto-created (`shouldCreateUser: true` in OTP options)
 5. Middleware checks session on every `/dashboard/*` request → redirects to `/login` if not authenticated
 6. Sign out: POST `/api/auth/signout`
 
@@ -102,9 +102,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 1. Create project at supabase.com
 2. Copy URL and anon key to `.env.local`
 3. Run schema: paste `supabase/schema.sql` in SQL Editor
-4. Enable Google/GitHub OAuth in Auth → Providers
-5. Set redirect URL: `https://your-domain.com/auth/callback`
-6. (Optional) Configure Resend as custom SMTP in Auth → Email Templates
+4. Set redirect URL: `https://your-domain.com/auth/callback`
+5. (Optional) Configure Resend as custom SMTP in Auth → Email Templates
 
 ## Stripe Setup
 
@@ -205,3 +204,48 @@ npx vercel --prod
 # Or push to GitHub (auto-deploys if connected)
 git push
 ```
+
+## Component Import Reference
+
+CRITICAL: Import paths are ALWAYS lowercase. Component names are PascalCase.
+
+### Available Components
+
+```tsx
+import { Avatar, AvatarImage, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarBadge } from "@/components/ui/avatar";
+import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent } from "@/components/ui/card";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuPortal, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+```
+
+### Other Components
+
+```tsx
+import { Logo, LogoWithName } from "@/components/logo";
+```
+
+## DO NOT (build will fail)
+
+- DO NOT use uppercase import paths: `@/components/ui/Card` -- use `@/components/ui/card`
+- DO NOT import components not listed above
+- DO NOT use these shadcn components (NOT installed): Accordion, Popover, Tooltip, Switch, Checkbox, RadioGroup, Progress, Slider, ScrollArea, NavigationMenu, Menubar, HoverCard, Collapsible, Command, ContextMenu, AlertDialog, Calendar, Carousel, Drawer, Form, Pagination, Resizable, Sonner, Toggle, ToggleGroup
+
+## Icons (lucide-react)
+
+Import from `"lucide-react"`. Common icons:
+Users, FolderOpen, DollarSign, TrendingUp, ArrowUpRight, ArrowDownRight, Plus, Download, Send, Settings, LayoutDashboard, Search, Bell, ChevronDown, ChevronRight, MoreHorizontal, Pencil, Trash2, Eye, Copy, Check, X, Loader2, Calendar, Mail, Lock, Shield, Activity, BarChart3, FileText, Filter, RefreshCw, ExternalLink, MessageSquare, Star, Heart, Clock, ArrowUp, ArrowDown
+
+## Reference Docs
+
+- `docs/components.md` -- Full component catalog with imports, props, and usage
+- `docs/patterns.md` -- Complete page pattern examples (CRUD, settings, dashboard)

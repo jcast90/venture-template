@@ -1,10 +1,4 @@
-import { Suspense } from "react";
-import SignupForm from "./signup-form";
-
+import { redirect } from "next/navigation";
 export default function SignupPage() {
-  return (
-    <Suspense>
-      <SignupForm />
-    </Suspense>
-  );
+  redirect("/login");
 }
