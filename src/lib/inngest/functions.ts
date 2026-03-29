@@ -66,8 +66,9 @@ function emailWrapper(content: string): string {
 </html>`;
 }
 
-const fromAddress = `${productName} <hello@${domain || "example.com"}>`;
-const slug = productName.toLowerCase().replace(/\s+/g, "-");
+const slug = productName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const sendingDomain = process.env.SENDING_DOMAIN || "venture-os.co";
+const fromAddress = `${productName} <${slug}@${sendingDomain}>`;
 
 // Drip campaign: 4 emails over 7 days after waitlist signup
 export const signupDrip = inngest.createFunction(
@@ -197,4 +198,50 @@ export const signupDrip = inngest.createFunction(
   }
 );
 
-export const functions = [signupDrip];
+export const coldOutreach = inngest.createFunction(
+  {
+    id: `${slug}-cold-outreach`,
+    name: "Cold Outreach Sequence",
+    concurrency: { limit: 5 },
+    triggers: [{ event: ventureEvent("outreach.new-lead") }],
+  },
+  async ({ event, step }) => {
+    const { email, name, company, sequence } = event.data as {
+      email: string;
+      name: string;
+      company: string;
+      sequence: Array<{ subject: string; body_html: string; delay_days: number }>;
+    };
+
+    for (let i = 0; i < sequence.length; i++) {
+      const emailData = sequence[i];
+
+      if (i > 0) {
+        await step.sleep(`wait-${emailData.delay_days}d-for-email-${i + 1}`, `${emailData.delay_days} days`);
+      }
+
+      await step.run(`send-email-${i + 1}`, async () => {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        const personalizedSubject = emailData.subject
+          .replace(/\{\{name\}\}/g, name)
+          .replace(/\{\{company\}\}/g, company);
+        const personalizedBody = emailData.body_html
+          .replace(/\{\{name\}\}/g, name)
+          .replace(/\{\{company\}\}/g, company);
+
+        await resend.emails.send({
+          from: fromAddress,
+          to: email,
+          subject: personalizedSubject,
+          html: personalizedBody,
+        });
+      });
+    }
+
+    return { success: true, email, emailsSent: sequence.length };
+  }
+);
+
+export const functions = [signupDrip, coldOutreach];
