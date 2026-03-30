@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import config, { isLiveMode } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig } from "@/lib/config";
+import { buildTrackingPayload } from "@/lib/analytics/events";
 import {
   ArrowRight,
   Check,
@@ -23,6 +24,7 @@ function WaitlistForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const { landing } = resolveLandingConfig();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -33,7 +35,7 @@ function WaitlistForm() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, ...buildTrackingPayload() }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -78,7 +80,7 @@ function WaitlistForm() {
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <>
-                {isLiveMode ? "Try it Free" : "Join Waitlist"}
+                {landing.primaryCta || (isLiveMode ? "Try it Free" : "Join Waitlist")}
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -96,6 +98,7 @@ function WaitlistForm() {
 }
 
 function LiveCtaButtons() {
+  const { landing } = resolveLandingConfig();
   return (
     <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
       <a
@@ -105,14 +108,14 @@ function LiveCtaButtons() {
           background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
         }}
       >
-        {isLiveMode ? "Try it Free" : "Get Started Free"}
+        {landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started Free")}
         <ArrowRight className="h-4 w-4" />
       </a>
       <a
         href="#pricing"
         className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-8 py-3.5 text-sm font-medium transition-all hover:bg-white/5"
       >
-        View Pricing
+        {landing.secondaryCta || "View Pricing"}
       </a>
     </div>
   );
@@ -159,7 +162,7 @@ const stepIcons = [Target, Layers, Sparkles];
 const painIcons = [AlertCircle, Shield, TrendingUp, Zap, Target, Layers];
 
 function PainStatsSection() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   return (
     <section className="relative border-y border-white/[0.06] bg-white/[0.01]">
       <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-white/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
@@ -177,7 +180,7 @@ function PainStatsSection() {
 }
 
 function HowItWorksSection() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   return (
     <section className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
@@ -220,7 +223,7 @@ function HowItWorksSection() {
 }
 
 function PainPointsSection() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   return (
     <section className="px-6 py-24 border-t border-white/[0.06]">
       <div className="mx-auto max-w-5xl">
@@ -257,7 +260,7 @@ function PainPointsSection() {
 }
 
 function PricingSection() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   if (waitlistMode && !isLiveMode) return null;
 
@@ -350,7 +353,7 @@ function PricingSection() {
 }
 
 function FinalCtaSection() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
@@ -381,7 +384,7 @@ function FinalCtaSection() {
               background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
             }}
           >
-            {isLiveMode ? "Try it Free" : "Join the Waitlist"}
+            {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Join the Waitlist")}
             <ArrowRight className="h-5 w-5" />
           </a>
         </div>
@@ -391,6 +394,7 @@ function FinalCtaSection() {
 }
 
 function NavBar() {
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-brand-surface/80 backdrop-blur-xl">
@@ -415,7 +419,7 @@ function NavBar() {
             background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
           }}
         >
-          {isLiveMode ? "Try it Free" : "Get Early Access"}
+          {landing.navCta || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Early Access")}
         </a>
       </div>
     </nav>
@@ -448,7 +452,7 @@ function FooterBar() {
 /* ─── Layout variants ─── */
 
 function CenteredHero() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   return (
     <section className="relative flex flex-col items-center justify-center px-6 pt-36 pb-24 text-center overflow-hidden">
@@ -483,7 +487,7 @@ function CenteredHero() {
 }
 
 function SplitHero() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   return (
     <section className="relative px-6 pt-36 pb-24 overflow-hidden">
@@ -522,14 +526,14 @@ function SplitHero() {
                   background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
                 }}
               >
-                Try it Free
+                {landing.primaryCta || "Try it Free"}
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="#pricing"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-8 py-3.5 text-sm font-medium transition-all hover:bg-white/5"
               >
-                View Pricing
+                {landing.secondaryCta || "View Pricing"}
               </a>
             </div>
           ) : null}
@@ -539,9 +543,9 @@ function SplitHero() {
         <div className="flex justify-center">
           {waitlistMode && !isLiveMode ? (
             <div className="w-full max-w-md rounded-2xl border border-white/[0.08] bg-white/[0.02] p-8">
-              <h3 className="text-xl font-semibold mb-2">Get early access</h3>
+              <h3 className="text-xl font-semibold mb-2">{landing.waitlistCardTitle || "Get early access"}</h3>
               <p className="text-sm text-zinc-400 mb-6">
-                Be among the first to try {config.name}.
+                {landing.waitlistCardSubtitle || `Be among the first to try ${config.name}.`}
               </p>
               <WaitlistForm />
             </div>
@@ -573,7 +577,7 @@ function SplitHero() {
 }
 
 function MinimalHero() {
-  const { landing } = config;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   return (
     <section className="relative flex flex-col items-center justify-center px-6 pt-40 pb-28 text-center overflow-hidden">

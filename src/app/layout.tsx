@@ -4,6 +4,7 @@ import "./globals.css";
 import config from "@/lib/config";
 import { PageTracker } from "@/components/page-tracker";
 import { BrandProvider } from "@/components/brand-provider";
+import { AnalyticsProvider } from "@/components/analytics-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} dark`}>
       <body className="antialiased bg-brand-surface text-white font-[family-name:var(--font-inter)]">
         <BrandProvider>
-          <PageTracker />
-          {children}
+          <AnalyticsProvider>
+            <PageTracker />
+            {children}
+          </AnalyticsProvider>
         </BrandProvider>
       </body>
     </html>
