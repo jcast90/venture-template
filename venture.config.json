@@ -20,6 +20,12 @@
   "landing": {
     "headline": "{{HEADLINE}}",
     "subheadline": "{{SUBHEADLINE}}",
+    "primaryCta": "Join Waitlist",
+    "secondaryCta": "View Pricing",
+    "navCta": "Get Early Access",
+    "waitlistCardTitle": "Get early access",
+    "waitlistCardSubtitle": "Be among the first to try {{PRODUCT_NAME}}.",
+    "finalCtaButton": "Join the Waitlist",
     "painStats": [
       { "stat": "{{STAT_1}}", "label": "{{STAT_1_LABEL}}" },
       { "stat": "{{STAT_2}}", "label": "{{STAT_2_LABEL}}" },
@@ -67,6 +73,64 @@
     "finalCta": {
       "headline": "{{FINAL_CTA_HEADLINE}}",
       "subheadline": "{{FINAL_CTA_SUB}}"
+    }
+  },
+  "experiments": {
+    "landingPage": {
+      "key": "landing_page_v1",
+      "cookieName": "vo_exp_landing_page_v1",
+      "variants": [
+        {
+          "key": "control",
+          "weight": 0.5,
+          "overrides": {
+            "headline": "{{HEADLINE}}",
+            "subheadline": "{{SUBHEADLINE}}",
+            "primaryCta": "Join Waitlist",
+            "navCta": "Get Early Access",
+            "secondaryCta": "View Pricing",
+            "finalCta": {
+              "headline": "{{FINAL_CTA_HEADLINE}}",
+              "subheadline": "{{FINAL_CTA_SUB}}"
+            }
+          }
+        },
+        {
+          "key": "variant_b",
+          "weight": 0.5,
+          "overrides": {
+            "headline": "{{ALT_HEADLINE}}",
+            "subheadline": "{{ALT_SUBHEADLINE}}",
+            "primaryCta": "Get Early Access",
+            "navCta": "See It First",
+            "secondaryCta": "See Pricing",
+            "finalCta": {
+              "headline": "{{ALT_FINAL_CTA_HEADLINE}}",
+              "subheadline": "{{ALT_FINAL_CTA_SUB}}"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "analytics": {
+    "provider": "posthog",
+    "errorMonitoring": "sentry",
+    "northStarMetric": "waitlist_signup_succeeded",
+    "secondaryMetrics": ["signup_completed", "subscription_started"],
+    "attributionProperties": ["utm_source", "utm_medium", "utm_campaign", "referrer", "country", "device_type"],
+    "events": {
+      "page_view": "page_view",
+      "landing_page_view": "landing_page_view",
+      "experiment_exposure": "experiment_exposure",
+      "landing_cta_clicked": "landing_cta_clicked",
+      "waitlist_signup_submitted": "waitlist_signup_submitted",
+      "waitlist_signup_succeeded": "waitlist_signup_succeeded",
+      "signup_started": "signup_started",
+      "signup_completed": "signup_completed",
+      "dashboard_viewed": "dashboard_viewed",
+      "checkout_started": "checkout_started",
+      "subscription_started": "subscription_started"
     }
   },
   "dashboard": {
