@@ -25,6 +25,24 @@ venture.config.json         # All product content + nav + brand colors
 supabase/schema.sql         # Database schema
 ```
 
+## Building Dashboard Pages (CRITICAL — use blocks, not raw Tailwind)
+
+**ALWAYS use `@/components/blocks` for dashboard pages.** These are pre-styled, theme-aware building blocks. Do NOT manually write Tailwind classes for layout, cards, stats, tables, forms, or status badges — the blocks handle all styling.
+
+```tsx
+import {
+  PageShell, PageHeader, StatsGrid, SearchInput, DataTable,
+  FormDialog, FormField, ThemedInput, GradientButton, StatusBadge,
+  LoadingState, EmptyState, SectionCard, ThemedCard, IconBox,
+  ListItem, ProgressBar, QuickAction,
+} from "@/components/blocks";
+import type { Column } from "@/components/blocks";
+```
+
+See `docs/agents/blocks.md` for full usage examples and the DataTable column pattern.
+
+You still need `@/components/ui/button` for ghost/outline buttons in table actions, and `lucide-react` for icons.
+
 ## Import Rules (CRITICAL — builds fail if violated)
 
 - File paths are ALWAYS lowercase: `@/components/ui/card` (NOT `@/components/ui/Card`)
