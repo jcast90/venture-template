@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import config, { isLiveMode, type VentureConfig } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
@@ -50,9 +50,17 @@ function FadeIn({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // Fallback: make visible after 2s if IntersectionObserver doesn't fire
+    const fallbackTimer = setTimeout(() => {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }, 2000);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          clearTimeout(fallbackTimer);
           el.style.opacity = "1";
           el.style.transform = "translateY(0)";
           observer.unobserve(el);
@@ -61,7 +69,10 @@ function FadeIn({
       { threshold: 0.1 }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -81,7 +92,7 @@ function FadeIn({
 
 /* ─── Hero ─── */
 function WarmthHero() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
@@ -129,7 +140,7 @@ function WarmthHero() {
 
 /* ─── Social proof bar ─── */
 function SocialProofBar() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   if (!landing.socialProofLine) return null;
 
   return (
@@ -143,7 +154,7 @@ function SocialProofBar() {
 
 /* ─── Problem statement ─── */
 function ProblemSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   if (!landing.painPoints?.length) return null;
 
   return (
@@ -166,7 +177,7 @@ function ProblemSection() {
 
 /* ─── Alternating features ─── */
 function FeaturesSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const features = landing.features;
   if (!features?.length) return null;
 
@@ -221,7 +232,7 @@ function FeaturesSection() {
 
 /* ─── How it works (vertical numbered steps with dotted line) ─── */
 function StepsSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
@@ -283,7 +294,7 @@ function StepsSection() {
 
 /* ─── Testimonials (CSS scroll-snap carousel) ─── */
 function TestimonialsSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const testimonials = landing.testimonials;
   if (!testimonials?.length) return null;
 
@@ -337,7 +348,7 @@ function TestimonialsSection() {
 
 /* ─── FAQ Accordion ─── */
 function FaqSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const faq = landing.faq;
   if (!faq?.length) return null;
 
@@ -385,7 +396,7 @@ function FaqAccordionItem({
 
 /* ─── Pain stats ─── */
 function PainStatsSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <FadeIn>
@@ -410,7 +421,7 @@ function PainStatsSection() {
 
 /* ─── Final CTA ─── */
 function FinalCtaSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (

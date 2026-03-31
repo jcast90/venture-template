@@ -1,6 +1,6 @@
 "use client";
 
-import config, { isLiveMode, type VentureConfig } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
@@ -45,7 +45,7 @@ function useCursorGlow() {
 
 /* ─── Hero (split: text left, visual right) ─── */
 function PrecisionHero() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   const { containerRef, glowRef } = useCursorGlow();
 
@@ -110,15 +110,15 @@ function PrecisionHero() {
 
 /* ─── Stats bar (horizontal, monospace) ─── */
 function StatsBar() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <section className="border-y border-white/[0.06]">
-      <div className="mx-auto max-w-6xl grid grid-cols-3">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
         {landing.painStats.map((item, i) => (
           <div
             key={i}
-            className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-l border-white/[0.06]" : ""}`}
+            className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-white/[0.06]" : ""}`}
           >
             <span className="font-mono text-2xl font-bold text-white">
               {item.stat}
@@ -135,7 +135,7 @@ function StatsBar() {
 
 /* ─── Timeline (horizontal 3-step) ─── */
 function TimelineSection() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <section className="px-6 py-20">
@@ -175,7 +175,7 @@ function TimelineSection() {
 
 /* ─── Pain points (2-col compact grid) ─── */
 function PainPointsGrid() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <section className="px-6 py-16 border-t border-white/[0.06]">
@@ -203,7 +203,7 @@ function PainPointsGrid() {
 
 /* ─── Final CTA (minimal) ─── */
 function MinimalCta() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (

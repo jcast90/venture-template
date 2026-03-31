@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import config, { isLiveMode, type VentureConfig } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -55,7 +55,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 /* ─── Hero with gradient mesh and inline email capture ─── */
 function MomentumHero() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
@@ -112,7 +112,7 @@ function MomentumHero() {
 
 /* ─── Glass stat cards with animated counters ─── */
 function GlassStats() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <section className="px-6 py-16">
@@ -137,7 +137,7 @@ function GlassStats() {
 
 /* ─── Bento grid features ─── */
 function BentoFeatures() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const features = landing.features;
   if (!features?.length) return <BentoFallback />;
 
@@ -209,7 +209,7 @@ function BentoFeatures() {
 
 /* Fallback: use pain points if no features */
 function BentoFallback() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
 
   return (
     <section className="px-6 py-20">
@@ -233,7 +233,7 @@ function BentoFallback() {
 
 /* ─── How it works ─── */
 function HowItWorks() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
@@ -277,7 +277,7 @@ function HowItWorks() {
 
 /* ─── Final CTA ─── */
 function CompactCta() {
-  const landing = config.landing;
+  const { landing } = resolveLandingConfig();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
