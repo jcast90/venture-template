@@ -4,7 +4,6 @@
   "description": "{{DESCRIPTION}}",
   "domain": "{{DOMAIN}}",
   "layout": "centered",
-  "template": "warmth",
   "flags": {
     "waitlistMode": true,
     "mvpReady": false
@@ -19,6 +18,7 @@
     "surfaceLight": "#111118"
   },
   "landing": {
+    "template": "warmth",
     "headline": "{{HEADLINE}}",
     "subheadline": "{{SUBHEADLINE}}",
     "primaryCta": "Join Waitlist",
