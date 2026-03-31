@@ -2,13 +2,48 @@ import baseConfig from "../../venture.config.json";
 
 type BaseVentureConfig = typeof baseConfig;
 
+export type ScreenshotSpec = {
+  id: string;
+  page: string;
+  description: string;
+  viewport: { width: number; height: number };
+  waitFor?: string;
+  clip?: { x: number; y: number; width: number; height: number } | null;
+};
+
+export type FeatureItem = {
+  title: string;
+  description: string;
+  icon: string;
+};
+
+export type TestimonialItem = {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+};
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type LandingConfig = BaseVentureConfig["landing"] & {
+  template?: "precision" | "warmth" | "momentum";
   primaryCta?: string;
   secondaryCta?: string;
   navCta?: string;
   waitlistCardTitle?: string;
   waitlistCardSubtitle?: string;
   finalCtaButton?: string;
+  socialProofLine?: string;
+  features?: FeatureItem[];
+  testimonials?: TestimonialItem[];
+  faq?: FaqItem[];
+  screenshots?: ScreenshotSpec[];
+  heroImage?: string | null;
+  featureImages?: string[];
 };
 
 type LandingVariant = {

@@ -4,6 +4,7 @@
   "description": "{{DESCRIPTION}}",
   "domain": "{{DOMAIN}}",
   "layout": "centered",
+  "template": "warmth",
   "flags": {
     "waitlistMode": true,
     "mvpReady": false
