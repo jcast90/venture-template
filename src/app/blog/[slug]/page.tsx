@@ -36,12 +36,16 @@ type RelatedPost = {
 };
 
 export async function generateStaticParams() {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from(`${TABLE_PREFIX}blog_posts`)
-    .select("slug")
-    .eq("status", "published");
-  return (data || []).map((post) => ({ slug: post.slug }));
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from(`${TABLE_PREFIX}blog_posts`)
+      .select("slug")
+      .eq("status", "published");
+    return (data || []).map((post) => ({ slug: post.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({
