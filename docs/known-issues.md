@@ -24,10 +24,10 @@ Read this before starting work. Add new entries when you fix a bug or resolve a 
 **Cause**: LLM used lowercase icon names. Lucide exports are PascalCase.
 **Fix**: Always PascalCase: `MessageSquare`, `Loader2`, `ChevronDown`
 
-### Missing Supabase env vars show "Failed to fetch"
-**Error**: Browser shows "Failed to fetch" when trying to log in or load data.
-**Cause**: `NEXT_PUBLIC_SUPABASE_URL` not set on Vercel. The client now throws explicitly instead of falling back to `placeholder.supabase.co`.
-**Fix**: Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in Vercel environment variables and redeploy.
+### Missing Supabase env vars
+**Error**: Supabase queries return empty results; auth doesn't work.
+**Cause**: `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` not set. The clients fall back to a `placeholder.supabase.co` URL so the build succeeds, but no real data is fetched. The proxy middleware skips auth checks when env vars are missing.
+**Fix**: Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local` or Vercel environment variables and redeploy.
 
 ### Build stderr captured empty — auto-fix agent gets no error context
 **Error**: Build fails but error message shows empty ` ``` ``` ` in Discord.

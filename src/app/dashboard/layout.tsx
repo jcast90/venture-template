@@ -34,9 +34,39 @@ import {
   LogOut,
   User,
   CreditCard,
+  Scale,
+  Shield,
+  Briefcase,
+  Calendar,
+  Mail,
+  MessageSquare,
+  Bell,
+  Search,
+  Home,
+  FolderOpen,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  TrendingUp,
+  DollarSign,
+  Building,
+  Phone,
+  Star,
+  Heart,
+  Tag,
+  Inbox,
+  Send,
+  PieChart,
+  Activity,
+  Package,
+  Truck,
+  ShoppingCart,
+  Clipboard,
+  BookOpen,
+  type LucideIcon,
 } from "lucide-react";
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+const iconMap: Record<string, LucideIcon> = {
   LayoutDashboard,
   Settings,
   Database,
@@ -45,9 +75,43 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BarChart3,
   FileText,
   Globe,
+  Scale,
+  Shield,
+  Briefcase,
+  Calendar,
+  Mail,
+  MessageSquare,
+  Bell,
+  Search,
+  Home,
+  FolderOpen,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  TrendingUp,
+  DollarSign,
+  Building,
+  Phone,
+  Star,
+  Heart,
+  Tag,
+  Inbox,
+  Send,
+  PieChart,
+  Activity,
+  Package,
+  Truck,
+  ShoppingCart,
+  Clipboard,
+  BookOpen,
+  CreditCard,
+  User,
+  LogOut,
+  Menu,
 };
 
 const navItems = config.dashboard.navItems;
+const warnedIcons = new Set<string>();
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
@@ -55,7 +119,11 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav className="flex flex-col gap-1 px-3">
       {navItems.map((item) => {
-        const Icon = iconMap[item.icon] || LayoutDashboard;
+        const Icon = iconMap[item.icon] ?? LayoutDashboard;
+        if (!iconMap[item.icon] && !warnedIcons.has(item.icon)) {
+          warnedIcons.add(item.icon);
+          console.warn(`[dashboard] Unknown icon "${item.icon}" for nav item "${item.label}" — falling back to LayoutDashboard`);
+        }
         const isActive =
           pathname === item.href ||
           (item.href !== "/dashboard" && pathname.startsWith(item.href));
