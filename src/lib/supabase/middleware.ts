@@ -5,7 +5,12 @@ export async function updateSession(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) {
-    // Allow builds and dev without Supabase configured — skip auth checks
+    if (process.env.NODE_ENV === "production" && request.nextUrl.pathname.startsWith("/dashboard")) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/login";
+      return NextResponse.redirect(loginUrl);
+    }
+    // Non-production: allow dev/build without Supabase configured
     return NextResponse.next({ request });
   }
 

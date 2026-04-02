@@ -1,4 +1,4 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
@@ -7,10 +7,10 @@ export async function proxy(request: NextRequest) {
     request.nextUrl.searchParams.get("screenshot_mode") === "true" &&
     process.env.NODE_ENV !== "production"
   ) {
-    return;
+    return NextResponse.next();
   }
 
-  return await updateSession(request);
+  return updateSession(request);
 }
 
 export const config = {

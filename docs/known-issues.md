@@ -25,8 +25,8 @@ Read this before starting work. Add new entries when you fix a bug or resolve a 
 **Fix**: Always PascalCase: `MessageSquare`, `Loader2`, `ChevronDown`
 
 ### Missing Supabase env vars
-**Error**: Supabase queries return empty results; auth doesn't work.
-**Cause**: `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` not set. The clients fall back to a `placeholder.supabase.co` URL so the build succeeds, but no real data is fetched. The proxy middleware skips auth checks when env vars are missing.
+**Error**: Browser client throws "Missing Supabase environment variables"; dashboard shows empty data during build.
+**Cause**: `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` not set. At build time, a placeholder client is used so static generation succeeds. At runtime, the browser client throws explicitly and the middleware redirects `/dashboard` to `/login` in production.
 **Fix**: Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local` or Vercel environment variables and redeploy.
 
 ### Build stderr captured empty — auto-fix agent gets no error context
