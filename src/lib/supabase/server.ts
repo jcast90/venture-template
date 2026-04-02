@@ -4,13 +4,17 @@ import { cookies } from "next/headers";
 export async function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    throw new Error(
-      "Missing Supabase environment variables. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local or Vercel."
-    );
-  }
-
   const cookieStore = await cookies();
+
+  if (!url || !key) {
+    // Build-time: allow static generation with a non-functional client
+    return createServerClient("https://placeholder.supabase.co", "placeholder", {
+      cookies: {
+        getAll() { return cookieStore.getAll(); },
+        setAll() {},
+      },
+    });
+  }
 
   return createServerClient(url, key, {
     cookies: {
