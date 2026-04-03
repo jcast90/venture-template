@@ -24,6 +24,7 @@ export default function SignupForm() {
 
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault();
+    if (status === "loading") return;
     setStatus("loading");
     setErrorMsg("");
 
@@ -43,6 +44,7 @@ export default function SignupForm() {
 
   async function handleVerifyCode(e: React.FormEvent) {
     e.preventDefault();
+    if (status === "loading") return;
     setStatus("loading");
     setErrorMsg("");
 

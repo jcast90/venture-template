@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS waitlist (
 -- User profiles (extends Supabase Auth)
 CREATE TABLE IF NOT EXISTS profiles (
     id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+    email TEXT,
     full_name TEXT,
     avatar_url TEXT,
     plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro', 'enterprise')),
@@ -92,8 +93,10 @@ CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING (auth.ui
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Users can manage own API keys" ON api_keys FOR ALL USING (auth.uid() = user_id);
 CREATE POLICY "Public page view insert" ON page_views FOR INSERT TO anon, authenticated WITH CHECK (true);
-CREATE POLICY "Public experiment assignment access" ON experiment_assignments FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Public experiment event access" ON experiment_events FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Public experiment assignment insert" ON experiment_assignments FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Public experiment assignment select" ON experiment_assignments FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Public experiment event insert" ON experiment_events FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Authenticated experiment event select" ON experiment_events FOR SELECT TO authenticated USING (true);
 
 CREATE INDEX IF NOT EXISTS idx_page_views_created_at ON page_views(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_page_views_experiment ON page_views(experiment_key, variant_key, created_at DESC);
@@ -106,8 +109,8 @@ CREATE INDEX IF NOT EXISTS idx_experiment_events_experiment ON experiment_events
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO profiles (id, full_name)
-    VALUES (NEW.id, NEW.raw_user_meta_data->>'full_name');
+    INSERT INTO profiles (id, email, full_name)
+    VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name');
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

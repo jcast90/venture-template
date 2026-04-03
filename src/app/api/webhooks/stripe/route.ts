@@ -34,13 +34,16 @@ export async function POST(request: NextRequest) {
 
         if (email) {
           // Find user by email and update their plan
-          const { data: users } = await supabase.auth.admin.listUsers();
-          const user = users?.users?.find((u) => u.email === email);
-          if (user) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("email", email)
+            .single();
+          if (profile) {
             await supabase
               .from("profiles")
               .update({ plan: "pro", stripe_customer_id: customerId })
-              .eq("id", user.id);
+              .eq("id", profile.id);
           }
         }
         break;
