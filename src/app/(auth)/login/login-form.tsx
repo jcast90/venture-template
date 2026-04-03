@@ -23,6 +23,7 @@ export default function LoginForm() {
 
   async function handleSendOtp(e: React.FormEvent) {
     e.preventDefault();
+    if (status === "loading") return;
     setStatus("loading");
     setErrorMsg("");
     const { error } = await supabase.auth.signInWithOtp({
@@ -40,6 +41,7 @@ export default function LoginForm() {
 
   async function handleVerifyOtp(e: React.FormEvent) {
     e.preventDefault();
+    if (status === "loading") return;
     setStatus("loading");
     setErrorMsg("");
     const { data, error } = await supabase.auth.verifyOtp({

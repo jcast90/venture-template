@@ -4,10 +4,7 @@ import { inngest, ventureEvent } from "@/lib/inngest";
 const TABLE_PREFIX = process.env.NEXT_PUBLIC_TABLE_PREFIX || "";
 
 async function posthogCapture(event: string, payload: Record<string, unknown>) {
-  const key =
-    process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN ||
-    process.env.NEXT_PUBLIC_POSTHOG_TOKEN ||
-    process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
   if (!key) return;
 

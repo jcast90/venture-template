@@ -1,8 +1,6 @@
 import { createClient } from "./client";
 
-const TABLE_PREFIX = typeof window !== "undefined"
-  ? (process.env.NEXT_PUBLIC_TABLE_PREFIX ?? "")
-  : (process.env.NEXT_PUBLIC_TABLE_PREFIX ?? "");
+const TABLE_PREFIX = process.env.NEXT_PUBLIC_TABLE_PREFIX ?? "";
 
 function t(table: string): string {
   // If the table already starts with the prefix, don't double-prefix
