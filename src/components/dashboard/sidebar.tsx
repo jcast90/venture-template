@@ -1,5 +1,3 @@
-"use client";
-
 import config from "@/lib/config";
 import { Separator } from "@/components/ui/separator";
 import { Zap } from "lucide-react";

@@ -42,13 +42,10 @@ import {
   Clipboard,
   BookOpen,
   CreditCard,
-  User,
-  LogOut,
-  Menu,
   type LucideIcon,
 } from "lucide-react";
 
-export const iconMap: Record<string, LucideIcon> = {
+const iconMap: Record<string, LucideIcon> = {
   LayoutDashboard,
   Settings,
   Database,
@@ -87,9 +84,6 @@ export const iconMap: Record<string, LucideIcon> = {
   Clipboard,
   BookOpen,
   CreditCard,
-  User,
-  LogOut,
-  Menu,
 };
 
 const navItems = config.dashboard.navItems;
