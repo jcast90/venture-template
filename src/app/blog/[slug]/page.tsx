@@ -54,34 +54,38 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createClient();
-  const { data: post } = await supabase
-    .from(`${TABLE_PREFIX}blog_posts`)
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
+  try {
+    const supabase = await createClient();
+    const { data: post } = await supabase
+      .from(`${TABLE_PREFIX}blog_posts`)
+      .select("*")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .single();
 
-  if (!post) return {};
+    if (!post) return {};
 
-  const baseUrl = config.domain ? `https://${config.domain}` : "";
+    const baseUrl = config.domain ? `https://${config.domain}` : "";
 
-  return {
-    title: post.meta_title || `${post.title} | ${config.name}`,
-    description: post.meta_description || post.excerpt,
-    keywords: [post.target_keyword, ...(post.secondary_keywords || [])].filter(Boolean).join(", "),
-    openGraph: {
-      title: post.meta_title || post.title,
+    return {
+      title: post.meta_title || `${post.title} | ${config.name}`,
       description: post.meta_description || post.excerpt,
-      type: "article",
-      publishedTime: post.published_at,
-      authors: [post.author],
-      url: `${baseUrl}/blog/${post.slug}`,
-    },
-    alternates: {
-      canonical: `${baseUrl}/blog/${post.slug}`,
-    },
-  };
+      keywords: [post.target_keyword, ...(post.secondary_keywords || [])].filter(Boolean).join(", "),
+      openGraph: {
+        title: post.meta_title || post.title,
+        description: post.meta_description || post.excerpt,
+        type: "article",
+        publishedTime: post.published_at,
+        authors: [post.author],
+        url: `${baseUrl}/blog/${post.slug}`,
+      },
+      alternates: {
+        canonical: `${baseUrl}/blog/${post.slug}`,
+      },
+    };
+  } catch {
+    return {};
+  }
 }
 
 function formatDate(dateStr: string): string {
