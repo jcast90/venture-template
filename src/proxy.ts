@@ -2,10 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
-  // Bypass auth for Playwright screenshot captures (non-production only)
+  // Bypass auth for Playwright E2E and screenshot captures.
+  // SCREENSHOT_TOKEN must be set as a Vercel env var; the request must pass
+  // the matching token via ?screenshot_mode=<token> to skip auth.
+  const screenshotToken = process.env.SCREENSHOT_TOKEN;
   if (
-    request.nextUrl.searchParams.get("screenshot_mode") === "true" &&
-    process.env.NODE_ENV !== "production"
+    screenshotToken &&
+    request.nextUrl.searchParams.get("screenshot_mode") === screenshotToken
   ) {
     return NextResponse.next();
   }
