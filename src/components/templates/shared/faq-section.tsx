@@ -34,7 +34,7 @@ function FaqAccordionItem({
   answer: string;
 }) {
   return (
-    <details className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border">
+    <details className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border-hover">
       <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-base font-medium list-none">
         {question}
         <ChevronDown className="h-4 w-4 text-zinc-500 transition-transform group-open:rotate-180" />

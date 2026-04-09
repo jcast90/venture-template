@@ -194,7 +194,7 @@ function PainPointsGrid() {
           {landing.painPoints.map((point, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 rounded-sm border border-brand-border bg-brand-surface-card p-4 transition-colors hover:border-brand-border"
+              className="flex items-start gap-3 rounded-sm border border-brand-border bg-brand-surface-card p-4 transition-colors hover:border-brand-border-hover"
             >
               <span className="font-mono text-xs text-brand-primary mt-0.5">
                 {painIcons[i % painIcons.length]}
@@ -273,7 +273,13 @@ export default function Precision({ config: _config }: { config: VentureConfig }
       <NavBar variant="precision" />
       {sections.map((id) => {
         const render = PRECISION_SECTIONS[id];
-        return render ? <React.Fragment key={id}>{render()}</React.Fragment> : null;
+        if (!render) {
+          if (process.env.NODE_ENV === "development") {
+            console.warn(`[Precision] Unknown section "${id}" in landing.sections. Valid: ${Object.keys(PRECISION_SECTIONS).join(", ")}`);
+          }
+          return null;
+        }
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

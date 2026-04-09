@@ -26,7 +26,7 @@ export function TestimonialsSection() {
             key={i}
             className="snap-center shrink-0 w-[340px] sm:w-[400px]"
           >
-            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border hover:scale-[1.02]">
+            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border-hover hover:scale-[1.02]">
               <Quote className="h-8 w-8 text-brand-primary opacity-40 mb-4" />
               <p className="text-base leading-relaxed text-zinc-300">
                 &ldquo;{t.quote}&rdquo;

@@ -339,7 +339,13 @@ export default function Momentum({ config: _config }: { config: VentureConfig })
       <NavBar variant="momentum" />
       {sections.map((id) => {
         const render = MOMENTUM_SECTIONS[id];
-        return render ? <React.Fragment key={id}>{render()}</React.Fragment> : null;
+        if (!render) {
+          if (process.env.NODE_ENV === "development") {
+            console.warn(`[Momentum] Unknown section "${id}" in landing.sections. Valid: ${Object.keys(MOMENTUM_SECTIONS).join(", ")}`);
+          }
+          return null;
+        }
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

@@ -56,6 +56,7 @@
   --color-brand-surface-card: var(--brand-surface-card, rgba(255,255,255,0.03));
   --color-brand-surface-input: var(--brand-surface-input, rgba(255,255,255,0.04));
   --color-brand-border: var(--brand-border-color, rgba(255,255,255,0.06));
+  --color-brand-border-hover: var(--brand-border-hover, rgba(255,255,255,0.1));
 }
 
 :root {

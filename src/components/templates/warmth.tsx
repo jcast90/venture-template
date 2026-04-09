@@ -322,7 +322,7 @@ function TestimonialsSection() {
             delay={i * 100}
             className="snap-center shrink-0 w-[340px] sm:w-[400px]"
           >
-            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border hover:scale-[1.02]">
+            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border-hover hover:scale-[1.02]">
               <Quote className="h-8 w-8 text-brand-primary opacity-40 mb-4" />
               <p className="text-base leading-relaxed text-zinc-300">
                 &ldquo;{t.quote}&rdquo;
@@ -387,7 +387,7 @@ function FaqAccordionItem({
   return (
     <details
       ref={detailsRef}
-      className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border"
+      className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border-hover"
     >
       <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-base font-medium list-none">
         {question}
@@ -505,7 +505,13 @@ export default function Warmth({ config: _config }: { config: VentureConfig }) {
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = WARMTH_SECTIONS[id];
-        return render ? <React.Fragment key={id}>{render()}</React.Fragment> : null;
+        if (!render) {
+          if (process.env.NODE_ENV === "development") {
+            console.warn(`[Warmth] Unknown section "${id}" in landing.sections. Valid: ${Object.keys(WARMTH_SECTIONS).join(", ")}`);
+          }
+          return null;
+        }
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

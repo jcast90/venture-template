@@ -93,7 +93,7 @@ export function PricingSection({
 
   const toggle = landing.pricingToggle;
   const [period, setPeriod] = useState<BillingPeriod>(toggle?.default ?? "annual");
-  const showToggle = toggle?.enabled && landing.pricing.some((t) => t.monthlyPrice || t.annualPrice);
+  const showToggle = !!(toggle?.enabled && landing.pricing.some((t) => t.monthlyPrice || t.annualPrice));
 
   if (variant === "table") return <PricingTable landing={landing} period={period} setPeriod={setPeriod} showToggle={showToggle} toggle={toggle} />;
   if (variant === "glass") return <PricingGlass landing={landing} period={period} setPeriod={setPeriod} showToggle={showToggle} toggle={toggle} />;
@@ -104,7 +104,7 @@ type PricingProps = {
   landing: ReturnType<typeof resolveLandingConfig>["landing"];
   period: BillingPeriod;
   setPeriod: (p: BillingPeriod) => void;
-  showToggle: boolean | undefined;
+  showToggle: boolean;
   toggle: ReturnType<typeof resolveLandingConfig>["landing"]["pricingToggle"];
 };
 
@@ -133,7 +133,7 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
               className={`relative flex flex-col rounded-2xl border p-8 transition-all ${
                 tier.highlighted
                   ? "border-brand-primary/30 shadow-2xl"
-                  : "border-brand-border bg-brand-surface-card hover:border-brand-border"
+                  : "border-brand-border bg-brand-surface-card hover:border-brand-border-hover"
               }`}
               style={
                 tier.highlighted

@@ -23,12 +23,13 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
           "--brand-accent": brand.accent,
           "--brand-surface": brand.surface,
           "--brand-surface-light": brand.surfaceLight,
-          "--brand-surface-card": `rgba(255, 255, 255, ${borderOpacity * 0.5})`,
-          "--brand-surface-input": `rgba(255, 255, 255, ${borderOpacity * 0.67})`,
+          "--brand-surface-card": brand.surfaceCard ?? `rgba(255, 255, 255, ${borderOpacity * 0.5})`,
+          "--brand-surface-input": brand.surfaceInput ?? `rgba(255, 255, 255, ${borderOpacity * 0.67})`,
           "--brand-radius": radius,
           "--brand-gradient-angle": `${angle}deg`,
           "--brand-border-opacity": borderOpacity,
           "--brand-border-color": `rgba(255, 255, 255, ${borderOpacity})`,
+          "--brand-border-hover": `rgba(255, 255, 255, ${Math.min(borderOpacity * 1.8, 0.2)})`,
         } as React.CSSProperties
       }
     >
