@@ -11,6 +11,9 @@ export const PALETTES = {
     accent: "#6366f1",
     gradient: "from-sky-500 to-indigo-500",
     gradientHover: "from-sky-400 to-indigo-400",
+    borderRadius: "rounded" as const,
+    gradientAngle: 135,
+    borderOpacity: 0.06,
   },
   emerald: {
     primary: "#10b981",
@@ -18,6 +21,9 @@ export const PALETTES = {
     accent: "#06b6d4",
     gradient: "from-emerald-500 to-cyan-500",
     gradientHover: "from-emerald-400 to-cyan-400",
+    borderRadius: "rounded" as const,
+    gradientAngle: 150,
+    borderOpacity: 0.06,
   },
   sunset: {
     primary: "#f97316",
@@ -25,6 +31,9 @@ export const PALETTES = {
     accent: "#ef4444",
     gradient: "from-orange-500 to-red-500",
     gradientHover: "from-orange-400 to-red-400",
+    borderRadius: "pill" as const,
+    gradientAngle: 120,
+    borderOpacity: 0.08,
   },
   violet: {
     primary: "#8b5cf6",
@@ -32,6 +41,9 @@ export const PALETTES = {
     accent: "#ec4899",
     gradient: "from-violet-500 to-pink-500",
     gradientHover: "from-violet-400 to-pink-400",
+    borderRadius: "rounded" as const,
+    gradientAngle: 135,
+    borderOpacity: 0.06,
   },
   midnight: {
     primary: "#3b82f6",
@@ -39,6 +51,9 @@ export const PALETTES = {
     accent: "#8b5cf6",
     gradient: "from-blue-600 to-violet-600",
     gradientHover: "from-blue-500 to-violet-500",
+    borderRadius: "rounded" as const,
+    gradientAngle: 135,
+    borderOpacity: 0.06,
   },
   coral: {
     primary: "#f43f5e",
@@ -46,6 +61,9 @@ export const PALETTES = {
     accent: "#fb923c",
     gradient: "from-rose-500 to-orange-400",
     gradientHover: "from-rose-400 to-orange-300",
+    borderRadius: "pill" as const,
+    gradientAngle: 90,
+    borderOpacity: 0.07,
   },
   forest: {
     primary: "#22c55e",
@@ -53,6 +71,9 @@ export const PALETTES = {
     accent: "#84cc16",
     gradient: "from-green-500 to-lime-500",
     gradientHover: "from-green-400 to-lime-400",
+    borderRadius: "sharp" as const,
+    gradientAngle: 180,
+    borderOpacity: 0.05,
   },
   arctic: {
     primary: "#06b6d4",
@@ -60,6 +81,9 @@ export const PALETTES = {
     accent: "#3b82f6",
     gradient: "from-cyan-500 to-blue-500",
     gradientHover: "from-cyan-400 to-blue-400",
+    borderRadius: "sharp" as const,
+    gradientAngle: 45,
+    borderOpacity: 0.05,
   },
 } as const;
 

@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
+import React, { useEffect, useRef } from "react";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
 import { PricingSection } from "./shared/pricing-section";
+import { LogoBar } from "./shared/logo-bar";
+import { StatsSection as SharedStatsSection } from "./shared/stats-section";
+import { StepsSection as SharedStepsSection } from "./shared/steps-section";
+import { ProblemSection as SharedProblemSection } from "./shared/problem-section";
+import { TestimonialsSection as SharedTestimonialsSection } from "./shared/testimonials-section";
+import { FaqSection as SharedFaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
 import { GradientText, BrandIconBox } from "./shared/gradient-text";
 import {
@@ -106,7 +112,7 @@ function WarmthHero() {
       />
 
       <div className="relative z-10 max-w-3xl">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-5 py-2 text-sm text-zinc-400">
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface-card px-5 py-2 text-sm text-zinc-400">
           <Sparkles className="h-3.5 w-3.5 text-brand-primary" />
           <span>{isLiveMode ? "Now available" : "Now in early access"}</span>
         </div>
@@ -144,7 +150,7 @@ function SocialProofBar() {
   if (!landing.socialProofLine) return null;
 
   return (
-    <FadeIn className="border-y border-white/[0.04] py-8">
+    <FadeIn className="border-y border-brand-border py-8">
       <p className="text-center text-sm text-zinc-500">
         {landing.socialProofLine}
       </p>
@@ -182,7 +188,7 @@ function FeaturesSection() {
   if (!features?.length) return null;
 
   return (
-    <section className="px-6 py-24 border-t border-white/[0.04]">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <FadeIn className="text-center mb-20">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -236,7 +242,7 @@ function StepsSection() {
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
-    <section className="px-6 py-24 border-t border-white/[0.04]">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-3xl">
         <FadeIn className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -299,7 +305,7 @@ function TestimonialsSection() {
   if (!testimonials?.length) return null;
 
   return (
-    <section className="py-24 border-t border-white/[0.04]">
+    <section className="py-24 border-t border-brand-border">
       <FadeIn className="px-6">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
@@ -316,7 +322,7 @@ function TestimonialsSection() {
             delay={i * 100}
             className="snap-center shrink-0 w-[340px] sm:w-[400px]"
           >
-            <div className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all hover:border-white/[0.1] hover:scale-[1.02]">
+            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border hover:scale-[1.02]">
               <Quote className="h-8 w-8 text-brand-primary opacity-40 mb-4" />
               <p className="text-base leading-relaxed text-zinc-300">
                 &ldquo;{t.quote}&rdquo;
@@ -353,7 +359,7 @@ function FaqSection() {
   if (!faq?.length) return null;
 
   return (
-    <FadeIn className="px-6 py-24 border-t border-white/[0.04]">
+    <FadeIn className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-3xl">
         <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
           Frequently asked <GradientText>questions</GradientText>
@@ -381,7 +387,7 @@ function FaqAccordionItem({
   return (
     <details
       ref={detailsRef}
-      className="group rounded-xl border border-white/[0.06] bg-white/[0.02] transition-all hover:border-white/[0.1]"
+      className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border"
     >
       <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-base font-medium list-none">
         {question}
@@ -400,8 +406,8 @@ function PainStatsSection() {
 
   return (
     <FadeIn>
-      <section className="relative border-y border-white/[0.04] bg-white/[0.01]">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-white/[0.04] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <section className="relative border-y border-brand-border bg-brand-surface-card">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-brand-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {landing.painStats.map((item, i) => (
             <div
               key={i}
@@ -442,7 +448,7 @@ function FinalCtaSection() {
           {landing.finalCta.subheadline}
         </p>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-center gap-4">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
             className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-xl"
@@ -456,27 +462,51 @@ function FinalCtaSection() {
               (isLiveMode ? "Try it Free" : "Join the Waitlist")}
             <ArrowRight className="h-5 w-5" />
           </a>
+          {landing.finalCta.secondaryButton && (
+            <a
+              href={landing.finalCta.secondaryHref || "#pricing"}
+              className="text-sm text-zinc-400 hover:text-white transition-colors"
+            >
+              {landing.finalCta.secondaryButton}
+            </a>
+          )}
         </div>
       </FadeIn>
     </section>
   );
 }
 
+/* ─── Section registry ─── */
+const WARMTH_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+  "hero": () => <WarmthHero />,
+  "social-proof": () => <LogoBar />,
+  "stats": () => <SharedStatsSection variant="centered" />,
+  "problem": () => <SharedProblemSection variant="centered" />,
+  "features": () => <FeaturesSection />,
+  "steps": () => <SharedStepsSection variant="vertical" />,
+  "testimonials": () => <SharedTestimonialsSection />,
+  "pricing": () => <PricingSection variant="cards" />,
+  "faq": () => <SharedFaqSection />,
+  "cta": () => <FinalCtaSection />,
+};
+
+const WARMTH_DEFAULT_SECTIONS: LandingSectionId[] = [
+  "hero", "social-proof", "stats", "problem", "features",
+  "steps", "testimonials", "pricing", "faq", "cta",
+];
+
 /* ─── Main Warmth template ─── */
 export default function Warmth({ config: _config }: { config: VentureConfig }) {
+  const { landing } = resolveLandingConfig();
+  const sections = landing.sections ?? WARMTH_DEFAULT_SECTIONS;
+
   return (
     <div className="min-h-screen bg-brand-surface text-white">
       <NavBar variant="default" />
-      <WarmthHero />
-      <SocialProofBar />
-      <PainStatsSection />
-      <ProblemSection />
-      <FeaturesSection />
-      <StepsSection />
-      <TestimonialsSection />
-      <PricingSection variant="cards" />
-      <FaqSection />
-      <FinalCtaSection />
+      {sections.map((id) => {
+        const render = WARMTH_SECTIONS[id];
+        return render ? <React.Fragment key={id}>{render()}</React.Fragment> : null;
+      })}
       <FooterBar />
     </div>
   );

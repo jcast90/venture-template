@@ -1,10 +1,17 @@
 "use client";
 
-import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
+import React from "react";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
 import { PricingSection } from "./shared/pricing-section";
+import { LogoBar } from "./shared/logo-bar";
+import { StatsSection } from "./shared/stats-section";
+import { StepsSection } from "./shared/steps-section";
+import { ProblemSection as SharedProblemSection } from "./shared/problem-section";
+import { TestimonialsSection } from "./shared/testimonials-section";
+import { FaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
 import { GradientText } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles } from "lucide-react";
@@ -113,12 +120,12 @@ function StatsBar() {
   const { landing } = resolveLandingConfig();
 
   return (
-    <section className="border-y border-white/[0.06]">
+    <section className="border-y border-brand-border">
       <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
         {landing.painStats.map((item, i) => (
           <div
             key={i}
-            className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-white/[0.06]" : ""}`}
+            className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-brand-border" : ""}`}
           >
             <span className="font-mono text-2xl font-bold text-white">
               {item.stat}
@@ -155,7 +162,7 @@ function TimelineSection() {
             {landing.steps.map((step, i) => (
               <div key={i} className="relative">
                 <div
-                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-sm border border-white/[0.08] bg-brand-surface text-xs font-mono font-bold"
+                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-sm border border-brand-border bg-brand-surface text-xs font-mono font-bold"
                   style={{ color: "var(--brand-primary)" }}
                 >
                   0{i + 1}
@@ -178,7 +185,7 @@ function PainPointsGrid() {
   const { landing } = resolveLandingConfig();
 
   return (
-    <section className="px-6 py-16 border-t border-white/[0.06]">
+    <section className="px-6 py-16 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-xl font-bold tracking-tight mb-8">
           Problems we solve
@@ -187,7 +194,7 @@ function PainPointsGrid() {
           {landing.painPoints.map((point, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 rounded-sm border border-white/[0.04] bg-white/[0.01] p-4 transition-colors hover:border-white/[0.08]"
+              className="flex items-start gap-3 rounded-sm border border-brand-border bg-brand-surface-card p-4 transition-colors hover:border-brand-border"
             >
               <span className="font-mono text-xs text-brand-primary mt-0.5">
                 {painIcons[i % painIcons.length]}
@@ -207,7 +214,7 @@ function MinimalCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-20 border-t border-white/[0.06]">
+    <section className="px-6 py-20 border-t border-brand-border">
       <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
           <h2 className="text-2xl font-bold">{landing.finalCta.headline}</h2>
@@ -215,30 +222,59 @@ function MinimalCta() {
             {landing.finalCta.subheadline}
           </p>
         </div>
-        <a
-          href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-          className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg shrink-0"
-          style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
-        >
-          {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
-          <ArrowRight className="h-4 w-4" />
-        </a>
+        <div className="flex items-center gap-4 shrink-0">
+          <a
+            href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
+            className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
+            style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+          >
+            {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          {landing.finalCta.secondaryButton && (
+            <a
+              href={landing.finalCta.secondaryHref || "#pricing"}
+              className="text-sm text-zinc-400 hover:text-white transition-colors"
+            >
+              {landing.finalCta.secondaryButton}
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );
 }
 
+/* ─── Section registry ─── */
+const PRECISION_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+  "hero": () => <PrecisionHero />,
+  "social-proof": () => <LogoBar />,
+  "stats": () => <StatsSection variant="horizontal" />,
+  "problem": () => <SharedProblemSection variant="grid" />,
+  "features": () => null,
+  "steps": () => <StepsSection variant="horizontal" />,
+  "testimonials": () => <TestimonialsSection />,
+  "pricing": () => <PricingSection variant="table" />,
+  "faq": () => <FaqSection />,
+  "cta": () => <MinimalCta />,
+};
+
+const PRECISION_DEFAULT_SECTIONS: LandingSectionId[] = [
+  "hero", "stats", "steps", "problem", "pricing", "cta",
+];
+
 /* ─── Main Precision template ─── */
 export default function Precision({ config: _config }: { config: VentureConfig }) {
+  const { landing } = resolveLandingConfig();
+  const sections = landing.sections ?? PRECISION_DEFAULT_SECTIONS;
+
   return (
     <div className="min-h-screen bg-brand-surface text-white">
       <NavBar variant="precision" />
-      <PrecisionHero />
-      <StatsBar />
-      <TimelineSection />
-      <PainPointsGrid />
-      <PricingSection variant="table" />
-      <MinimalCta />
+      {sections.map((id) => {
+        const render = PRECISION_SECTIONS[id];
+        return render ? <React.Fragment key={id}>{render()}</React.Fragment> : null;
+      })}
       <FooterBar />
     </div>
   );

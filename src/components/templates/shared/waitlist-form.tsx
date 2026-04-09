@@ -56,7 +56,7 @@ export function WaitlistForm({ className }: { className?: string }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-5 py-3.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-brand-primary/50 focus:bg-white/[0.06]"
+            className="flex-1 rounded-xl border border-brand-border bg-brand-surface-input px-5 py-3.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-brand-primary/50 focus:bg-brand-surface-input"
           />
           <button
             type="submit"

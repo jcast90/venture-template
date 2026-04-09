@@ -29,8 +29,58 @@ export type FaqItem = {
   answer: string;
 };
 
-export type LandingConfig = BaseVentureConfig["landing"] & {
+export type PricingTier = {
+  plan: string;
+  price: string;
+  period: string;
+  desc: string;
+  features: string[];
+  highlighted: boolean;
+  cta?: string;
+  monthlyPrice?: string;
+  annualPrice?: string;
+};
+
+export type PricingToggleConfig = {
+  enabled: boolean;
+  default?: "monthly" | "annual";
+  annualDiscount?: string;
+};
+
+export type LandingSectionId =
+  | "hero"
+  | "social-proof"
+  | "stats"
+  | "problem"
+  | "features"
+  | "steps"
+  | "testimonials"
+  | "pricing"
+  | "faq"
+  | "cta";
+
+export type SocialProofLogo = {
+  src: string;
+  alt: string;
+};
+
+export type SocialProofConfig = {
+  line?: string;
+  logos?: SocialProofLogo[];
+};
+
+export type FinalCtaConfig = {
+  headline: string;
+  subheadline: string;
+  secondaryButton?: string;
+  secondaryHref?: string;
+};
+
+export type LandingConfig = Omit<BaseVentureConfig["landing"], "pricing" | "finalCta"> & {
+  pricing: PricingTier[];
+  finalCta: FinalCtaConfig;
   template?: "precision" | "warmth" | "momentum";
+  sections?: LandingSectionId[];
   primaryCta?: string;
   secondaryCta?: string;
   navCta?: string;
@@ -38,6 +88,8 @@ export type LandingConfig = BaseVentureConfig["landing"] & {
   waitlistCardSubtitle?: string;
   finalCtaButton?: string;
   socialProofLine?: string;
+  socialProof?: SocialProofConfig;
+  pricingToggle?: PricingToggleConfig;
   features?: FeatureItem[];
   testimonials?: TestimonialItem[];
   faq?: FaqItem[];
