@@ -12,17 +12,17 @@ export function NavBar({ variant = "default" }: { variant?: NavVariant }) {
 
   const variantStyles: Record<NavVariant, { nav: string; logo: string; btn: string }> = {
     default: {
-      nav: "border-b border-white/[0.06] bg-brand-surface/80 backdrop-blur-xl",
+      nav: "border-b border-brand-border bg-brand-surface/80 backdrop-blur-xl",
       logo: "rounded-lg",
       btn: "rounded-full px-5 py-2",
     },
     precision: {
-      nav: "border-b border-white/[0.06] bg-brand-surface/90 backdrop-blur-md",
+      nav: "border-b border-brand-border bg-brand-surface/90 backdrop-blur-md",
       logo: "rounded-sm",
       btn: "rounded-sm px-5 py-2 text-xs uppercase tracking-wider",
     },
     momentum: {
-      nav: "border-b border-white/[0.04] bg-brand-surface/60 backdrop-blur-2xl",
+      nav: "border-b border-brand-border bg-brand-surface/60 backdrop-blur-2xl",
       logo: "rounded-lg",
       btn: "rounded-full px-6 py-2.5",
     },

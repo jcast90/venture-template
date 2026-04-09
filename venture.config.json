@@ -15,7 +15,12 @@
     "gradient": "from-blue-600 to-violet-600",
     "gradientHover": "from-blue-500 to-violet-500",
     "surface": "#0A0A0F",
-    "surfaceLight": "#111118"
+    "surfaceLight": "#111118",
+    "surfaceCard": "#111118",
+    "surfaceInput": "#141420",
+    "borderRadius": "rounded",
+    "gradientAngle": 135,
+    "borderOpacity": 0.06
   },
   "landing": {
     "template": "warmth",

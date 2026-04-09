@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import config, { isLiveMode, resolveLandingConfig, type VentureConfig } from "@/lib/config";
+import React, { useEffect, useRef, useState } from "react";
+import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
 import { PricingSection } from "./shared/pricing-section";
+import { LogoBar } from "./shared/logo-bar";
+import { StatsSection } from "./shared/stats-section";
+import { StepsSection } from "./shared/steps-section";
+import { ProblemSection } from "./shared/problem-section";
+import { TestimonialsSection } from "./shared/testimonials-section";
+import { FaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
 import { GradientText, BrandIconBox } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles, Zap, Shield, TrendingUp } from "lucide-react";
@@ -120,11 +126,7 @@ function GlassStats() {
         {landing.painStats.map((item, i) => (
           <div
             key={i}
-            className="flex flex-col items-center gap-3 rounded-2xl p-8 backdrop-blur-xl transition-all hover:bg-white/[0.04]"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
+            className="flex flex-col items-center gap-3 rounded-2xl p-8 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border"
           >
             <AnimatedStat value={item.stat} />
             <span className="text-sm text-zinc-400">{item.label}</span>
@@ -163,11 +165,7 @@ function BentoFeatures() {
             return (
               <div
                 key={i}
-                className={`group relative rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-white/[0.04] ${spanClass}`}
-                style={{
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
+                className={`group relative rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border ${spanClass}`}
               >
                 {/* Gradient border on hover */}
                 <div
@@ -217,11 +215,7 @@ function BentoFallback() {
         {landing.painPoints.map((point, i) => (
           <div
             key={i}
-            className="rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-white/[0.04]"
-            style={{
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
+            className="rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border"
           >
             <p className="text-sm leading-relaxed text-zinc-300">{point}</p>
           </div>
@@ -237,7 +231,7 @@ function HowItWorks() {
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
-    <section className="px-6 py-20 border-t border-white/[0.04]">
+    <section className="px-6 py-20 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-2xl font-bold tracking-tight mb-12">
           <GradientText>How it works</GradientText>
@@ -250,11 +244,7 @@ function HowItWorks() {
             return (
               <div
                 key={i}
-                className="group flex flex-col items-start rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-white/[0.03]"
-                style={{
-                  background: "rgba(255,255,255,0.01)",
-                  border: "1px solid rgba(255,255,255,0.04)",
-                }}
+                className="group flex flex-col items-start rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-card bg-brand-surface-card border border-brand-border"
               >
                 <div
                   className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
@@ -298,7 +288,7 @@ function CompactCta() {
           {landing.finalCta.subheadline}
         </p>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-center gap-4">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
             className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-xl"
@@ -307,23 +297,56 @@ function CompactCta() {
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
             <ArrowRight className="h-5 w-5" />
           </a>
+          {landing.finalCta.secondaryButton && (
+            <a
+              href={landing.finalCta.secondaryHref || "#pricing"}
+              className="text-sm text-zinc-400 hover:text-white transition-colors"
+            >
+              {landing.finalCta.secondaryButton}
+            </a>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
+/* ─── Section registry ─── */
+const MOMENTUM_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+  "hero": () => <MomentumHero />,
+  "social-proof": () => <LogoBar />,
+  "stats": () => <StatsSection variant="glass" />,
+  "problem": () => <ProblemSection variant="centered" />,
+  "features": () => <BentoFeatures />,
+  "steps": () => <StepsSection variant="cards" />,
+  "testimonials": () => <TestimonialsSection />,
+  "pricing": () => <PricingSection variant="glass" />,
+  "faq": () => <FaqSection />,
+  "cta": () => <CompactCta />,
+};
+
+const MOMENTUM_DEFAULT_SECTIONS: LandingSectionId[] = [
+  "hero", "stats", "features", "steps", "pricing", "cta",
+];
+
 /* ─── Main Momentum template ─── */
 export default function Momentum({ config: _config }: { config: VentureConfig }) {
+  const { landing } = resolveLandingConfig();
+  const sections = landing.sections ?? MOMENTUM_DEFAULT_SECTIONS;
+
   return (
     <div className="min-h-screen bg-brand-surface text-white">
       <NavBar variant="momentum" />
-      <MomentumHero />
-      <GlassStats />
-      <BentoFeatures />
-      <HowItWorks />
-      <PricingSection variant="glass" />
-      <CompactCta />
+      {sections.map((id) => {
+        const render = MOMENTUM_SECTIONS[id];
+        if (!render) {
+          if (process.env.NODE_ENV === "development") {
+            console.warn(`[Momentum] Unknown section "${id}" in landing.sections. Valid: ${Object.keys(MOMENTUM_SECTIONS).join(", ")}`);
+          }
+          return null;
+        }
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
+      })}
       <FooterBar />
     </div>
   );
