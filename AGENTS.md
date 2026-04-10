@@ -125,10 +125,35 @@ NEXT_PUBLIC_APP_URL            # Your domain
 3. New users auto-created (`shouldCreateUser: true`)
 4. Middleware protects `/dashboard/*` → redirects to `/login` if unauthenticated
 
+## Codegen Pipeline (preferred way to add features)
+
+For CRUD dashboard pages, use the codegen pipeline instead of writing pages by hand:
+
+1. **Define the feature** in `venture.features.json` — columns, stats, CRUD config, render hints
+2. **Run `npm run generate`** — compiles spec → `src/app/dashboard/{slug}/page.tsx`
+3. **Run `npm run generate:schema`** — compiles spec → `supabase/features/{slug}.sql`
+4. **Run `npm run validate-imports`** — checks all dashboard imports against allowlist
+
+Or use the `/add-feature` skill which orchestrates the full pipeline.
+
+The feature spec (`venture.features.json`) is the single source of truth. Agent writes JSON (creative), template compiles to code (deterministic). See `scripts/lib/feature-schema.ts` for the spec interface.
+
+Generated pages are **ejectable** — customize after generation. The codegen won't overwrite existing files unless `--force` is passed.
+
+### Scripts
+```bash
+npm run generate                            # Generate all feature pages
+npx tsx scripts/generate-page.ts contacts   # Generate single feature
+npx tsx scripts/generate-page.ts --force    # Overwrite existing
+npm run generate:schema                     # Generate SQL schemas
+npm run validate-imports                    # Check import safety
+```
+
 ## Testing
 ```bash
-npm run build       # Must pass before deploy
-npx tsc --noEmit    # Type check
+npm run validate-imports  # Import check
+npm run build             # Must pass before deploy
+npx tsc --noEmit          # Type check
 ```
 
 ## Self-healing: document what you learn

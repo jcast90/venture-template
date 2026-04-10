@@ -6,6 +6,8 @@ invocation: user
 
 Create a new Supabase table. The user provides the table name as an argument (e.g., `/add-table contacts`).
 
+> **Prefer `/add-feature` for feature tables.** It generates both the page and schema from a single spec. Use `/add-table` only for standalone tables not tied to a dashboard page (e.g., audit logs, background job queues).
+
 ## Steps
 
 1. **Read `supabase/schema.sql`** to understand existing tables and conventions
