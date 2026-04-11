@@ -33,14 +33,32 @@
     "waitlistCardSubtitle": "Be among the first to try {{PRODUCT_NAME}}.",
     "finalCtaButton": "Join the Waitlist",
     "painStats": [
-      { "stat": "{{STAT_1}}", "label": "{{STAT_1_LABEL}}" },
-      { "stat": "{{STAT_2}}", "label": "{{STAT_2_LABEL}}" },
-      { "stat": "{{STAT_3}}", "label": "{{STAT_3_LABEL}}" }
+      {
+        "stat": "{{STAT_1}}",
+        "label": "{{STAT_1_LABEL}}"
+      },
+      {
+        "stat": "{{STAT_2}}",
+        "label": "{{STAT_2_LABEL}}"
+      },
+      {
+        "stat": "{{STAT_3}}",
+        "label": "{{STAT_3_LABEL}}"
+      }
     ],
     "steps": [
-      { "title": "{{STEP_1}}", "desc": "{{STEP_1_DESC}}" },
-      { "title": "{{STEP_2}}", "desc": "{{STEP_2_DESC}}" },
-      { "title": "{{STEP_3}}", "desc": "{{STEP_3_DESC}}" }
+      {
+        "title": "{{STEP_1}}",
+        "desc": "{{STEP_1_DESC}}"
+      },
+      {
+        "title": "{{STEP_2}}",
+        "desc": "{{STEP_2_DESC}}"
+      },
+      {
+        "title": "{{STEP_3}}",
+        "desc": "{{STEP_3_DESC}}"
+      }
     ],
     "painPoints": [
       "{{PAIN_1}}",
@@ -56,7 +74,12 @@
         "price": "Free",
         "period": "",
         "desc": "{{STARTER_DESC}}",
-        "features": ["{{STARTER_F1}}", "{{STARTER_F2}}", "{{STARTER_F3}}", "{{STARTER_F4}}"],
+        "features": [
+          "{{STARTER_F1}}",
+          "{{STARTER_F2}}",
+          "{{STARTER_F3}}",
+          "{{STARTER_F4}}"
+        ],
         "highlighted": false
       },
       {
@@ -64,7 +87,14 @@
         "price": "{{PRO_PRICE}}",
         "period": "/mo",
         "desc": "{{PRO_DESC}}",
-        "features": ["{{PRO_F1}}", "{{PRO_F2}}", "{{PRO_F3}}", "{{PRO_F4}}", "{{PRO_F5}}", "{{PRO_F6}}"],
+        "features": [
+          "{{PRO_F1}}",
+          "{{PRO_F2}}",
+          "{{PRO_F3}}",
+          "{{PRO_F4}}",
+          "{{PRO_F5}}",
+          "{{PRO_F6}}"
+        ],
         "highlighted": true
       },
       {
@@ -72,7 +102,13 @@
         "price": "Custom",
         "period": "",
         "desc": "{{ENTERPRISE_DESC}}",
-        "features": ["Everything in Pro", "{{ENT_F1}}", "{{ENT_F2}}", "{{ENT_F3}}", "{{ENT_F4}}"],
+        "features": [
+          "Everything in Pro",
+          "{{ENT_F1}}",
+          "{{ENT_F2}}",
+          "{{ENT_F3}}",
+          "{{ENT_F4}}"
+        ],
         "highlighted": false
       }
     ],
@@ -123,8 +159,18 @@
     "provider": "posthog",
     "errorMonitoring": "sentry",
     "northStarMetric": "waitlist_signup_succeeded",
-    "secondaryMetrics": ["signup_completed", "subscription_started"],
-    "attributionProperties": ["utm_source", "utm_medium", "utm_campaign", "referrer", "country", "device_type"],
+    "secondaryMetrics": [
+      "signup_completed",
+      "subscription_started"
+    ],
+    "attributionProperties": [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "referrer",
+      "country",
+      "device_type"
+    ],
     "events": {
       "page_view": "page_view",
       "landing_page_view": "landing_page_view",
@@ -141,10 +187,31 @@
   },
   "dashboard": {
     "navItems": [
-      { "label": "Dashboard", "href": "/dashboard", "icon": "LayoutDashboard" },
-      { "label": "{{NAV_1}}", "href": "/dashboard/{{NAV_1_SLUG}}", "icon": "{{NAV_1_ICON}}" },
-      { "label": "{{NAV_2}}", "href": "/dashboard/{{NAV_2_SLUG}}", "icon": "{{NAV_2_ICON}}" },
-      { "label": "Settings", "href": "/dashboard/settings", "icon": "Settings" }
+      {
+        "label": "Dashboard",
+        "href": "/dashboard",
+        "icon": "LayoutDashboard"
+      },
+      {
+        "label": "{{NAV_1}}",
+        "href": "/dashboard/{{NAV_1_SLUG}}",
+        "icon": "{{NAV_1_ICON}}"
+      },
+      {
+        "label": "{{NAV_2}}",
+        "href": "/dashboard/{{NAV_2_SLUG}}",
+        "icon": "{{NAV_2_ICON}}"
+      },
+      {
+        "label": "Contacts",
+        "href": "/dashboard/contacts",
+        "icon": "Users"
+      },
+      {
+        "label": "Settings",
+        "href": "/dashboard/settings",
+        "icon": "Settings"
+      }
     ]
   }
 }

@@ -8,7 +8,8 @@ Verify the project builds and passes all checks.
 
 ## Steps
 
-1. **Run `npm run build`** — must exit 0
+1. **Run `npx tsx scripts/validate-imports.ts`** — checks all dashboard imports are valid
+2. **Run `npm run build`** — must exit 0
 2. **Run `npx tsc --noEmit`** — must exit 0
 3. **Run `npm run lint`** — must exit 0
 

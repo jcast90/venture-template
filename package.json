@@ -6,11 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate": "tsx scripts/generate-page.ts",
+    "generate:schema": "tsx scripts/generate-schema.ts",
+    "validate-imports": "tsx scripts/validate-imports.ts"
   },
   "dependencies": {
-    "@sentry/nextjs": "^10.19.0",
     "@base-ui/react": "^1.3.0",
+    "@sentry/nextjs": "^10.19.0",
     "@stripe/stripe-js": "^8.11.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.100.0",
@@ -37,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

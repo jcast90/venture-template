@@ -6,6 +6,8 @@ invocation: user
 
 Create a new dashboard page. The user provides the feature name as an argument (e.g., `/add-page contacts`).
 
+> **Prefer `/add-feature` for CRUD pages.** It uses the codegen pipeline to generate guaranteed-correct pages from a JSON spec. Use `/add-page` only for non-CRUD pages (custom layouts, detail views, settings-like pages).
+
 ## Steps
 
 1. **Read `AGENTS.md`** for import rules and styling conventions
