@@ -3,7 +3,7 @@
 import { resolveLandingConfig, type VentureConfig } from "@/lib/config";
 import Warmth from "@/components/templates/warmth";
 
-/* Additional templates are lazy-loaded to avoid bundling all three */
+/* Additional templates are lazy-loaded to avoid bundling all of them */
 import dynamic from "next/dynamic";
 
 const Precision = dynamic(() => import("@/components/templates/precision"), {
@@ -12,11 +12,31 @@ const Precision = dynamic(() => import("@/components/templates/precision"), {
 const Momentum = dynamic(() => import("@/components/templates/momentum"), {
   loading: () => <TemplateShell />,
 });
+const Clarity = dynamic(() => import("@/components/templates/clarity"), {
+  loading: () => <TemplateShell />,
+});
+const Bold = dynamic(() => import("@/components/templates/bold"), {
+  loading: () => <TemplateShell />,
+});
+const Organic = dynamic(() => import("@/components/templates/organic"), {
+  loading: () => <TemplateShell />,
+});
+const Dashboard = dynamic(() => import("@/components/templates/dashboard"), {
+  loading: () => <TemplateShell />,
+});
+const Minimal = dynamic(() => import("@/components/templates/minimal"), {
+  loading: () => <TemplateShell />,
+});
 
 const TEMPLATES: Record<string, React.ComponentType<{ config: VentureConfig }>> = {
   precision: Precision,
   warmth: Warmth,
   momentum: Momentum,
+  clarity: Clarity,
+  bold: Bold,
+  organic: Organic,
+  dashboard: Dashboard,
+  minimal: Minimal,
 };
 
 function TemplateShell() {
