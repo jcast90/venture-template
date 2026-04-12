@@ -117,13 +117,65 @@
     }
   ],
   "selectionGuide": {
-    "listPage": "data-table-advanced",
-    "pipelinePage": "kanban-board",
-    "activityPage": "timeline",
-    "filesPage": "file-manager",
-    "analyticsPage": "metric-dashboard",
-    "pricingPage": "comparison-view",
-    "onboardingPage": "wizard",
-    "checkoutPage": "wizard"
+    "list": {
+      "primary": ["data-table-advanced"],
+      "secondary": ["metric-dashboard"],
+      "avoid": ["kanban-board", "wizard"],
+      "notes": "Use DataTableAdvanced with bulk actions for lists >10 rows."
+    },
+    "board": {
+      "primary": ["kanban-board"],
+      "secondary": ["metric-dashboard"],
+      "avoid": ["data-table-advanced", "wizard"],
+      "notes": "KanbanBoard for status-driven workflows. Add MetricDashboard for counts per column."
+    },
+    "activity": {
+      "primary": ["timeline"],
+      "secondary": ["metric-dashboard"],
+      "avoid": ["kanban-board", "file-manager", "wizard"],
+      "notes": "Use TimelineGrouped when events span multiple days."
+    },
+    "files": {
+      "primary": ["file-manager"],
+      "secondary": [],
+      "avoid": ["kanban-board", "wizard"],
+      "notes": "FileManager handles upload, rename, delete, grid/list toggle."
+    },
+    "analytics": {
+      "primary": ["metric-dashboard"],
+      "secondary": ["data-table-advanced", "timeline"],
+      "avoid": ["kanban-board", "wizard", "file-manager"],
+      "notes": "Lead with MetricDashboard (columns=4 for dense dashboards). Add DataTableAdvanced below for raw data."
+    },
+    "pricing": {
+      "primary": ["comparison-view"],
+      "secondary": [],
+      "avoid": ["kanban-board", "file-manager", "wizard"],
+      "notes": "Use highlighted column for the recommended plan."
+    },
+    "comparison": {
+      "primary": ["comparison-view"],
+      "secondary": ["metric-dashboard"],
+      "avoid": ["kanban-board", "wizard"],
+      "notes": "groupByCategory=true to separate feature groups."
+    },
+    "onboarding": {
+      "primary": ["wizard"],
+      "secondary": [],
+      "avoid": ["kanban-board", "data-table-advanced"],
+      "notes": "Use layout=\"vertical\" for longer wizards (5+ steps), layout=\"horizontal\" for 3-4 steps."
+    },
+    "settings": {
+      "primary": ["wizard"],
+      "secondary": [],
+      "avoid": ["kanban-board", "file-manager", "timeline"],
+      "notes": "Single-step Wizard works as a sectioned form with a save button."
+    },
+    "overview": {
+      "primary": ["metric-dashboard"],
+      "secondary": ["timeline", "data-table-advanced"],
+      "avoid": ["wizard", "comparison-view"],
+      "notes": "MetricDashboard at the top (3-4 KPIs), Timeline for recent activity, DataTableAdvanced for latest records."
+    }
   }
 }

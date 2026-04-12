@@ -8,7 +8,7 @@ export { Timeline } from "./timeline";
 export type { TimelineProps, TimelineItem } from "./timeline";
 
 export { FileManager } from "./file-manager";
-export type { FileManagerProps, ManagedFile } from "./file-manager";
+export type { FileManagerProps, FileItem } from "./file-manager";
 
 export { MetricDashboard, Sparkline } from "./metric-dashboard";
 export type { MetricDashboardProps, Metric } from "./metric-dashboard";
