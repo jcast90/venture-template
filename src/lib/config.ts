@@ -110,8 +110,15 @@ type LandingExperimentConfig = {
   variants?: LandingVariant[];
 };
 
-export type VentureConfig = Omit<BaseVentureConfig, "landing"> & {
+export type DashboardLayoutVariant = "sidebar" | "topnav" | "command";
+
+export type DashboardConfig = BaseVentureConfig["dashboard"] & {
+  layout?: DashboardLayoutVariant;
+};
+
+export type VentureConfig = Omit<BaseVentureConfig, "landing" | "dashboard"> & {
   landing: LandingConfig;
+  dashboard: DashboardConfig;
   experiments?: {
     landingPage?: LandingExperimentConfig;
   };
