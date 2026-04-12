@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
 
 const MAX_FILE_SIZE = parseInt(
   process.env.UPLOAD_MAX_FILE_SIZE || String(10 * 1024 * 1024),
@@ -23,28 +23,26 @@ function isTypeAllowed(mimeType: string): boolean {
   });
 }
 
+/**
+ * Sanitize an optional client-supplied subfolder. Allows simple a-z0-9/-_
+ * names with no path traversal. The user's own ID is always the prefix.
+ */
+function sanitizeSubfolder(input: string | null): string {
+  if (!input) return "";
+  // Reject any path traversal or absolute paths
+  if (input.includes("..") || input.startsWith("/") || input.includes("\\")) {
+    return "";
+  }
+  // Allow only safe chars, single forward slashes
+  const cleaned = input.replace(/[^a-zA-Z0-9/_-]/g, "").replace(/\/+/g, "/");
+  if (cleaned.startsWith("/") || cleaned.endsWith("/")) return "";
+  return cleaned;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // --- Auth check ---
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey =
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      return NextResponse.json(
-        { error: "Supabase not configured" },
-        { status: 500 }
-      );
-    }
-
-    // Forward the user's auth cookie/token to verify identity
-    const authHeader = request.headers.get("authorization");
-    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      global: {
-        headers: authHeader ? { Authorization: authHeader } : {},
-      },
-    });
+    // --- Auth check via cookie-based session (not user-supplied header) ---
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -59,7 +57,9 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
     const bucket = (formData.get("bucket") as string) || DEFAULT_BUCKET;
-    const pathPrefix = (formData.get("path") as string) || user.id;
+    // Subfolder is optional and sanitized; the user's id is ALWAYS the prefix
+    const subfolder = sanitizeSubfolder(formData.get("subfolder") as string | null);
+    const pathPrefix = subfolder ? `${user.id}/${subfolder}` : user.id;
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json(
@@ -91,18 +91,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // --- Upload to Supabase Storage ---
-    // Use service role key for storage operations if available, fall back to anon
-    const storageKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseAnonKey;
-    const storageClient = createClient(supabaseUrl, storageKey);
-
+    // --- Upload to Supabase Storage as the authenticated user ---
+    // Uses the user-scoped client so Storage RLS policies apply. Service
+    // role key is NEVER used here — that would bypass RLS and let any
+    // authenticated user write anywhere.
     const timestamp = Date.now();
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const storagePath = `${pathPrefix}/${timestamp}-${safeName}`;
 
     const { data: uploadData, error: uploadError } =
-      await storageClient.storage.from(bucket).upload(storagePath, file, {
+      await supabase.storage.from(bucket).upload(storagePath, file, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -115,13 +113,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // --- Build response URL ---
-    const { data: urlData } = storageClient.storage
+    // --- Build response URL (signed for private buckets, public otherwise) ---
+    // Try a signed URL first (works for private buckets); fall back to
+    // public URL if the bucket is public.
+    let url: string;
+    const { data: signedData } = await supabase.storage
       .from(bucket)
-      .getPublicUrl(uploadData.path);
+      .createSignedUrl(uploadData.path, 60 * 60); // 1 hour
+    if (signedData?.signedUrl) {
+      url = signedData.signedUrl;
+    } else {
+      const { data: publicData } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(uploadData.path);
+      url = publicData.publicUrl;
+    }
 
     return NextResponse.json({
-      url: urlData.publicUrl,
+      url,
       path: uploadData.path,
       size: file.size,
       type: file.type,
