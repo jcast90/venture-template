@@ -2,6 +2,9 @@ import baseConfig from "../../venture.config.json";
 
 type BaseVentureConfig = typeof baseConfig;
 
+export type TypographyStyle = "clean" | "editorial" | "technical" | "friendly";
+export type DensityLevel = "compact" | "default" | "spacious";
+
 export type ScreenshotSpec = {
   id: string;
   page: string;

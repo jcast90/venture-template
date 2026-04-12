@@ -100,3 +100,63 @@ export function pickPalette(productName: string): PaletteName {
   }
   return names[Math.abs(hash) % names.length];
 }
+
+/**
+ * Typography profiles with vertical metadata, used by the config-builder
+ * agent to pick a typography style for a new venture. The runtime
+ * rendering config lives in `./typography.ts` (TYPOGRAPHY_PRESETS); this
+ * map is the agent-facing selector metadata.
+ */
+export const TYPOGRAPHY_PROFILES = {
+  clean: {
+    body: "Inter",
+    display: "Inter",
+    verticals: ["saas", "productivity", "analytics", "general"],
+    description: "Clean, modern sans-serif. Good for most SaaS products.",
+  },
+  editorial: {
+    body: "Inter",
+    display: "Playfair Display",
+    verticals: ["media", "content", "blog", "marketing"],
+    description: "Elegant serif display with readable body. Good for content-heavy products.",
+  },
+  technical: {
+    body: "Inter",
+    display: "JetBrains Mono",
+    verticals: ["devtools", "api", "infrastructure", "data"],
+    description: "Monospace display with sans body. Great for developer tools and technical products.",
+  },
+  friendly: {
+    body: "DM Sans",
+    display: "DM Sans",
+    verticals: ["consumer", "health", "education", "community"],
+    description: "Approachable, rounded sans-serif. Good for consumer and B2C products.",
+  },
+} as const;
+
+export type TypographyProfileName = keyof typeof TYPOGRAPHY_PROFILES;
+
+/**
+ * Density levels for spacing configuration. Runtime scales live in
+ * `./typography.ts` (DENSITY_SCALES); this map is agent-facing metadata.
+ */
+export const DENSITY_LEVELS = {
+  compact: "Tighter spacing. Good for data-dense dashboards and power users.",
+  default: "Balanced spacing. Good for most products.",
+  spacious: "Generous whitespace. Good for marketing-focused products.",
+} as const;
+
+export type DensityLevelName = keyof typeof DENSITY_LEVELS;
+
+/**
+ * Suggest a typography profile based on product vertical string.
+ */
+export function suggestTypography(vertical: string): TypographyProfileName {
+  const lower = vertical.toLowerCase();
+  for (const [name, profile] of Object.entries(TYPOGRAPHY_PROFILES)) {
+    if (profile.verticals.some((v) => lower.includes(v))) {
+      return name as TypographyProfileName;
+    }
+  }
+  return "clean";
+}
