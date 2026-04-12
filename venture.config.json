@@ -20,7 +20,14 @@
     "surfaceInput": "#141420",
     "borderRadius": "rounded",
     "gradientAngle": 135,
-    "borderOpacity": 0.06
+    "borderOpacity": 0.06,
+    "success": "#22c55e",
+    "warning": "#eab308",
+    "error": "#ef4444",
+    "muted": "#6b7280",
+    "info": "#3b82f6",
+    "primaryForeground": "#ffffff",
+    "accentForeground": "#ffffff"
   },
   "landing": {
     "template": "warmth",
