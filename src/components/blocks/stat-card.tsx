@@ -10,6 +10,7 @@ import {
 import { ArrowUpRight, ArrowDownRight, type LucideIcon } from "lucide-react";
 import { IconBox } from "./icon-box";
 import { brandGradient } from "./styles";
+import { HoverCard } from "@/components/motion";
 
 export interface StatCardProps {
   title: string;
@@ -33,9 +34,10 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
+    <HoverCard className="h-full">
     <Card
       className={cn(
-        "border-white/[0.06] bg-brand-surface-light text-white overflow-hidden",
+        "border-white/[0.06] bg-brand-surface-light text-white overflow-hidden h-full transition-colors hover:border-white/[0.12]",
         highlight && "relative",
         className
       )}
@@ -74,5 +76,6 @@ export function StatCard({
         )}
       </CardContent>
     </Card>
+    </HoverCard>
   );
 }
