@@ -7,3 +7,8 @@ export {
   type SkeletonTransitionProps,
 } from "./skeleton-transition";
 export { PageTransition } from "./page-transition";
+export {
+  StaggerChildren,
+  staggerChildVariants,
+  type StaggerChildrenProps,
+} from "./stagger-children";
