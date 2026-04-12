@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import config from "@/lib/config";
 import { PageTracker } from "@/components/page-tracker";
 import { BrandProvider } from "@/components/brand-provider";
 import { AnalyticsProvider } from "@/components/analytics-provider";
+import { resolveTypographyPreset } from "@/lib/typography";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const typography = resolveTypographyPreset(config.brand?.typography);
 
 export const metadata: Metadata = {
   title: config.name + " - " + config.tagline,
@@ -20,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
-      <body className="antialiased bg-brand-surface text-white font-[family-name:var(--font-inter)]">
+    <html lang="en" className={`${typography.variableClassName} dark`}>
+      <body className="antialiased bg-brand-surface text-white font-sans">
         <BrandProvider>
           <AnalyticsProvider>
             <PageTracker />
