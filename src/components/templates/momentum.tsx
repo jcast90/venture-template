@@ -15,6 +15,7 @@ import { FaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
 import { GradientText, BrandIconBox } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles, Zap, Shield, TrendingUp } from "lucide-react";
+import { FadeIn } from "@/components/motion";
 
 const ICON_MAP: Record<string, typeof Zap> = {
   Zap, Target, Layers, Sparkles, Shield, TrendingUp,
@@ -345,7 +346,11 @@ export default function Momentum({ config: _config }: { config: VentureConfig })
           }
           return null;
         }
-        return <React.Fragment key={id}>{render()}</React.Fragment>;
+        return (
+          <FadeIn key={id} y={16} duration={0.55}>
+            {render()}
+          </FadeIn>
+        );
       })}
       <FooterBar />
     </div>

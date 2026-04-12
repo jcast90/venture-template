@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
+import { FadeIn as MotionFadeIn } from "@/components/motion";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
 import { PricingSection } from "./shared/pricing-section";
@@ -511,7 +512,11 @@ export default function Warmth({ config: _config }: { config: VentureConfig }) {
           }
           return null;
         }
-        return <React.Fragment key={id}>{render()}</React.Fragment>;
+        return (
+          <MotionFadeIn key={id} y={16} duration={0.55}>
+            {render()}
+          </MotionFadeIn>
+        );
       })}
       <FooterBar />
     </div>

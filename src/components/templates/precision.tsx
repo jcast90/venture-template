@@ -16,6 +16,7 @@ import { ProductFrame } from "./shared/product-frame";
 import { GradientText } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles } from "lucide-react";
 import { useEffect, useRef, useCallback } from "react";
+import { FadeIn } from "@/components/motion";
 
 const stepIcons = [Target, Layers, Sparkles];
 const painIcons = [
@@ -279,7 +280,11 @@ export default function Precision({ config: _config }: { config: VentureConfig }
           }
           return null;
         }
-        return <React.Fragment key={id}>{render()}</React.Fragment>;
+        return (
+          <FadeIn key={id} y={16} duration={0.55}>
+            {render()}
+          </FadeIn>
+        );
       })}
       <FooterBar />
     </div>
