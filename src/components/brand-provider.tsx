@@ -30,6 +30,13 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
           "--brand-border-opacity": borderOpacity,
           "--brand-border-color": `rgba(255, 255, 255, ${borderOpacity})`,
           "--brand-border-hover": `rgba(255, 255, 255, ${Math.min(borderOpacity * 1.8, 0.2)})`,
+          "--brand-success": brand.success ?? "#22c55e",
+          "--brand-warning": brand.warning ?? "#eab308",
+          "--brand-error": brand.error ?? "#ef4444",
+          "--brand-muted": brand.muted ?? "#6b7280",
+          "--brand-info": brand.info ?? "#3b82f6",
+          "--brand-primary-foreground": brand.primaryForeground ?? "#ffffff",
+          "--brand-accent-foreground": brand.accentForeground ?? "#ffffff",
         } as React.CSSProperties
       }
     >
