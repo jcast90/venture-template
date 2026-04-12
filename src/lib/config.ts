@@ -79,7 +79,7 @@ export type FinalCtaConfig = {
 export type LandingConfig = Omit<BaseVentureConfig["landing"], "pricing" | "finalCta"> & {
   pricing: PricingTier[];
   finalCta: FinalCtaConfig;
-  template?: "precision" | "warmth" | "momentum";
+  template?: "precision" | "warmth" | "momentum" | "clarity" | "bold" | "organic" | "dashboard" | "minimal";
   sections?: LandingSectionId[];
   primaryCta?: string;
   secondaryCta?: string;
