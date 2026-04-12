@@ -193,6 +193,7 @@
     }
   },
   "dashboard": {
+    "layout": "sidebar",
     "navItems": [
       {
         "label": "Dashboard",
