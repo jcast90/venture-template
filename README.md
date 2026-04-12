@@ -37,7 +37,7 @@ venture.features.json        ← Feature specs (columns, stats, CRUD, render hin
 
 | Layer | What | Files |
 |-------|------|-------|
-| Landing page | 3 templates (warmth, precision, momentum), A/B testing, waitlist | `src/components/templates/` |
+| Landing page | 12 archetypes (warmth, precision, momentum, clarity, bold, organic, dashboard, minimal, marketplace, community, agentic, commerce), A/B testing, waitlist | `src/components/templates/` |
 | Dashboard | Sidebar nav, stats, settings (billing, team, API keys) | `src/app/dashboard/` |
 | Auth | OTP email login via Supabase Auth | `src/app/(auth)/login/` |
 | Billing | Stripe checkout, subscriptions, webhooks, portal | `src/app/api/checkout/`, `src/app/api/webhooks/stripe/` |

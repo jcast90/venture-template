@@ -27,6 +27,18 @@ const Dashboard = dynamic(() => import("@/components/templates/dashboard"), {
 const Minimal = dynamic(() => import("@/components/templates/minimal"), {
   loading: () => <TemplateShell />,
 });
+const Marketplace = dynamic(() => import("@/components/templates/marketplace"), {
+  loading: () => <TemplateShell />,
+});
+const Community = dynamic(() => import("@/components/templates/community"), {
+  loading: () => <TemplateShell />,
+});
+const Agentic = dynamic(() => import("@/components/templates/agentic"), {
+  loading: () => <TemplateShell />,
+});
+const Commerce = dynamic(() => import("@/components/templates/commerce"), {
+  loading: () => <TemplateShell />,
+});
 
 const TEMPLATES: Record<string, React.ComponentType<{ config: VentureConfig }>> = {
   precision: Precision,
@@ -37,6 +49,10 @@ const TEMPLATES: Record<string, React.ComponentType<{ config: VentureConfig }>> 
   organic: Organic,
   dashboard: Dashboard,
   minimal: Minimal,
+  marketplace: Marketplace,
+  community: Community,
+  agentic: Agentic,
+  commerce: Commerce,
 };
 
 function TemplateShell() {
