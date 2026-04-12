@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { authOptions } from "@/lib/supabase/auth-metadata";
 import config from "@/lib/config";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ export default function SignupForm() {
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: authOptions(),
     });
 
     if (error) {
@@ -129,7 +130,7 @@ export default function SignupForm() {
                 </button>
                 <button type="button" onClick={async () => {
                   setErrorMsg("");
-                  await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+                  await supabase.auth.signInWithOtp({ email, options: authOptions() });
                   setErrorMsg("New code sent!");
                 }} className="text-sm text-brand-primary hover:opacity-80">
                   Resend code
