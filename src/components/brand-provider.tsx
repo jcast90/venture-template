@@ -1,6 +1,7 @@
 "use client";
 
 import config from "@/lib/config";
+import { resolveTypographyPreset, resolveDensity } from "@/lib/typography";
 
 const RADIUS_MAP: Record<string, string> = {
   sharp: "0.25rem",
@@ -13,6 +14,9 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
   const radius = RADIUS_MAP[brand.borderRadius ?? "rounded"] ?? RADIUS_MAP.rounded;
   const angle = brand.gradientAngle ?? 135;
   const borderOpacity = brand.borderOpacity ?? 0.06;
+
+  const typography = resolveTypographyPreset(brand.typography);
+  const density = resolveDensity(brand.density);
 
   return (
     <div
@@ -37,6 +41,20 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
           "--brand-info": brand.info ?? "#3b82f6",
           "--brand-primary-foreground": brand.primaryForeground ?? "#ffffff",
           "--brand-accent-foreground": brand.accentForeground ?? "#ffffff",
+          // Typography
+          "--font-sans": typography.sansStack,
+          "--font-display": typography.displayStack,
+          "--font-mono-stack": typography.monoStack,
+          fontFamily: typography.sansStack,
+          // Density spacing scale
+          "--spacing-xs": density.xs,
+          "--spacing-sm": density.sm,
+          "--spacing-md": density.md,
+          "--spacing-lg": density.lg,
+          "--spacing-xl": density.xl,
+          "--spacing-2xl": density["2xl"],
+          "--density-line-height": density.lineHeight,
+          "--density-font-size": density.fontSize,
         } as React.CSSProperties
       }
     >

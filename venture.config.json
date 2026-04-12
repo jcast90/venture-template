@@ -21,6 +21,8 @@
     "borderRadius": "rounded",
     "gradientAngle": 135,
     "borderOpacity": 0.06,
+    "typography": "clean",
+    "density": "default",
     "success": "#22c55e",
     "warning": "#eab308",
     "error": "#ef4444",
