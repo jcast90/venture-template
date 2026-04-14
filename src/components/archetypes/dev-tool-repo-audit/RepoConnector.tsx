@@ -20,6 +20,18 @@ type Installation = {
   selection: "all" | "selected";
 };
 
+// VOS-204: hydration-safe formatter (explicit locale + UTC timezone).
+const DATE_FMT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  timeZone: "UTC",
+});
+
+function formatAddedAt(iso: string): string {
+  return DATE_FMT.format(new Date(iso));
+}
+
 const MOCK_INSTALLATIONS: Installation[] = [
   {
     id: 1001,
@@ -100,7 +112,7 @@ export function RepoConnector() {
                     <p className="text-sm font-medium">{inst.owner}</p>
                     <p className="text-xs text-muted-foreground">
                       {inst.repoCount} repo(s) · added{" "}
-                      {new Date(inst.addedAt).toLocaleDateString()}
+                      {formatAddedAt(inst.addedAt)}
                     </p>
                   </div>
                   <Badge variant={inst.selection === "all" ? "default" : "secondary"}>

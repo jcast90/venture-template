@@ -57,6 +57,22 @@ const MOCK_RUNS: Run[] = [
   },
 ];
 
+// VOS-204: hydration-safe formatter. Explicit locale + UTC timezone so
+// server and client render identical strings (prevents React error #418).
+const DATE_FMT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "UTC",
+  timeZoneName: "short",
+});
+
+function formatStartedAt(iso: string): string {
+  return DATE_FMT.format(new Date(iso));
+}
+
 function statusTone(s: RunStatus): "default" | "secondary" | "destructive" | "outline" {
   switch (s) {
     case "passed":
@@ -116,7 +132,7 @@ export function RunsTable() {
                     {r.coverage !== null ? `${r.coverage}%` : "—"}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">
-                    {new Date(r.startedAt).toLocaleString()}
+                    {formatStartedAt(r.startedAt)}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Button variant="ghost" size="sm" type="button">

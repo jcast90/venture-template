@@ -200,3 +200,22 @@ These small docs are loaded into OpenFang memory at build time for gpt-4.1-mini 
 - `docs/agents/page-pattern.md` → `conventions:page-pattern` — page structure, CRUD, states
 - `docs/agents/schema.md` → `conventions:schema` — SQL conventions, RLS, base tables
 - `docs/agents/config-schema.md` → `conventions:config` — venture.config.json schema + validation
+
+## Hydration Safety (VOS-204)
+
+React error #418 ("text content did not match server-rendered HTML") happens when a component renders different output on the server's SSR pass than on the client's hydration pass. Every new component in this template MUST follow these rules:
+
+- **Never** call `new Date()`, `Date.now()`, `Math.random()`, or `crypto.randomUUID()` in the render body of a component. These return different values on each call.
+  - Safe places: inside `useEffect` / `useMemo` / `useCallback` / an `async` function body / an event handler.
+  - If you need a timestamp for server-rendered markup, compute it in a server component (or page loader) and pass it down via props.
+- **Never** read `localStorage`, `sessionStorage`, `document`, or `window` at module scope or during render. Gate inside `useEffect`, and lazy-initialize state so SSR sees a stable default.
+- **Always** add `"use client"` at the top of any file that uses React hooks (`useState`, `useEffect`, `useRef`, etc.) or reads browser-only APIs.
+- **Intl formatting**: never call `.toLocaleString()`, `.toLocaleDateString()`, `new Intl.DateTimeFormat()`, or `new Intl.NumberFormat()` with no arguments. Pass an explicit locale (`"en-US"`) and, for dates, an explicit `timeZone` (`"UTC"` is the safest default). Example:
+  ```ts
+  const DATE_FMT = new Intl.DateTimeFormat("en-US", {
+    year: "numeric", month: "short", day: "2-digit", timeZone: "UTC",
+  });
+  ```
+- Do **not** use `suppressHydrationWarning` to paper over a mismatch — fix the underlying cause.
+
+The page-generator in venture-os runs `scripts/lib/hydration_linter.py` against every generated page and retries once with these rules if violations are detected. Handwritten archetype components must also follow the rules so the linter stays useful.
