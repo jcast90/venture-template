@@ -127,7 +127,43 @@ function BoldCta() {
   );
 }
 
-const BOLD_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+/* ─── Pull quotes: large editorial testimonials with no circles ─── */
+function PullQuotesSection() {
+  const { landing } = resolveLandingConfig();
+  const testimonials = landing.testimonials;
+  if (!testimonials?.length) return null;
+
+  return (
+    <section className="px-6 py-24 border-b-[3px] border-white">
+      <div className="mx-auto max-w-6xl space-y-20">
+        {testimonials.slice(0, 3).map((t, i) => {
+          const isReversed = i % 2 === 1;
+          return (
+            <div
+              key={i}
+              className={`grid grid-cols-1 gap-8 md:grid-cols-[1fr_2fr] md:items-start ${isReversed ? "md:grid-cols-[2fr_1fr]" : ""}`}
+            >
+              <div className={isReversed ? "md:order-2" : ""}>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40">
+                  {t.company}
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">{t.name}</p>
+                <p className="text-xs text-white/40">{t.role}</p>
+              </div>
+              <p
+                className={`text-2xl font-medium leading-snug text-white sm:text-3xl ${isReversed ? "md:order-1" : ""}`}
+              >
+                &ldquo;{t.quote}&rdquo;
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+const BOLD_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <BoldHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,
@@ -138,10 +174,13 @@ const BOLD_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
   "pricing": () => <PricingSection variant="table" />,
   "faq": () => <FaqSection />,
   "cta": () => <BoldCta />,
+  "pull-quotes": () => <PullQuotesSection />,
 };
 
+// Story: strong POV → here's the manifesto → here's who agrees (editorial quotes) → price
+// No stats bar, no FAQ — editorial minimalism
 const BOLD_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "social-proof", "features", "stats", "testimonials", "pricing", "cta",
+  "hero", "features", "pull-quotes", "pricing", "cta",
 ];
 
 export default function Bold({ config: _config }: { config: VentureConfig }) {

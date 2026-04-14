@@ -312,8 +312,86 @@ function CompactCta() {
   );
 }
 
+/* ─── Traction: outcome showcase with hero metric + supporting stats + quote ─── */
+function TractionSection() {
+  const { landing } = resolveLandingConfig();
+  const stats = landing.painStats;
+  const quote = landing.testimonials?.[0];
+  if (!stats?.length) return null;
+
+  const heroStat = stats[0];
+  const supportingStats = stats.slice(1);
+
+  return (
+    <section className="relative px-6 py-24 border-t border-brand-border overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-10"
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, var(--brand-primary), transparent)" }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-5xl text-center">
+        <p className="mb-6 font-mono text-xs uppercase tracking-widest text-zinc-500">
+          And growing
+        </p>
+
+        {/* Hero metric */}
+        <p
+          className="text-7xl font-bold tracking-tight sm:text-8xl bg-clip-text text-transparent"
+          style={{
+            backgroundImage: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+          }}
+        >
+          {heroStat.stat}
+        </p>
+        <p className="mt-4 text-lg text-zinc-400">{heroStat.label}</p>
+
+        {/* Supporting stats */}
+        {supportingStats.length > 0 && (
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-12">
+            {supportingStats.map((s, i) => (
+              <div key={i} className="text-center">
+                <p className="text-2xl font-bold text-white">{s.stat}</p>
+                <p className="mt-1 text-xs text-zinc-500">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Customer quote */}
+        {quote && (
+          <div
+            className="mx-auto mt-16 max-w-2xl rounded-2xl p-8 text-left"
+            style={{
+              background: "var(--brand-surface-card)",
+              border: "1px solid var(--brand-border-color)",
+            }}
+          >
+            <p className="text-base leading-relaxed text-zinc-300">
+              &ldquo;{quote.quote}&rdquo;
+            </p>
+            <div className="mt-5 flex items-center gap-3">
+              <div
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))" }}
+              >
+                {quote.name.charAt(0)}
+              </div>
+              <div>
+                <p className="text-sm font-semibold">{quote.name}</p>
+                <p className="text-xs text-zinc-500">
+                  {quote.role}, {quote.company}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 /* ─── Section registry ─── */
-const MOMENTUM_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const MOMENTUM_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <MomentumHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="glass" />,
@@ -324,10 +402,13 @@ const MOMENTUM_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
   "pricing": () => <PricingSection variant="glass" />,
   "faq": () => <FaqSection />,
   "cta": () => <CompactCta />,
+  "traction": () => <TractionSection />,
 };
 
+// Story: see the scale → here's who's achieving it → here's how the product works → price
+// Social proof comes early — momentum products sell on "everyone's using this"
 const MOMENTUM_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "stats", "features", "steps", "pricing", "cta",
+  "hero", "social-proof", "traction", "features", "pricing", "cta",
 ];
 
 /* ─── Main Momentum template ─── */

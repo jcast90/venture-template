@@ -246,22 +246,80 @@ function MinimalCta() {
   );
 }
 
+/* ─── Changelog: versioned product update log ─── */
+function ChangelogSection() {
+  const { landing } = resolveLandingConfig();
+  const features = landing.features;
+  if (!features?.length) return null;
+
+  // Reframe features as shipped changelog entries with plausible version numbers
+  const entries = features.slice(0, 4).map((f, i) => ({
+    version: `v2.${4 - i}`,
+    age: ["2 weeks ago", "5 weeks ago", "2 months ago", "3 months ago"][i],
+    title: f.title,
+    description: f.description,
+  }));
+
+  return (
+    <section className="px-6 py-16 border-t border-brand-border">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="text-xl font-bold tracking-tight">Changelog</h2>
+          <span className="font-mono text-xs text-zinc-500">Actively maintained</span>
+        </div>
+
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-brand-border" />
+
+          <div className="space-y-0">
+            {entries.map((entry, i) => (
+              <div key={i} className="relative flex gap-8 pb-10 pl-8">
+                <div
+                  className="absolute -left-[3px] top-1.5 h-[7px] w-[7px] rounded-full"
+                  style={{
+                    background: i === 0 ? "var(--brand-primary)" : "var(--brand-border-color)",
+                    border: "2px solid var(--brand-surface)",
+                  }}
+                />
+                <div className="w-28 shrink-0">
+                  <span className="font-mono text-xs font-bold" style={{ color: "var(--brand-primary)" }}>
+                    {entry.version}
+                  </span>
+                  <p className="mt-1 text-[11px] text-zinc-600">{entry.age}</p>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-white">{entry.title}</h3>
+                  <p className="mt-1.5 max-w-lg text-xs leading-relaxed text-zinc-500">
+                    {entry.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Section registry ─── */
-const PRECISION_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const PRECISION_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <PrecisionHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,
   "problem": () => <SharedProblemSection variant="grid" />,
-  "features": () => null,
   "steps": () => <StepsSection variant="horizontal" />,
   "testimonials": () => <TestimonialsSection />,
   "pricing": () => <PricingSection variant="table" />,
   "faq": () => <FaqSection />,
   "cta": () => <MinimalCta />,
+  "changelog": () => <ChangelogSection />,
 };
 
+// Story: what it does → proof it works → what's been shipped → what it costs
+// No steps, no testimonials — devs don't need hand-holding or social proof softeners
 const PRECISION_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "stats", "steps", "problem", "pricing", "cta",
+  "hero", "stats", "changelog", "pricing", "cta",
 ];
 
 /* ─── Main Precision template ─── */

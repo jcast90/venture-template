@@ -159,7 +159,7 @@ function ClarityCta() {
   );
 }
 
-const CLARITY_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const CLARITY_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <ClarityHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,

@@ -192,7 +192,7 @@ function CommerceCta() {
   );
 }
 
-const COMMERCE_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const COMMERCE_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <CommerceHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,

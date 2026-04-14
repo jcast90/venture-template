@@ -60,7 +60,12 @@ export type LandingSectionId =
   | "testimonials"
   | "pricing"
   | "faq"
-  | "cta";
+  | "cta"
+  // Template-specific signature sections
+  | "changelog"    // Precision: versioned product update log
+  | "traction"     // Momentum: outcomes + live-feel metrics showcase
+  | "comparison"   // Minimal: before/after table
+  | "pull-quotes"; // Bold: large editorial testimonial format
 
 export type SocialProofLogo = {
   src: string;

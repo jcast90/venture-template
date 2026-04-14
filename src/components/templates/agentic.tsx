@@ -193,7 +193,7 @@ function AgenticCta() {
   );
 }
 
-const AGENTIC_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const AGENTIC_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <AgenticHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,

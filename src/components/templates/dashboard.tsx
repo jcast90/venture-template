@@ -12,7 +12,7 @@ import { StepsSection } from "./shared/steps-section";
 import { ProblemSection as SharedProblemSection } from "./shared/problem-section";
 import { TestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection } from "./shared/faq-section";
-import { ArrowRight, TrendingUp, Activity, BarChart3, Circle } from "lucide-react";
+import { ArrowRight, TrendingUp, Activity, BarChart3, Circle, Table2, LineChart, LayoutGrid, FileText } from "lucide-react";
 
 /* Dashboard: product-led landing. The hero IS the product — a mocked
    dashboard UI front-and-center showing live-looking metrics, panels,
@@ -146,41 +146,122 @@ function DashboardHero() {
   );
 }
 
-function DashboardFeaturesGrid() {
+/* Mini panel types: each feature gets a distinct CSS-drawn widget */
+const PANEL_ICONS = [Table2, LineChart, LayoutGrid, FileText];
+
+function MiniPanel({ index, title }: { index: number; title: string }) {
+  const Icon = PANEL_ICONS[index % PANEL_ICONS.length];
+
+  // Alternate between a table-style and chart-style panel
+  const isChart = index % 2 === 1;
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-brand-border bg-brand-surface shadow-xl">
+      {/* Chrome */}
+      <div className="flex items-center justify-between border-b border-brand-border px-4 py-2.5">
+        <div className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-red-400/60" />
+          <span className="h-2 w-2 rounded-full bg-yellow-400/60" />
+          <span className="h-2 w-2 rounded-full bg-green-400/60" />
+        </div>
+        <span className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500">
+          <Icon className="h-3 w-3" />
+          {title}
+        </span>
+        <div className="w-12" />
+      </div>
+
+      {/* Panel content */}
+      <div className="p-4 space-y-2">
+        {isChart ? (
+          <>
+            <div className="flex items-end gap-1.5 h-16 mb-3">
+              {[42, 68, 55, 80, 72, 90, 78].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 rounded-sm"
+                  style={{
+                    height: `${h}%`,
+                    background: `linear-gradient(to top, var(--brand-primary), var(--brand-accent))`,
+                    opacity: 0.35 + i * 0.09,
+                  }}
+                />
+              ))}
+            </div>
+            {[0, 1].map((row) => (
+              <div key={row} className="flex items-center gap-3">
+                <div className="h-2 w-2 rounded-full" style={{ background: "var(--brand-primary)", opacity: 0.6 }} />
+                <div className="h-2 flex-1 rounded-full bg-white/[0.06]" />
+                <div className="h-2 w-10 rounded-full bg-white/[0.06]" />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="grid grid-cols-4 gap-2 mb-2 border-b border-brand-border pb-2">
+              {["Name", "Status", "Date", "Value"].map((col) => (
+                <div key={col} className="h-2 rounded-sm bg-white/[0.08]" />
+              ))}
+            </div>
+            {[0, 1, 2, 3].map((row) => (
+              <div key={row} className="grid grid-cols-4 gap-2">
+                <div className="h-2 rounded-sm bg-white/[0.05]" />
+                <div
+                  className="h-2 rounded-full"
+                  style={{
+                    background: row % 3 === 0
+                      ? "color-mix(in srgb, var(--brand-primary) 30%, transparent)"
+                      : "var(--brand-surface-card)",
+                    width: "60%",
+                  }}
+                />
+                <div className="h-2 rounded-sm bg-white/[0.04]" />
+                <div className="h-2 rounded-sm bg-white/[0.05]" />
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DashboardFeaturePanels() {
   const { landing } = resolveLandingConfig();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-            Everything in one place
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            See it in action
           </h2>
           <p className="mt-3 text-zinc-400">
-            Built to replace the patchwork of tools your team uses today.
+            Every panel built for clarity. No noise, no guesswork.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {features.map((f, i) => (
-            <div
-              key={i}
-              className="rounded-lg border border-brand-border bg-brand-surface-card p-6 hover:border-brand-border-hover transition-colors"
-            >
+
+        <div className="space-y-20">
+          {features.map((f, i) => {
+            const isReversed = i % 2 === 1;
+            return (
               <div
-                className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md text-lg"
-                style={{
-                  background: "color-mix(in srgb, var(--brand-primary) 15%, transparent)",
-                  color: "var(--brand-primary)",
-                }}
+                key={i}
+                className={`grid grid-cols-1 items-center gap-12 lg:grid-cols-2 ${isReversed ? "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : ""}`}
               >
-                {f.icon || "●"}
+                <div>
+                  <p className="mb-3 font-mono text-xs" style={{ color: "var(--brand-primary)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="text-2xl font-bold tracking-tight text-white">{f.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-zinc-400">{f.description}</p>
+                </div>
+                <MiniPanel index={i} title={f.title} />
               </div>
-              <h3 className="text-base font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-sm leading-relaxed text-zinc-400">{f.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -221,12 +302,12 @@ function DashboardCta() {
   );
 }
 
-const DASHBOARD_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const DASHBOARD_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <DashboardHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,
   "problem": () => <SharedProblemSection variant="grid" />,
-  "features": () => <DashboardFeaturesGrid />,
+  "features": () => <DashboardFeaturePanels />,
   "steps": () => <StepsSection variant="horizontal" />,
   "testimonials": () => <TestimonialsSection />,
   "pricing": () => <PricingSection variant="cards" />,
@@ -234,8 +315,10 @@ const DASHBOARD_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
   "cta": () => <DashboardCta />,
 };
 
+// Story: see the product → understand the scale → see each panel in context → price
+// No steps, no FAQ — product-led tools let the UI speak for itself
 const DASHBOARD_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "social-proof", "features", "stats", "testimonials", "pricing", "cta",
+  "hero", "stats", "features", "pricing", "cta",
 ];
 
 export default function Dashboard({ config: _config }: { config: VentureConfig }) {

@@ -401,31 +401,6 @@ function FaqAccordionItem({
   );
 }
 
-/* ─── Pain stats ─── */
-function PainStatsSection() {
-  const { landing } = resolveLandingConfig();
-
-  return (
-    <FadeIn>
-      <section className="relative border-y border-brand-border bg-brand-surface-card">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-brand-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {landing.painStats.map((item, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center gap-2 px-8 py-12 text-center"
-            >
-              <GradientText>
-                <span className="text-4xl font-bold">{item.stat}</span>
-              </GradientText>
-              <span className="text-sm text-zinc-400">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    </FadeIn>
-  );
-}
-
 /* ─── Final CTA ─── */
 function FinalCtaSection() {
   const { landing } = resolveLandingConfig();
@@ -478,7 +453,7 @@ function FinalCtaSection() {
 }
 
 /* ─── Section registry ─── */
-const WARMTH_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const WARMTH_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <WarmthHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <SharedStatsSection variant="centered" />,
@@ -491,9 +466,9 @@ const WARMTH_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
   "cta": () => <FinalCtaSection />,
 };
 
+// Story: inspire → credibility → real people love it → here's why → price → questions
 const WARMTH_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "social-proof", "stats", "problem", "features",
-  "steps", "testimonials", "pricing", "faq", "cta",
+  "hero", "social-proof", "testimonials", "features", "pricing", "faq", "cta",
 ];
 
 /* ─── Main Warmth template ─── */

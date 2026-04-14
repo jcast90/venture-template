@@ -158,7 +158,7 @@ function OrganicCta() {
   );
 }
 
-const ORGANIC_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const ORGANIC_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <OrganicHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,

@@ -191,7 +191,7 @@ function CommunityCta() {
   );
 }
 
-const COMMUNITY_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const COMMUNITY_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <CommunityHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,

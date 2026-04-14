@@ -17,11 +17,17 @@ export function StatsSection({ variant = "centered" }: { variant?: StatsVariant 
 
 type StatsProps = { stats: { stat: string; label: string }[] };
 
+function statCols(count: number): string {
+  if (count === 2) return "sm:grid-cols-2";
+  return "sm:grid-cols-3";
+}
+
 /* ─── Centered (Warmth) ─── */
 function StatsCentered({ stats }: StatsProps) {
+  const cols = statCols(stats.length);
   return (
     <section className="relative border-y border-brand-border bg-brand-surface-card">
-      <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-brand-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div className={`mx-auto grid max-w-5xl grid-cols-1 divide-y divide-brand-border ${cols} sm:divide-x sm:divide-y-0`}>
         {stats.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-2 px-8 py-12 text-center">
             <GradientText>
@@ -37,9 +43,10 @@ function StatsCentered({ stats }: StatsProps) {
 
 /* ─── Horizontal monospace (Precision) ─── */
 function StatsHorizontal({ stats }: StatsProps) {
+  const cols = statCols(stats.length);
   return (
     <section className="border-y border-brand-border">
-      <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
+      <div className={`mx-auto max-w-6xl grid grid-cols-1 ${cols}`}>
         {stats.map((item, i) => (
           <div
             key={i}
@@ -56,9 +63,10 @@ function StatsHorizontal({ stats }: StatsProps) {
 
 /* ─── Glass cards with animated counters (Momentum) ─── */
 function StatsGlass({ stats }: StatsProps) {
+  const cols = statCols(stats.length);
   return (
     <section className="px-6 py-16">
-      <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className={`mx-auto max-w-5xl grid grid-cols-1 ${cols} gap-4`}>
         {stats.map((item, i) => (
           <div
             key={i}

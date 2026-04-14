@@ -109,7 +109,42 @@ function MinimalCta() {
   );
 }
 
-const MINIMAL_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+/* ─── Comparison: before/after paired with pain points vs steps ─── */
+function ComparisonSection() {
+  const { landing } = resolveLandingConfig();
+  const painPoints = landing.painPoints;
+  const steps = landing.steps;
+  if (!painPoints?.length) return null;
+
+  const rows = painPoints.slice(0, Math.min(5, painPoints.length));
+
+  return (
+    <section className="px-6 py-24">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-8 grid grid-cols-2 gap-8">
+          <p className="text-xs font-medium uppercase tracking-widest text-zinc-600">Without</p>
+          <p className="text-xs font-medium uppercase tracking-widest text-zinc-400">With {config.name}</p>
+        </div>
+
+        <div className="border-t border-brand-border">
+          {rows.map((pain, i) => {
+            const solution = steps?.[i]?.title ?? null;
+            return (
+              <div key={i} className="grid grid-cols-2 gap-8 border-b border-brand-border py-5">
+                <p className="text-sm leading-relaxed text-zinc-600">{pain}</p>
+                <p className="text-sm leading-relaxed text-white">
+                  {solution ?? <span className="text-zinc-700">—</span>}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const MINIMAL_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <MinimalHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,
@@ -120,10 +155,13 @@ const MINIMAL_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
   "pricing": () => <PricingSection variant="cards" />,
   "faq": () => <FaqSection />,
   "cta": () => <MinimalCta />,
+  "comparison": () => <ComparisonSection />,
 };
 
+// Story: what it does → why it's different (before/after) → what it costs
+// Clean, no social proof sections, no FAQ — premium products don't over-explain
 const MINIMAL_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "features", "pricing", "faq", "cta",
+  "hero", "features", "comparison", "pricing", "cta",
 ];
 
 export default function Minimal({ config: _config }: { config: VentureConfig }) {

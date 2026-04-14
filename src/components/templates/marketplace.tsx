@@ -170,7 +170,7 @@ function MarketplaceCta() {
   );
 }
 
-const MARKETPLACE_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
+const MARKETPLACE_SECTIONS: Partial<Record<LandingSectionId, () => React.ReactNode>> = {
   "hero": () => <MarketplaceHero />,
   "social-proof": () => <LogoBar />,
   "stats": () => <StatsSection variant="horizontal" />,
