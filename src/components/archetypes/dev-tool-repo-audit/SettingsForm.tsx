@@ -32,9 +32,12 @@ export function SettingsForm() {
   }
 
   function regenerate() {
-    const rand = Array.from({ length: 24 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join("");
+    // VOS-204: click handler — runs only after hydration, so no SSR mismatch.
+    // Use crypto.getRandomValues for better entropy; gate on window for SSR safety.
+    if (typeof window === "undefined") return;
+    const bytes = new Uint8Array(12);
+    window.crypto.getRandomValues(bytes);
+    const rand = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
     setWebhookSecret(`whsec_${rand}`);
   }
 
