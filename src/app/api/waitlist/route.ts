@@ -62,12 +62,29 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.from(`${TABLE_PREFIX}waitlist`).insert([payload]);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    await supabase.from(`${TABLE_PREFIX}experiment_events`).insert([{
-      event_name: "waitlist_signup_succeeded",
-      page: "/",
-      props: payload,
-      ...payload,
-    }]);
+    // experiment_events schema (runtime extensions):
+    //   id, event_name, anon_id, email, experiment_key, variant_key,
+    //   page, country, props jsonb, created_at
+    // Spreading the full payload (utm_source, referrer, source, ...) onto the
+    // insert PostgREST-400s on unknown columns and the row silently drops.
+    // The full payload belongs in `props` — only schema columns go as
+    // top-level keys.
+    const { error: eventError } = await supabase
+      .from(`${TABLE_PREFIX}experiment_events`)
+      .insert([
+        {
+          event_name: "waitlist_signup_succeeded",
+          page: "/",
+          anon_id: payload.anon_id,
+          email: payload.email,
+          experiment_key: payload.experiment_key,
+          variant_key: payload.variant_key,
+          props: payload,
+        },
+      ]);
+    if (eventError) {
+      console.error("experiment_events insert failed:", eventError.message);
+    }
 
     await posthogCapture("waitlist_signup_succeeded", payload);
 

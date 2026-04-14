@@ -114,14 +114,20 @@ export async function POST(req: NextRequest) {
         if (error) console.error("[track] assignment upsert error:", error.message);
       });
 
+    // experiment_events schema has no utm_* columns — those live in props.
+    // Spreading eventContext used to add utm_source/medium/campaign as
+    // top-level keys and PostgREST would 400 on unknown columns; the event
+    // silently dropped. Only pass keys that exist on the table.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (supabase.from(EVENTS_TABLE) as any)
       .insert({
         event_name: page === "/" ? "landing_page_view" : "page_view",
         page,
         country,
+        anon_id: body.anonId || null,
+        experiment_key: body.experimentKey || null,
+        variant_key: body.variantKey || null,
         props: eventContext,
-        ...eventContext,
       })
       .then(({ error }: { error: { message: string } | null }) => {
         if (error) console.error("[track] experiment event insert error:", error.message);
