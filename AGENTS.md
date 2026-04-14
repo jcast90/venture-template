@@ -219,3 +219,21 @@ React error #418 ("text content did not match server-rendered HTML") happens whe
 - Do **not** use `suppressHydrationWarning` to paper over a mismatch — fix the underlying cause.
 
 The page-generator in venture-os runs `scripts/lib/hydration_linter.py` against every generated page and retries once with these rules if violations are detected. Handwritten archetype components must also follow the rules so the linter stays useful.
+
+## Archetype component library (VOS-206)
+
+Pre-built, purpose-specific page shells live under `src/components/archetypes/<slug>/`.
+When `venture.config.json` selects an archetype with `schema_free=true`, the Python
+build pipeline copies shells from `<slug>/pages/*.page.tsx` instead of generating
+schema-driven CRUD pages. Shipped archetypes:
+
+- `dev-tool-repo-audit/` — connect repos, run audits, view diff (VOS-206 foundation)
+- `workflow-automation/` — flows, step inspector, triggers, run timeline
+- `pipeline-runner/` — jobs, live logs, queue, artifacts
+- `integration-hub/` — connectors, OAuth install, field mappings, sync log
+
+All archetype components are client components (`"use client"`) using shadcn
+primitives from `@/components/ui/*`. They use literal ISO strings and fixed
+IDs (no `new Date()` / `Math.random()` in render) so SSR output matches
+client hydration. Placeholder `__VENTURE_NAME__` gets swapped at build time
+by `scripts/lib/page_fallbacks_archetype.py` in venture-os.
