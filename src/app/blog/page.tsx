@@ -22,12 +22,17 @@ export const metadata: Metadata = {
   description: `Latest insights and guides from ${config.name}`,
 };
 
+// VOS-209: explicit timeZone — without it server renders UTC, client
+// renders local TZ, and hydration fails on any post-UTC-midnight reader.
+const BLOG_DATE_FMT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return BLOG_DATE_FMT.format(new Date(dateStr));
 }
 
 export default async function BlogIndex() {

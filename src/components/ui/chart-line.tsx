@@ -53,7 +53,7 @@ function ChartLineTooltip({
             className="mr-2 inline-block h-2 w-2 rounded-full"
             style={{ backgroundColor: entry.color }}
           />
-          {entry.name}: {entry.value.toLocaleString()}
+          {entry.name}: {entry.value.toLocaleString("en-US")}
         </p>
       ))}
     </div>

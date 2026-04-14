@@ -44,7 +44,7 @@ function ChartPieTooltip({
           className="mr-2 inline-block h-2 w-2 rounded-full"
           style={{ backgroundColor: entry.payload.fill }}
         />
-        {entry.name}: {entry.value.toLocaleString()}
+        {entry.name}: {entry.value.toLocaleString("en-US")}
       </p>
     </div>
   )
