@@ -33,11 +33,22 @@ interface Contacts {
   updated_at: string;
 }
 
+// VOS-209: stable ISO strings; calling new Date() in module init under
+// "use client" still runs on the server during SSR AND again on the
+// client, producing different strings. Freeze to a constant so the
+// hydration checksum matches.
+const SAMPLE_TS = "2025-01-01T00:00:00.000Z";
 const SAMPLE: Contacts[] = [
-  { id: "1", name: "Name 1", email: "user1@example.com", status: "active", revenue: 1250.50, last_contacted: new Date().toISOString(), created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
-  { id: "2", name: "Name 2", email: "user2@example.com", status: "inactive", revenue: 2501.00, last_contacted: new Date().toISOString(), created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
-  { id: "3", name: "Name 3", email: "user3@example.com", status: "lead", revenue: 3751.50, last_contacted: new Date().toISOString(), created_at: new Date().toISOString(), updated_at: new Date().toISOString() }
+  { id: "1", name: "Name 1", email: "user1@example.com", status: "active", revenue: 1250.50, last_contacted: SAMPLE_TS, created_at: SAMPLE_TS, updated_at: SAMPLE_TS },
+  { id: "2", name: "Name 2", email: "user2@example.com", status: "inactive", revenue: 2501.00, last_contacted: SAMPLE_TS, created_at: SAMPLE_TS, updated_at: SAMPLE_TS },
+  { id: "3", name: "Name 3", email: "user3@example.com", status: "lead", revenue: 3751.50, last_contacted: SAMPLE_TS, created_at: SAMPLE_TS, updated_at: SAMPLE_TS }
 ];
+
+// VOS-209: pin locale + timezone so SSR/client agree.
+const CONTACTS_DATE_FMT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric", month: "short", day: "numeric", timeZone: "UTC",
+});
+const CONTACTS_NUM_FMT = new Intl.NumberFormat("en-US");
 
 export default function ContactsPage() {
   const [items, setItems] = useState<Contacts[]>([]);
@@ -100,7 +111,7 @@ export default function ContactsPage() {
     { title: "Total Contacts", value: String(items.length), icon: Users },
     { title: "Active", value: String(items.filter((i) => i.status === "active").length) },
     { title: "Leads", value: String(items.filter((i) => i.status === "lead").length) },
-    { title: "Revenue", value: "$" + items.reduce((s, i) => s + Number(i.revenue), 0).toLocaleString() }
+    { title: "Revenue", value: "$" + CONTACTS_NUM_FMT.format(items.reduce((s, i) => s + Number(i.revenue), 0)) }
   ];
 
   const columns: Column<Contacts>[] = [
@@ -124,7 +135,7 @@ export default function ContactsPage() {
       header: "Revenue",
       render: (row) => (
         <span className="text-white/80">
-          ${Number(row.revenue).toLocaleString()}
+          ${CONTACTS_NUM_FMT.format(Number(row.revenue))}
         </span>
       ),
     },
@@ -133,7 +144,7 @@ export default function ContactsPage() {
       header: "Last Contacted",
       render: (row) => (
         <span className="text-white/40">
-          {row.last_contacted ? new Date(row.last_contacted).toLocaleDateString() : "—"}
+          {row.last_contacted ? CONTACTS_DATE_FMT.format(new Date(row.last_contacted)) : "—"}
         </span>
       ),
     },

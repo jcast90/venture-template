@@ -28,10 +28,22 @@ const variantColor: Record<TimelineVariant, string> = {
   info: "bg-sky-500",
 };
 
+// VOS-209: locale-less + timezone-less `toLocaleString()` renders a
+// different string on the server (UTC) than on the client (user TZ),
+// which fires React #418. Pin to en-US + UTC so SSR and hydration agree.
+const TIMELINE_FMT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "UTC",
+});
+
 const defaultFormat = (ts: string | Date) => {
   const d = typeof ts === "string" ? new Date(ts) : ts;
   if (isNaN(d.getTime())) return String(ts);
-  return d.toLocaleString();
+  return TIMELINE_FMT.format(d);
 };
 
 export function Timeline({ items, className, formatTimestamp = defaultFormat }: TimelineProps) {
