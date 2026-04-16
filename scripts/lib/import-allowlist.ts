@@ -43,6 +43,9 @@ export const ALLOWED_IMPORTS: string[] = [
   "@/components/logo",
   "@/components/dashboard/sidebar",
   "@/components/dashboard/mobile-header",
+  "@/components/dashboard/layouts/sidebar-layout",
+  "@/components/dashboard/layouts/topnav",
+  "@/components/dashboard/layouts/command-layout",
   // External packages
   "react",
   "lucide-react",
