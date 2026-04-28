@@ -132,6 +132,47 @@ test("verifyTunnelRequest rejects token bound to a different venture_id", async 
   assert.equal(result.reason, "bad_signature");
 });
 
+test("verifyTunnelRequest rejects token bound to a different fund_id", async () => {
+  // Cross-fund replay defense — even if an attacker steals a valid token
+  // from one fund, the HMAC payload binds it to that fund. The same
+  // token must not authenticate against a sandbox running for a
+  // different fund.
+  const expiresAt = NOW + 3600;
+  const token = await mint({ expiresAt, fundId: "fund_other" });
+  const params = new URLSearchParams({ token, expires: String(expiresAt) });
+
+  const result = await tunnelToken.verifyTunnelRequest({
+    searchParams: params,
+    cookieHeader: null,
+    now: NOW,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "bad_signature");
+});
+
+test("verifyTunnelRequest rejects token claimed for a different expiry", async () => {
+  // The mint signs HMAC over `<venture>:<fund>:<expiry>`. If an attacker
+  // grabs a valid (token, expires) pair and tries to extend the expiry
+  // by replacing only the URL `expires` param, the signature must fail
+  // because the payload differs. This is implicit from the HMAC
+  // binding but worth a regression test.
+  const expiresAt = NOW + 3600;
+  const token = await mint({ expiresAt });
+  const tamperedExpires = expiresAt + 86_400;
+  const params = new URLSearchParams({
+    token,
+    expires: String(tamperedExpires),
+  });
+
+  const result = await tunnelToken.verifyTunnelRequest({
+    searchParams: params,
+    cookieHeader: null,
+    now: NOW,
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "bad_signature");
+});
+
 test("verifyTunnelRequest accepts a valid cookie even without URL token", async () => {
   // First mint cookie via successful URL verification, then re-verify
   // with only the cookie present.
@@ -217,6 +258,26 @@ test("isTunnelAuthEnabled is false when secret is missing", async () => {
   try {
     assert.equal(tunnelToken.isTunnelAuthEnabled(), false);
     // And verify becomes a pass-through.
+    const result = await tunnelToken.verifyTunnelRequest({
+      searchParams: new URLSearchParams(),
+      cookieHeader: null,
+      now: NOW,
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.reason, "auth_disabled");
+  } finally {
+    if (prev !== undefined) process.env.SANDBOX_TUNNEL_SECRET = prev;
+  }
+});
+
+test("isTunnelAuthEnabled is false when secret is empty string", async () => {
+  // Common deploy mistake: env var is wired but the value is "". Boolean("")
+  // is false, so we treat empty same as unset (auth disabled). Documented
+  // behavior; assert it so a future refactor can't accidentally flip it.
+  const prev = process.env.SANDBOX_TUNNEL_SECRET;
+  process.env.SANDBOX_TUNNEL_SECRET = "";
+  try {
+    assert.equal(tunnelToken.isTunnelAuthEnabled(), false);
     const result = await tunnelToken.verifyTunnelRequest({
       searchParams: new URLSearchParams(),
       cookieHeader: null,

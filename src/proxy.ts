@@ -28,9 +28,18 @@ export async function proxy(request: NextRequest) {
       cookieHeader: request.headers.get("cookie"),
     });
     if (!result.ok) {
-      return new NextResponse(`Forbidden: ${result.reason ?? "unauthorized"}`, {
+      // Public body is generic so a probing observer can't tell apart
+      // "no token" / "expired" / "venture envs missing" / "bad signature"
+      // — all distinct misconfigurations or attack types we don't want
+      // leaked. The detail goes in `X-Tunnel-Auth-Reason` for ops logs,
+      // which Vercel + the e2b proxy strip from the public response by
+      // default but keep in their access logs.
+      return new NextResponse("Forbidden", {
         status: 403,
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Tunnel-Auth-Reason": result.reason ?? "unauthorized",
+        },
       });
     }
     // First request after a fresh URL token — set the cookie so HMR
