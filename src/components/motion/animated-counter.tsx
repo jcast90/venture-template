@@ -40,7 +40,11 @@ export function AnimatedCounter({
     const factor = Math.pow(10, decimals);
     const n = Math.round(latest * factor) / factor;
     if (format) return format(n);
-    return `${prefix}${n.toLocaleString(undefined, {
+    // VOS-765 hydration fix: `undefined` as the locale argument resolves
+    // to the runtime locale, which differs between server (en-US/UTC) and
+    // client (browser). React #418 hydration mismatch follows. Pin to
+    // "en-US" so SSR + client agree on number formatting.
+    return `${prefix}${n.toLocaleString("en-US", {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     })}${suffix}`;
