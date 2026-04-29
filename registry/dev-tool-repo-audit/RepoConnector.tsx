@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Github, ShieldCheck } from "lucide-react";
+import { GitBranch, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -55,7 +55,7 @@ export function RepoConnector() {
               "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
           }}
         >
-          <Github className="size-4" />
+          <GitBranch className="size-4" />
           Connect GitHub
         </Button>
       </CardContent>
