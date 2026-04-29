@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "analytics-dashboard",
+  "type": "registry:block",
+  "title": "Analytics Dashboard",
+  "description": "Read-heavy metric exploration over a connected data source; charts, filters, drill-downs.",
+  "files": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "meta": {
+    "verbs": [],
+    "canonical_routes": [],
+    "characteristic_controls": [],
+    "typical_integrations": [],
+    "slots": {}
+  }
+}

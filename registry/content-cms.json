@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "content-cms",
+  "type": "registry:block",
+  "title": "Content CMS",
+  "description": "Authoring, editing, and publishing of structured content.",
+  "files": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "meta": {
+    "verbs": [],
+    "canonical_routes": [],
+    "characteristic_controls": [],
+    "typical_integrations": [],
+    "slots": {}
+  }
+}

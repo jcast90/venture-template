@@ -1,0 +1,42 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workflow-automation",
+  "type": "registry:block",
+  "title": "Workflow Automation",
+  "description": "User builds triggered multi-step flows that chain actions across external systems.",
+  "files": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "meta": {
+    "verbs": [
+      "create-flow",
+      "edit-flow",
+      "run-flow",
+      "pause-flow",
+      "configure-trigger",
+      "retry-step"
+    ],
+    "canonical_routes": [
+      "/dashboard/flows",
+      "/dashboard/flows/[id]",
+      "/dashboard/runs",
+      "/dashboard/triggers"
+    ],
+    "characteristic_controls": [
+      "FlowCanvas",
+      "StepInspector",
+      "TriggerConfig",
+      "RunTimeline",
+      "FlowsTable"
+    ],
+    "typical_integrations": [
+      "slack",
+      "github",
+      "stripe",
+      "hubspot",
+      "linear",
+      "clearbit"
+    ],
+    "slots": {}
+  }
+}

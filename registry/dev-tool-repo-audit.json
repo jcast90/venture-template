@@ -3,7 +3,7 @@
   "name": "dev-tool-repo-audit",
   "type": "registry:block",
   "title": "Dev Tool — Repo Audit",
-  "description": "Archetype for tools that connect to a code repo and run periodic audits.",
+  "description": "User connects a code repository; the product analyzes, tests, or audits it. Primary surfaces: repo connection, audit runner, run history, diff/result views.",
   "files": [
     {"path": "registry/dev-tool-repo-audit/RepoConnector.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/RepoConnector.tsx"},
     {"path": "registry/dev-tool-repo-audit/AuditPanel.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/AuditPanel.tsx"},
@@ -14,7 +14,29 @@
   "registryDependencies": ["card", "button", "table", "badge"],
   "dependencies": ["lucide-react"],
   "meta": {
-    "verbs": ["connect_repo", "run_audit", "view_runs"],
+    "verbs": [
+      "connect-repo",
+      "run-audit",
+      "retry-run",
+      "view-diff",
+      "export-report"
+    ],
+    "canonical_routes": [
+      "/dashboard",
+      "/dashboard/connect",
+      "/dashboard/audit",
+      "/dashboard/runs",
+      "/dashboard/settings"
+    ],
+    "characteristic_controls": [
+      "RepoConnector",
+      "AuditPanel",
+      "LiveLogPanel",
+      "RunsTable",
+      "ResultDiffViewer",
+      "SettingsForm"
+    ],
+    "typical_integrations": ["github", "slack"],
     "slots": {
       "tool_name": {"type": "string", "example": "Repo Audit"},
       "audit_kinds": {"type": "array<string>", "example": ["security", "performance", "lint"]},
