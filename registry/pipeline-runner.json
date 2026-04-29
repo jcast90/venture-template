@@ -1,0 +1,42 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pipeline-runner",
+  "type": "registry:block",
+  "title": "Pipeline Runner",
+  "description": "Long-running jobs with logs, artifacts, and retry semantics.",
+  "files": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "meta": {
+    "verbs": [
+      "run-job",
+      "cancel-job",
+      "retry-job",
+      "download-artifact",
+      "stream-logs",
+      "schedule-job"
+    ],
+    "canonical_routes": [
+      "/dashboard/jobs",
+      "/dashboard/jobs/[id]",
+      "/dashboard/queue",
+      "/dashboard/artifacts"
+    ],
+    "characteristic_controls": [
+      "RunButton",
+      "LiveLogPanel",
+      "QueueStatus",
+      "ArtifactList",
+      "JobsTable",
+      "ProgressBar"
+    ],
+    "typical_integrations": [
+      "github",
+      "s3",
+      "snowflake",
+      "slack",
+      "sentry"
+    ],
+    "slots": {}
+  }
+}

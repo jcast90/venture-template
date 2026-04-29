@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marketplace",
+  "type": "registry:block",
+  "title": "Marketplace",
+  "description": "Two-sided listing + transaction flows with supply/demand views.",
+  "files": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "meta": {
+    "verbs": [],
+    "canonical_routes": [],
+    "characteristic_controls": [],
+    "typical_integrations": [],
+    "slots": {}
+  }
+}

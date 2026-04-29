@@ -3,6 +3,12 @@
   "name": "venture-archetypes",
   "homepage": "https://venture-os.co",
   "items": [
-    { "name": "dev-tool-repo-audit", "type": "registry:block" }
+    { "name": "dev-tool-repo-audit", "type": "registry:block" },
+    { "name": "workflow-automation", "type": "registry:block" },
+    { "name": "pipeline-runner", "type": "registry:block" },
+    { "name": "integration-hub", "type": "registry:block" },
+    { "name": "analytics-dashboard", "type": "registry:block" },
+    { "name": "marketplace", "type": "registry:block" },
+    { "name": "content-cms", "type": "registry:block" }
   ]
 }
