@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dev-tool-repo-audit",
+  "type": "registry:block",
+  "title": "Dev Tool — Repo Audit",
+  "description": "Archetype for tools that connect to a code repo and run periodic audits.",
+  "files": [
+    {"path": "registry/dev-tool-repo-audit/RepoConnector.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/RepoConnector.tsx"},
+    {"path": "registry/dev-tool-repo-audit/AuditPanel.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/AuditPanel.tsx"},
+    {"path": "registry/dev-tool-repo-audit/LiveLogPanel.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/LiveLogPanel.tsx"},
+    {"path": "registry/dev-tool-repo-audit/RunsTable.tsx", "type": "registry:component", "target": "src/components/dev-tool-repo-audit/RunsTable.tsx"},
+    {"path": "registry/dev-tool-repo-audit/page.tsx", "type": "registry:page", "target": "src/app/dashboard/audits/page.tsx"}
+  ],
+  "registryDependencies": ["card", "button", "table", "badge"],
+  "dependencies": ["lucide-react"],
+  "meta": {
+    "verbs": ["connect_repo", "run_audit", "view_runs"],
+    "slots": {
+      "tool_name": {"type": "string", "example": "Repo Audit"},
+      "audit_kinds": {"type": "array<string>", "example": ["security", "performance", "lint"]},
+      "primary_color": {"type": "string", "example": "#0ea5e9"}
+    }
+  }
+}

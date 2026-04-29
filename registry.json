@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "venture-archetypes",
+  "homepage": "https://venture-os.co",
+  "items": [
+    { "name": "dev-tool-repo-audit", "type": "registry:block" }
+  ]
+}
