@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Registry source-of-truth blocks contain literal {{slot}} tokens that
+    // are substituted at scaffold time by the venture-os catalog resolver.
+    // They are not compiled in-place — exclude from lint/typecheck.
+    "registry/**",
   ]),
 ]);
 
