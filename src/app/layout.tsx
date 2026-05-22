@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import config from "@/lib/config";
 import { PageTracker } from "@/components/page-tracker";
+import { PageviewTracker } from "@/components/pageview-tracker";
 import { BrandProvider } from "@/components/brand-provider";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { resolveTypographyPreset } from "@/lib/typography";
@@ -24,6 +25,7 @@ export default function RootLayout({
         <BrandProvider>
           <AnalyticsProvider>
             <PageTracker />
+            <PageviewTracker />
             {children}
           </AnalyticsProvider>
         </BrandProvider>
