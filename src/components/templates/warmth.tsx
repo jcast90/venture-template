@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FadeIn as MotionFadeIn } from "@/components/motion";
 import { FooterBar } from "./shared/footer";
@@ -429,6 +429,8 @@ function PainStatsSection() {
 /* ─── Final CTA ─── */
 function FinalCtaSection() {
   const { landing } = resolveLandingConfig();
+  // VOS-969: hide the section entirely when finalCta is empty/missing.
+  if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
