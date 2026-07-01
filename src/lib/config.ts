@@ -138,6 +138,20 @@ export function getLandingExperimentConfig(): LandingExperimentConfig | null {
   return typedBaseConfig.experiments?.landingPage || null;
 }
 
+/**
+ * VOS-969: true only when finalCta has a real headline to render.
+ *
+ * When the copy pipeline leaves finalCta empty/missing the config-side guard
+ * (assert_no_landing_placeholders + normalize_venture_config) supplies a real
+ * default OR drops the section — but this is the last-line template defense so
+ * an empty/whitespace finalCta never renders a blank "Ready to..." shell.
+ */
+export function hasRenderableFinalCta(
+  finalCta: FinalCtaConfig | undefined | null
+): finalCta is FinalCtaConfig {
+  return Boolean(finalCta && typeof finalCta.headline === "string" && finalCta.headline.trim());
+}
+
 function readCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
   const prefix = `${name}=`;

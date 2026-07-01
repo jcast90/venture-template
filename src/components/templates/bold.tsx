@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -91,6 +91,8 @@ function BoldFeaturesEditorial() {
 
 function BoldCta() {
   const { landing } = resolveLandingConfig();
+  // VOS-969: hide the section entirely when finalCta is empty/missing.
+  if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
