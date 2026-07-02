@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -18,27 +19,14 @@ import { ArrowRight, Users, Store, ShieldCheck, Search } from "lucide-react";
    category grid, supply/demand stats, trust signals. */
 
 function MarketplaceHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 pt-28 pb-20 overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        style={{
-          background:
-            "radial-gradient(ellipse at 20% 20%, var(--brand-primary), transparent 55%), radial-gradient(ellipse at 80% 80%, var(--brand-accent), transparent 55%)",
-        }}
-      />
       <div className="relative mx-auto max-w-6xl text-center">
-        <span
-          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-white/80"
-          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <Users className="h-3.5 w-3.5" style={{ color: "var(--brand-primary)" }} />
-          A marketplace for {config.name}
-        </span>
-        <h1 className="mt-6 text-4xl sm:text-6xl font-bold leading-[1.05] tracking-tight text-white">
+        <p className="text-sm font-medium text-white/60 mb-4">A marketplace for {config.name}</p>
+        <h1 className="mt-2 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
           {landing.headline}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
@@ -87,7 +75,7 @@ function MarketplaceHero() {
 }
 
 function MarketplaceCategoryGrid() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -96,10 +84,10 @@ function MarketplaceCategoryGrid() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
               Browse categories
             </h2>
-            <p className="mt-3 text-white/70">Find what you need — or list what you offer.</p>
+            <p className="mt-3 text-white/70">Find what you need, or list what you offer.</p>
           </div>
           <a href="#" className="text-sm font-medium text-white/70 hover:text-white inline-flex items-center gap-1">
             View all <ArrowRight className="h-4 w-4" />
@@ -118,7 +106,7 @@ function MarketplaceCategoryGrid() {
               <div
                 className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl text-lg"
                 style={{
-                  background: "color-mix(in srgb, var(--brand-primary) 18%, transparent)",
+                  background: "color-mix(in srgb, var(--brand-primary) 12%, transparent)",
                   color: "var(--brand-primary)",
                 }}
               >
@@ -135,7 +123,7 @@ function MarketplaceCategoryGrid() {
 }
 
 function MarketplaceCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -144,14 +132,20 @@ function MarketplaceCta() {
     <section className="px-6 py-24">
       <div
         className="mx-auto max-w-5xl rounded-3xl px-8 py-16 text-center"
-        style={{
-          background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
-        }}
+        style={{ background: "var(--brand-primary)" }}
       >
-        <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+        <h2
+          className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight"
+          style={{ color: "var(--brand-primary-foreground)" }}
+        >
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-white/90 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
+        <p
+          className="mt-4 max-w-2xl mx-auto"
+          style={{ color: "var(--brand-primary-foreground)", opacity: 0.9 }}
+        >
+          {landing.finalCta.subheadline}
+        </p>
         <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup?role=buyer"}
@@ -190,7 +184,7 @@ const MARKETPLACE_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Marketplace({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? MARKETPLACE_DEFAULT_SECTIONS;
 
   return (

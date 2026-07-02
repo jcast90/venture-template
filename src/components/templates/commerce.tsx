@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -18,21 +19,18 @@ import { ArrowRight, ShoppingBag, Star, Truck } from "lucide-react";
    review stars, generous product-frame treatment. */
 
 function CommerceHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 pt-24 pb-16">
       <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
-          <span
-            className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium tracking-wide uppercase text-white/80"
-            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
-          >
+          <p className="inline-flex items-center gap-2 text-xs font-medium tracking-wide text-white/60">
             <Star className="h-3 w-3" style={{ color: "var(--brand-primary)" }} fill="currentColor" />
             New collection
-          </span>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
+          </p>
+          <h1 className="mt-5 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
             {landing.headline}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-white/70">{landing.subheadline}</p>
@@ -44,8 +42,8 @@ function CommerceHero() {
               <div className="flex items-center gap-3 flex-wrap">
                 <a
                   href="/shop"
-                  className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white"
-                  style={{ background: "var(--brand-primary)" }}
+                  className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+                  style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
                 >
                   <ShoppingBag className="h-4 w-4" />
                   {landing.primaryCta || "Shop now"}
@@ -72,14 +70,13 @@ function CommerceHero() {
 
         <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+            background: "var(--brand-surface-light)",
+            border: "1px solid var(--brand-border-color)",
           }}
         >
-          <div className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 55%)",
-            }}
-          />
+          <div className="absolute inset-0 flex items-center justify-center text-[7rem] opacity-[0.12]">
+            <ShoppingBag className="h-28 w-28" style={{ color: "var(--brand-primary)" }} />
+          </div>
           <div className="absolute bottom-6 left-6 right-6 rounded-2xl p-4 backdrop-blur-md"
             style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.15)" }}
           >
@@ -99,18 +96,13 @@ function CommerceHero() {
 }
 
 function CommerceCollection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
-  const gradients = [
-    "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
-    "linear-gradient(135deg, var(--brand-accent), var(--brand-primary))",
-    "linear-gradient(135deg, #f59e0b, #ef4444)",
-    "linear-gradient(135deg, #6366f1, #8b5cf6)",
-    "linear-gradient(135deg, #10b981, #06b6d4)",
-    "linear-gradient(135deg, #ec4899, #f43f5e)",
-  ];
+  // Flat neutral product tiles. Depth from a single hairline and the emoji
+  // mark, not decorative rainbow gradients.
+  const tileBg = "var(--brand-surface-light)";
 
   return (
     <section id="features" className="px-6 py-20">
@@ -127,15 +119,15 @@ function CommerceCollection() {
           {features.map((f, i) => (
             <div key={i} className="group cursor-pointer">
               <div
-                className="aspect-square w-full rounded-2xl mb-3 relative overflow-hidden"
-                style={{ background: gradients[i % gradients.length] }}
+                className="aspect-square w-full rounded-2xl mb-3 relative overflow-hidden transition-colors duration-200 ease-out group-hover:border-brand-border-hover"
+                style={{ background: tileBg, border: "1px solid var(--brand-border-color)" }}
               >
-                <div className="absolute top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                  style={{ background: "rgba(0,0,0,0.4)", color: "white" }}
+                <div className="absolute top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide"
+                  style={{ background: "rgba(0,0,0,0.4)", color: "rgba(255,255,255,0.85)" }}
                 >
                   {i === 0 ? "New" : i === 1 ? "Best seller" : "Limited"}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-40">
+                <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-30">
                   {f.icon || "◆"}
                 </div>
               </div>
@@ -163,7 +155,7 @@ function CommerceCollection() {
 }
 
 function CommerceCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -173,17 +165,18 @@ function CommerceCta() {
       <div
         className="mx-auto max-w-5xl rounded-3xl px-8 py-16 text-center"
         style={{
-          background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+          background: "var(--brand-primary)",
+          color: "var(--brand-primary-foreground)",
         }}
       >
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-white/90 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
+        <p className="mt-4 max-w-2xl mx-auto" style={{ opacity: 0.9 }}>{landing.finalCta.subheadline}</p>
         <div className="mt-10">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/shop"}
-            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-opacity duration-200 ease-out hover:opacity-90"
           >
             <ShoppingBag className="h-4 w-4" />
             {landing.finalCtaButton || landing.primaryCta || "Shop now"}
@@ -212,7 +205,7 @@ const COMMERCE_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Commerce({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? COMMERCE_DEFAULT_SECTIONS;
 
   return (

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -18,7 +19,7 @@ import { ArrowUpRight } from "lucide-react";
    numbered sections, magazine-like layout with strong typographic hierarchy. */
 
 function BoldHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
@@ -26,10 +27,10 @@ function BoldHero() {
       <div className="mx-auto max-w-6xl">
         <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-white/60 mb-10">
           <span className="px-2 py-1 bg-white text-black">Issue 01</span>
-          <span>—</span>
+          <span>·</span>
           <span>{config.name}</span>
         </div>
-        <h1 className="font-bold leading-[0.9] tracking-[-0.03em] text-white text-[clamp(2.75rem,9vw,8rem)]">
+        <h1 className="font-semibold leading-[0.95] tracking-tight text-white text-4xl sm:text-5xl">
           {landing.headline}
         </h1>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 items-end">
@@ -56,7 +57,7 @@ function BoldHero() {
 }
 
 function BoldFeaturesEditorial() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -65,21 +66,21 @@ function BoldFeaturesEditorial() {
       <div className="mx-auto max-w-6xl">
         <div className="flex items-baseline gap-6 mb-16 border-b border-white/20 pb-6">
           <span className="text-xs font-bold uppercase tracking-[0.25em] text-white/60">§ Capabilities</span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">The manifesto</h2>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">What it does</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
           {features.map((f, i) => (
             <article key={i} className="group">
               <div className="flex items-baseline gap-4 mb-3">
                 <span
-                  className="text-6xl font-bold leading-none"
+                  className="text-5xl font-semibold leading-none"
                   style={{ color: "var(--brand-primary)" }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="h-px flex-1 bg-white/20" />
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">{f.title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-3">{f.title}</h3>
               <p className="text-base leading-relaxed text-white/70">{f.description}</p>
             </article>
           ))}
@@ -90,7 +91,7 @@ function BoldFeaturesEditorial() {
 }
 
 function BoldCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -101,7 +102,7 @@ function BoldCta() {
       style={{ background: "var(--brand-primary)" }}
     >
       <div className="mx-auto max-w-5xl text-center text-black">
-        <h2 className="font-bold leading-[0.95] tracking-tight text-[clamp(2.5rem,7vw,5.5rem)]">
+        <h2 className="font-semibold leading-[0.95] tracking-tight text-3xl sm:text-4xl">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-6 text-lg sm:text-xl max-w-2xl mx-auto">
@@ -147,7 +148,7 @@ const BOLD_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Bold({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? BOLD_DEFAULT_SECTIONS;
 
   return (

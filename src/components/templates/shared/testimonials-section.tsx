@@ -1,11 +1,10 @@
 "use client";
 
-import { resolveLandingConfig } from "@/lib/config";
-import { GradientText } from "./gradient-text";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { Quote } from "lucide-react";
 
 export function TestimonialsSection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const testimonials = landing.testimonials;
   if (!testimonials?.length) return null;
 
@@ -13,8 +12,8 @@ export function TestimonialsSection() {
     <section className="py-24 border-t border-brand-border">
       <div className="px-6">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
-            What people are <GradientText>saying</GradientText>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-16">
+            What people are saying
           </h2>
         </div>
       </div>
@@ -26,16 +25,17 @@ export function TestimonialsSection() {
             key={i}
             className="snap-center shrink-0 w-[340px] sm:w-[400px]"
           >
-            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border-hover hover:scale-[1.02]">
-              <Quote className="h-8 w-8 text-brand-primary opacity-40 mb-4" />
-              <p className="text-base leading-relaxed text-zinc-300">
+            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-colors duration-200 ease-out hover:border-brand-border-hover">
+              <Quote className="h-7 w-7 mb-4" style={{ color: "var(--brand-primary)", opacity: 0.4 }} />
+              <p className="text-base leading-relaxed text-zinc-200">
                 &ldquo;{t.quote}&rdquo;
               </p>
               <div className="mt-6 flex items-center gap-3">
                 <div
-                  className="h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold text-white"
+                  className="h-10 w-10 rounded-full flex items-center justify-center text-sm font-semibold"
                   style={{
-                    background: `linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
+                    background: "color-mix(in srgb, var(--brand-primary) 16%, transparent)",
+                    color: "var(--brand-primary)",
                   }}
                 >
                   {t.name.charAt(0)}

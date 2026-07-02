@@ -59,7 +59,9 @@ function PlaceholderContent() {
     <div
       className="relative aspect-[16/10] w-full overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, var(--brand-surface, #0A0A0F), color-mix(in srgb, var(--brand-primary) 8%, var(--brand-surface, #0A0A0F)))`,
+        // Flat neutral surface, no gradient. Depth comes from the layered
+        // elements and one hairline, not a color ramp.
+        background: "var(--brand-surface-light, #141416)",
       }}
     >
       {/* Subtle grid overlay */}

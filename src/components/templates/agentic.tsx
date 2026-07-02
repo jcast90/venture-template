@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -12,13 +13,13 @@ import { StepsSection } from "./shared/steps-section";
 import { ProblemSection as SharedProblemSection } from "./shared/problem-section";
 import { TestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection } from "./shared/faq-section";
-import { ArrowRight, Sparkles, Terminal, Cpu, Check } from "lucide-react";
+import { ArrowRight, Terminal, Cpu, Check } from "lucide-react";
 
 /* Agentic: AI-first products. Chat/terminal preview, "show your work" feel,
    model badges, step traces. */
 
 function AgenticChatPreview() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sample = (landing.features?.[0]?.title || landing.headline || "Analyze this for me").slice(0, 80);
   return (
     <div
@@ -63,28 +64,16 @@ function AgenticChatPreview() {
 }
 
 function AgenticHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-24 pb-16 overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-50"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0)",
-          backgroundSize: "28px 28px",
-        }}
-      />
+    <section className="relative px-6 pt-24 pb-16">
       <div className="relative mx-auto max-w-5xl text-center">
-        <span
-          className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono text-white/70"
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <Sparkles className="h-3 w-3" style={{ color: "var(--brand-primary)" }} />
-          AI agent · {config.name}
-        </span>
-        <h1 className="mt-6 text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
+        <p className="text-xs font-mono uppercase tracking-wide text-white/50">
+          AI agent, {config.name}
+        </p>
+        <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
           {landing.headline}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
@@ -107,8 +96,8 @@ function AgenticHero() {
           ) : (
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white"
-              style={{ background: "var(--brand-primary)" }}
+              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+              style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
             >
               <Terminal className="h-4 w-4" />
               {landing.primaryCta || "Try the agent"}
@@ -124,7 +113,7 @@ function AgenticHero() {
 }
 
 function AgenticCapabilities() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -132,7 +121,7 @@ function AgenticCapabilities() {
     <section id="features" className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
-          <p className="text-xs font-mono text-white/50 mb-3">// capabilities</p>
+          <p className="text-xs font-mono text-white/50 mb-3">{"// capabilities"}</p>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
             What the agent can do
           </h2>
@@ -167,7 +156,7 @@ function AgenticCapabilities() {
 }
 
 function AgenticCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -175,15 +164,15 @@ function AgenticCta() {
   return (
     <section className="px-6 py-24">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-4 text-white/70 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-10">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white"
-            style={{ background: "var(--brand-primary)" }}
+            className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             <Terminal className="h-4 w-4" />
             {landing.finalCtaButton || landing.primaryCta || "Run the agent"}
@@ -213,7 +202,7 @@ const AGENTIC_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Agentic({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? AGENTIC_DEFAULT_SECTIONS;
 
   return (

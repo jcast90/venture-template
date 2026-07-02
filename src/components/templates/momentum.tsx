@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -15,7 +16,6 @@ import { FaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
 import { GradientText, BrandIconBox } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles, Zap, Shield, TrendingUp } from "lucide-react";
-import { FadeIn } from "@/components/motion";
 
 const ICON_MAP: Record<string, typeof Zap> = {
   Zap, Target, Layers, Sparkles, Shield, TrendingUp,
@@ -60,36 +60,15 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
-/* ─── Hero with gradient mesh and inline email capture ─── */
+/* ─── Hero: generous whitespace, one flat accent, inline email capture ─── */
 function MomentumHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative flex flex-col items-center px-6 pt-36 pb-24 text-center overflow-hidden">
-      {/* Animated gradient mesh */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        style={{
-          background: `
-            conic-gradient(from 0deg at 30% 40%, var(--brand-primary), transparent 120deg),
-            conic-gradient(from 180deg at 70% 60%, var(--brand-accent), transparent 120deg),
-            conic-gradient(from 90deg at 50% 20%, color-mix(in srgb, var(--brand-primary) 50%, var(--brand-accent)), transparent 120deg)
-          `,
-          filter: "blur(80px)",
-          animation: "meshRotate 20s linear infinite",
-        }}
-      />
-
       <div className="relative z-10 max-w-3xl">
-        <h1
-          className="text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent"
-          style={{
-            backgroundImage: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent), var(--brand-primary))",
-            backgroundSize: "200% 200%",
-            animation: "gradientShift 6s ease infinite",
-          }}
-        >
+        <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
           {landing.headline}
         </h1>
 
@@ -104,8 +83,8 @@ function MomentumHero() {
           <div className="mt-10">
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-xl"
-              style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+              style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
             >
               {landing.primaryCta || "Try it Free"}
               <ArrowRight className="h-5 w-5" />
@@ -119,7 +98,7 @@ function MomentumHero() {
 
 /* ─── Glass stat cards with animated counters ─── */
 function GlassStats() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   return (
     <section className="px-6 py-16">
@@ -140,7 +119,7 @@ function GlassStats() {
 
 /* ─── Bento grid features ─── */
 function BentoFeatures() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features;
   if (!features?.length) return <BentoFallback />;
 
@@ -152,7 +131,7 @@ function BentoFeatures() {
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
+        <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl mb-16">
           <GradientText>Features</GradientText>
         </h2>
 
@@ -166,19 +145,8 @@ function BentoFeatures() {
             return (
               <div
                 key={i}
-                className={`group relative rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border ${spanClass}`}
+                className={`group relative rounded-2xl p-6 backdrop-blur-xl transition-colors hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border hover:border-brand-border-hover ${spanClass}`}
               >
-                {/* Gradient border on hover */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{
-                    border: "1px solid transparent",
-                    backgroundImage: `linear-gradient(var(--brand-surface), var(--brand-surface)), linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
-                    backgroundOrigin: "border-box",
-                    backgroundClip: "padding-box, border-box",
-                  }}
-                />
-
                 <div className="relative z-10">
                   <BrandIconBox size="md">
                     <Icon className="h-5 w-5 text-brand-primary" />
@@ -208,7 +176,7 @@ function BentoFeatures() {
 
 /* Fallback: use pain points if no features */
 function BentoFallback() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   return (
     <section className="px-6 py-20">
@@ -228,13 +196,13 @@ function BentoFallback() {
 
 /* ─── How it works ─── */
 function HowItWorks() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
     <section className="px-6 py-20 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl font-bold tracking-tight mb-12">
+        <h2 className="text-2xl font-semibold tracking-tight mb-12">
           <GradientText>How it works</GradientText>
         </h2>
 
@@ -245,11 +213,11 @@ function HowItWorks() {
             return (
               <div
                 key={i}
-                className="group flex flex-col items-start rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-card bg-brand-surface-card border border-brand-border"
+                className="group flex flex-col items-start rounded-2xl p-6 backdrop-blur-xl transition-colors hover:bg-brand-surface-card bg-brand-surface-card border border-brand-border"
               >
                 <div
-                  className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
-                  style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))" }}
+                  className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold"
+                  style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
                 >
                   {i + 1}
                 </div>
@@ -268,23 +236,15 @@ function HowItWorks() {
 
 /* ─── Final CTA ─── */
 function CompactCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 py-24 overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background: `conic-gradient(from 180deg at 50% 50%, var(--brand-primary), var(--brand-accent), var(--brand-primary))`,
-          filter: "blur(100px)",
-        }}
-      />
-
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           <GradientText>{landing.finalCta.headline}</GradientText>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
@@ -294,8 +254,8 @@ function CompactCta() {
         <div className="mt-10 flex flex-col items-center gap-4">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-xl"
-            style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+            className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
             <ArrowRight className="h-5 w-5" />
@@ -334,7 +294,7 @@ const MOMENTUM_DEFAULT_SECTIONS: LandingSectionId[] = [
 
 /* ─── Main Momentum template ─── */
 export default function Momentum({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? MOMENTUM_DEFAULT_SECTIONS;
 
   return (
@@ -348,11 +308,7 @@ export default function Momentum({ config: _config }: { config: VentureConfig })
           }
           return null;
         }
-        return (
-          <FadeIn key={id} y={16} duration={0.55}>
-            {render()}
-          </FadeIn>
-        );
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

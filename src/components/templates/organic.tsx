@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -12,36 +13,20 @@ import { StepsSection } from "./shared/steps-section";
 import { ProblemSection as SharedProblemSection } from "./shared/problem-section";
 import { TestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection } from "./shared/faq-section";
-import { ArrowRight, Sparkles, Heart, Leaf } from "lucide-react";
+import { ArrowRight, Heart, Leaf } from "lucide-react";
 
 /* Organic: soft, rounded, warm. Blob backgrounds, generous padding,
    serif/display headline with rounded sans body, pastel accents. */
 
 function OrganicHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 pt-32 pb-24 overflow-hidden">
-      {/* Soft blobs */}
-      <div
-        className="pointer-events-none absolute -top-32 -left-20 h-[28rem] w-[28rem] rounded-full blur-3xl opacity-40"
-        style={{ background: "var(--brand-primary)" }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-32 -right-20 h-[32rem] w-[32rem] rounded-full blur-3xl opacity-30"
-        style={{ background: "var(--brand-accent)" }}
-      />
-
       <div className="relative mx-auto max-w-4xl text-center">
-        <span
-          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-white/90 backdrop-blur-sm"
-          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
-        >
-          <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--brand-primary)" }} />
-          A kinder way to work
-        </span>
-        <h1 className="mt-8 text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
+        <p className="text-sm font-medium text-white/60 mb-6">A kinder way to work</p>
+        <h1 className="mt-2 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
           {landing.headline}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
@@ -54,8 +39,8 @@ function OrganicHero() {
           ) : (
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white shadow-lg shadow-black/30 transition-transform hover:scale-[1.03]"
-              style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))" }}
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold shadow-lg shadow-black/30 transition-opacity duration-200 ease-out hover:opacity-90"
+              style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
             >
               {landing.primaryCta || "Start free"}
               <ArrowRight className="h-4 w-4" />
@@ -72,7 +57,7 @@ function OrganicHero() {
 }
 
 function OrganicFeaturesCards() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -84,9 +69,6 @@ function OrganicFeaturesCards() {
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
             Designed with care
           </h2>
-          <p className="mt-4 text-white/70">
-            Every feature is thoughtfully crafted to feel natural, not mechanical.
-          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f, i) => (
@@ -101,7 +83,8 @@ function OrganicFeaturesCards() {
               <div
                 className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-xl"
                 style={{
-                  background: "linear-gradient(135deg, color-mix(in srgb, var(--brand-primary) 30%, transparent), color-mix(in srgb, var(--brand-accent) 30%, transparent))",
+                  background: "color-mix(in srgb, var(--brand-primary) 12%, transparent)",
+                  color: "var(--brand-primary)",
                 }}
               >
                 {f.icon || "✦"}
@@ -117,7 +100,7 @@ function OrganicFeaturesCards() {
 }
 
 function OrganicCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -126,15 +109,19 @@ function OrganicCta() {
     <section className="px-6 py-24">
       <div
         className="relative mx-auto max-w-5xl rounded-[2.5rem] px-8 py-20 text-center overflow-hidden"
-        style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))" }}
+        style={{ background: "var(--brand-primary)" }}
       >
-        <div className="pointer-events-none absolute -top-20 -left-10 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="relative">
-          <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
+          <h2
+            className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight"
+            style={{ color: "var(--brand-primary-foreground)" }}
+          >
             {landing.finalCta.headline}
           </h2>
-          <p className="mt-4 text-white/90 max-w-2xl mx-auto">
+          <p
+            className="mt-4 max-w-2xl mx-auto"
+            style={{ color: "var(--brand-primary-foreground)", opacity: 0.9 }}
+          >
             {landing.finalCta.subheadline}
           </p>
           <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
@@ -148,7 +135,8 @@ function OrganicCta() {
             {landing.finalCta.secondaryButton && (
               <a
                 href={landing.finalCta.secondaryHref || "#pricing"}
-                className="text-sm font-medium text-white/90 underline underline-offset-4 hover:text-white"
+                className="text-sm font-medium underline underline-offset-4 hover:opacity-90"
+                style={{ color: "var(--brand-primary-foreground)", opacity: 0.9 }}
               >
                 {landing.finalCta.secondaryButton}
               </a>
@@ -178,7 +166,7 @@ const ORGANIC_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Organic({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? ORGANIC_DEFAULT_SECTIONS;
 
   return (

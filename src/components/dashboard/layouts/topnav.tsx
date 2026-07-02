@@ -102,7 +102,7 @@ export function TopNavLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-white/[0.06] backdrop-blur-xl" style={{ backgroundColor: "color-mix(in srgb, var(--brand-surface) 85%, transparent)" }}>
         <div
           className="h-[2px] w-full"
-          style={{ background: `linear-gradient(to right, var(--brand-primary), var(--brand-accent))` }}
+          style={{ background: `var(--brand-primary)` }}
         />
         <div className="flex h-14 items-center gap-4 px-4 lg:px-8">
           {/* Mobile menu */}
@@ -122,7 +122,7 @@ export function TopNavLayout({ children }: { children: React.ReactNode }) {
             >
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <div className="flex h-16 items-center gap-3 px-6">
-                <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+                <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "var(--brand-primary)" }}>
                   <Zap className="size-4 text-white" />
                 </div>
                 <span className="text-base font-semibold tracking-tight text-white">
@@ -138,7 +138,7 @@ export function TopNavLayout({ children }: { children: React.ReactNode }) {
 
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="flex size-7 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+            <div className="flex size-7 items-center justify-center rounded-lg" style={{ background: "var(--brand-primary)" }}>
               <Zap className="size-4 text-white" />
             </div>
             <span className="text-sm font-semibold tracking-tight text-white">

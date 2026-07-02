@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
@@ -13,10 +14,7 @@ import { ProblemSection as SharedProblemSection } from "./shared/problem-section
 import { TestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
-import { GradientText } from "./shared/gradient-text";
 import { ArrowRight, Target, Layers, Sparkles } from "lucide-react";
-import { useEffect, useRef, useCallback } from "react";
-import { FadeIn } from "@/components/motion";
 
 const stepIcons = [Target, Layers, Sparkles];
 const painIcons = [
@@ -28,60 +26,22 @@ const painIcons = [
   "▲",
 ];
 
-/* ─── Cursor glow effect ─── */
-function useCursorGlow() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!containerRef.current || !glowRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    glowRef.current.style.background = `radial-gradient(300px circle at ${x}px ${y}px, color-mix(in srgb, var(--brand-primary) 8%, transparent), transparent 70%)`;
-  }, []);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    el.addEventListener("mousemove", handleMouseMove);
-    return () => el.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
-
-  return { containerRef, glowRef };
-}
-
 /* ─── Hero (split: text left, visual right) ─── */
 function PrecisionHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
-  const { containerRef, glowRef } = useCursorGlow();
 
   return (
-    <section ref={containerRef} className="relative px-6 pt-32 pb-20 overflow-hidden">
-      {/* Cursor-following glow */}
-      <div ref={glowRef} className="pointer-events-none absolute inset-0 z-0 transition-[background] duration-200" />
-
-      {/* Dot grid background */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-
-      {/* Gradient accent stripe */}
+    <section className="relative px-6 pt-32 pb-20 overflow-hidden">
+      {/* Flat accent hairline */}
       <div
         className="pointer-events-none absolute top-0 left-0 right-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent, var(--brand-primary), var(--brand-accent), transparent)",
-        }}
+        style={{ background: "var(--brand-border-color)" }}
       />
 
       <div className="relative z-10 mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
-          <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
             {landing.headline}
           </h1>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-400">
@@ -94,8 +54,8 @@ function PrecisionHero() {
             <div className="mt-8 flex gap-3">
               <a
                 href="/signup"
-                className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
-                style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+                className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+                style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
               >
                 {landing.primaryCta || "Try it Free"}
                 <ArrowRight className="h-4 w-4" />
@@ -118,7 +78,7 @@ function PrecisionHero() {
 
 /* ─── Stats bar (horizontal, monospace) ─── */
 function StatsBar() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   return (
     <section className="border-y border-brand-border">
@@ -143,20 +103,18 @@ function StatsBar() {
 
 /* ─── Timeline (horizontal 3-step) ─── */
 function TimelineSection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-xl font-bold tracking-tight mb-12">How it works</h2>
+        <h2 className="text-xl font-semibold tracking-tight mb-12">How it works</h2>
 
         <div className="relative">
           {/* Connecting line */}
           <div
             className="absolute top-6 left-0 right-0 h-px hidden sm:block"
-            style={{
-              background: "linear-gradient(90deg, var(--brand-primary), var(--brand-accent), transparent)",
-            }}
+            style={{ background: "var(--brand-border-color)" }}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -183,7 +141,7 @@ function TimelineSection() {
 
 /* ─── Pain points (2-col compact grid) ─── */
 function PainPointsGrid() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   return (
     <section className="px-6 py-16 border-t border-brand-border">
@@ -211,7 +169,7 @@ function PainPointsGrid() {
 
 /* ─── Final CTA (minimal) ─── */
 function MinimalCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -220,7 +178,7 @@ function MinimalCta() {
     <section className="px-6 py-20 border-t border-brand-border">
       <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
-          <h2 className="text-2xl font-bold">{landing.finalCta.headline}</h2>
+          <h2 className="text-2xl font-semibold">{landing.finalCta.headline}</h2>
           <p className="mt-2 text-sm text-zinc-400">
             {landing.finalCta.subheadline}
           </p>
@@ -228,8 +186,8 @@ function MinimalCta() {
         <div className="flex items-center gap-4 shrink-0">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
-            style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+            className="inline-flex items-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
             <ArrowRight className="h-4 w-4" />
@@ -268,7 +226,7 @@ const PRECISION_DEFAULT_SECTIONS: LandingSectionId[] = [
 
 /* ─── Main Precision template ─── */
 export default function Precision({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? PRECISION_DEFAULT_SECTIONS;
 
   return (
@@ -282,11 +240,7 @@ export default function Precision({ config: _config }: { config: VentureConfig }
           }
           return null;
         }
-        return (
-          <FadeIn key={id} y={16} duration={0.55}>
-            {render()}
-          </FadeIn>
-        );
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -18,26 +19,18 @@ import { ArrowRight, Terminal, BookOpen, Code2 } from "lucide-react";
    clean line-art cards, muted palette with gradient-free accents. */
 
 function ClarityHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 pt-32 pb-20">
-      {/* Horizontal rule grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(255,255,255,0.4) 1px, transparent 1px)",
-          backgroundSize: "100% 32px",
-        }}
-      />
       <div className="relative mx-auto max-w-5xl">
         <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-zinc-500 mb-6">
           <span className="h-px w-8 bg-brand-primary" />
           <Terminal className="h-3.5 w-3.5" style={{ color: "var(--brand-primary)" }} />
           <span>documentation-grade clarity</span>
         </div>
-        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl max-w-3xl">
+        <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl max-w-3xl">
           {landing.headline}
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">
@@ -50,8 +43,8 @@ function ClarityHero() {
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "var(--brand-primary)" }}
+              className="inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+              style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
             >
               {landing.primaryCta || "Get started"}
               <ArrowRight className="h-4 w-4" />
@@ -79,8 +72,8 @@ function ClarityHero() {
               <span className="text-zinc-500"># install</span>{"\n"}
               <span style={{ color: "var(--brand-primary)" }}>$</span> npm install {config.name.toLowerCase().replace(/\s+/g, "-")}{"\n\n"}
               <span className="text-zinc-500"># import and use</span>{"\n"}
-              <span style={{ color: "var(--brand-accent)" }}>import</span> {"{ "}client{" }"} <span style={{ color: "var(--brand-accent)" }}>from</span> <span style={{ color: "var(--brand-primary)" }}>&quot;{config.name.toLowerCase().replace(/\s+/g, "-")}&quot;</span>;{"\n\n"}
-              <span style={{ color: "var(--brand-accent)" }}>await</span> client.run({"{ "}ready: <span style={{ color: "var(--brand-primary)" }}>true</span> {"}"});
+              <span className="text-zinc-400">import</span> {"{ "}client{" }"} <span className="text-zinc-400">from</span> <span style={{ color: "var(--brand-primary)" }}>&quot;{config.name.toLowerCase().replace(/\s+/g, "-")}&quot;</span>;{"\n\n"}
+              <span className="text-zinc-400">await</span> client.run({"{ "}ready: <span style={{ color: "var(--brand-primary)" }}>true</span> {"}"});
             </code>
           </pre>
         </div>
@@ -90,7 +83,7 @@ function ClarityHero() {
 }
 
 function ClarityFeaturesList() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -100,7 +93,7 @@ function ClarityFeaturesList() {
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2">Reference</p>
-            <h2 className="text-3xl font-bold tracking-tight">What you get</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">What you get</h2>
           </div>
           <Code2 className="h-6 w-6 text-zinc-600" />
         </div>
@@ -123,7 +116,7 @@ function ClarityFeaturesList() {
 }
 
 function ClarityCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -134,15 +127,15 @@ function ClarityCta() {
         <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4">
           $ begin
         </p>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-4 text-zinc-400">{landing.finalCta.subheadline}</p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            style={{ background: "var(--brand-primary)" }}
+            className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try it Free" : "Get Started")}
             <ArrowRight className="h-4 w-4" />
@@ -179,7 +172,7 @@ const CLARITY_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Clarity({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? CLARITY_DEFAULT_SECTIONS;
 
   return (

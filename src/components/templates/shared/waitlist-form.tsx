@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { resolveLandingConfig, isLiveMode } from "@/lib/config";
+import { isLiveMode } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { buildTrackingPayload } from "@/lib/analytics/events";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 
@@ -11,7 +12,7 @@ export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -61,10 +62,10 @@ export function WaitlistForm({ className }: { className?: string }) {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all hover:shadow-lg disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90 disabled:opacity-60"
             style={{
-              background:
-                "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+              background: "var(--brand-primary)",
+              color: "var(--brand-primary-foreground)",
             }}
           >
             {status === "loading" ? (
@@ -90,15 +91,15 @@ export function WaitlistForm({ className }: { className?: string }) {
 }
 
 export function LiveCtaButtons() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   return (
     <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
       <a
         href="/signup"
-        className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-semibold transition-all hover:shadow-lg"
+        className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
         style={{
-          background:
-            "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+          background: "var(--brand-primary)",
+          color: "var(--brand-primary-foreground)",
         }}
       >
         {landing.primaryCta || "Try it Free"}

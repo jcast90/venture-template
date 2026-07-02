@@ -1,16 +1,12 @@
 "use client";
 
+// NOTE: named "GradientText" for backward compatibility with every template
+// that imports it, but per the Venture OS design bible (no gradients, ever)
+// this now renders a FLAT accent-colored span. Emphasis comes from color and
+// weight, not a color ramp.
 export function GradientText({ children }: { children: React.ReactNode }) {
   return (
-    <span
-      className="bg-clip-text text-transparent"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
-      }}
-    >
-      {children}
-    </span>
+    <span style={{ color: "var(--brand-primary)" }}>{children}</span>
   );
 }
 
@@ -31,10 +27,10 @@ export function BrandIconBox({
     <div
       className={`inline-flex items-center justify-center ${sizeClasses}`}
       style={{
-        background: `linear-gradient(to bottom right, color-mix(in srgb, var(--brand-primary) 20%, transparent), color-mix(in srgb, var(--brand-accent) 20%, transparent))`,
+        // Flat, quiet tint of the accent with a single hairline. No gradient.
+        background: "color-mix(in srgb, var(--brand-primary) 12%, transparent)",
         borderWidth: 1,
-        borderColor:
-          "color-mix(in srgb, var(--brand-primary) 10%, transparent)",
+        borderColor: "color-mix(in srgb, var(--brand-primary) 22%, transparent)",
       }}
     >
       {children}

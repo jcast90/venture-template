@@ -34,11 +34,11 @@ export function MobileHeader() {
           showCloseButton={false}
         >
           <SheetTitle className="sr-only">Navigation</SheetTitle>
-          {/* Brand gradient top line */}
-          <div className="h-[2px] w-full shrink-0" style={{ background: `linear-gradient(to right, var(--brand-primary), var(--brand-accent))` }} />
+          {/* Brand accent top line */}
+          <div className="h-[2px] w-full shrink-0" style={{ background: `var(--brand-primary)` }} />
           {/* Logo */}
           <div className="flex h-16 items-center gap-3 px-6">
-            <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+            <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "var(--brand-primary)" }}>
               <Zap className="size-4 text-white" />
             </div>
             <span className="text-base font-semibold tracking-tight text-white">

@@ -25,7 +25,7 @@ export function UserMenu({ variant = "sidebar" }: { variant?: "sidebar" | "heade
         }`}
       >
         <Avatar size="sm">
-          <AvatarFallback className="text-[10px] font-semibold text-white" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+          <AvatarFallback className="text-[10px] font-semibold text-white" style={{ background: "var(--brand-primary)" }}>
             JD
           </AvatarFallback>
         </Avatar>

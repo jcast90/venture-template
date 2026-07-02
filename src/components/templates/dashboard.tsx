@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -14,7 +15,7 @@ import { TestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection } from "./shared/faq-section";
 import { ArrowRight, TrendingUp, Activity, BarChart3, Circle } from "lucide-react";
 
-/* Dashboard: product-led landing. The hero IS the product — a mocked
+/* Dashboard: product-led landing. The hero IS the product: a mocked
    dashboard UI front-and-center showing live-looking metrics, panels,
    and interactive-feeling chrome. */
 
@@ -24,9 +25,9 @@ function MockDashboardPreview() {
       {/* App chrome */}
       <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
         </div>
         <span className="text-xs text-zinc-500 font-medium">{config.name} · Overview</span>
         <div className="flex items-center gap-1.5 text-xs text-zinc-500">
@@ -75,7 +76,7 @@ function MockDashboardPreview() {
               {[35, 58, 42, 72, 65, 88, 76].map((h, i) => (
                 <div key={i} className="flex-1 rounded-t" style={{
                   height: `${h}%`,
-                  background: `linear-gradient(to top, var(--brand-primary), var(--brand-accent))`,
+                  background: "var(--brand-primary)",
                   opacity: 0.4 + (i / 10),
                 }} />
               ))}
@@ -88,20 +89,15 @@ function MockDashboardPreview() {
 }
 
 function DashboardHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
     <section className="relative px-6 pt-28 pb-16">
       <div className="mx-auto max-w-6xl">
         <div className="text-center max-w-3xl mx-auto">
-          <span
-            className="inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface-card px-3 py-1 text-xs font-medium text-zinc-300"
-          >
-            <Circle className="h-2 w-2 fill-green-400 text-green-400" />
-            Now in beta
-          </span>
-          <h1 className="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          <p className="text-sm font-medium text-zinc-400 mb-4">Now in beta</p>
+          <h1 className="mt-2 text-4xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
             {landing.headline}
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed">
@@ -114,8 +110,8 @@ function DashboardHero() {
               <>
                 <a
                   href="/signup"
-                  className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
-                  style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+                  className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+                  style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
                 >
                   {landing.primaryCta || "Start free trial"}
                   <ArrowRight className="h-4 w-4" />
@@ -133,13 +129,7 @@ function DashboardHero() {
 
         {/* Dashboard preview */}
         <div className="mt-16 relative">
-          <div
-            className="pointer-events-none absolute -inset-x-8 -top-8 -bottom-8 blur-3xl opacity-30"
-            style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}
-          />
-          <div className="relative">
-            <MockDashboardPreview />
-          </div>
+          <MockDashboardPreview />
         </div>
       </div>
     </section>
@@ -147,7 +137,7 @@ function DashboardHero() {
 }
 
 function DashboardFeaturesGrid() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -155,7 +145,7 @@ function DashboardFeaturesGrid() {
     <section id="features" className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
             Everything in one place
           </h2>
           <p className="mt-3 text-zinc-400">
@@ -188,7 +178,7 @@ function DashboardFeaturesGrid() {
 }
 
 function DashboardCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -196,15 +186,15 @@ function DashboardCta() {
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-4xl rounded-2xl border border-brand-border bg-brand-surface-card p-10 sm:p-14 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-4 text-zinc-400 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
-            style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+            className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try Free" : "Get Started")}
             <ArrowRight className="h-4 w-4" />
@@ -241,7 +231,7 @@ const DASHBOARD_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Dashboard({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? DASHBOARD_DEFAULT_SECTIONS;
 
   return (

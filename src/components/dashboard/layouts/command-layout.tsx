@@ -69,12 +69,12 @@ export function CommandLayout({ children }: { children: React.ReactNode }) {
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[64px] flex-col items-center border-r border-white/[0.06] bg-brand-surface-light py-4 lg:flex">
         <div
           className="absolute inset-y-0 left-0 w-[2px]"
-          style={{ background: `linear-gradient(to bottom, var(--brand-primary), var(--brand-accent))` }}
+          style={{ background: `var(--brand-primary)` }}
         />
         <Link
           href="/dashboard"
           className="flex size-10 items-center justify-center rounded-lg transition-transform hover:scale-105"
-          style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}
+          style={{ background: "var(--brand-primary)" }}
         >
           <Zap className="size-5 text-white" />
         </Link>
@@ -113,7 +113,7 @@ export function CommandLayout({ children }: { children: React.ReactNode }) {
       {/* Mobile header with palette trigger */}
       <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b border-white/[0.06] px-4 backdrop-blur-xl lg:hidden" style={{ backgroundColor: "color-mix(in srgb, var(--brand-surface) 80%, transparent)" }}>
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+          <div className="flex size-7 items-center justify-center rounded-lg" style={{ background: "var(--brand-primary)" }}>
             <Zap className="size-4 text-white" />
           </div>
           <span className="text-sm font-semibold text-white">{config.name}</span>

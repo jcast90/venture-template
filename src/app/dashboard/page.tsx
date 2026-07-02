@@ -123,7 +123,7 @@ export default function DashboardPage() {
               className={`border-white/[0.06] bg-brand-surface-light text-white overflow-hidden ${index === 0 ? "relative" : ""}`}
             >
               {index === 0 && (
-                <div className="absolute inset-x-0 top-0 h-[1px]" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }} />
+                <div className="absolute inset-x-0 top-0 h-[1px]" style={{ background: "var(--brand-primary)" }} />
               )}
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardDescription className="text-sm font-medium text-white/50">
@@ -248,7 +248,7 @@ export default function DashboardPage() {
               variant="outline"
               className="w-full justify-start gap-3 border-white/[0.08] bg-white/[0.03] text-white/80 hover:bg-white/[0.06] hover:text-white"
             >
-              <div className="flex size-8 items-center justify-center rounded-md" style={{ background: "linear-gradient(to bottom right, color-mix(in srgb, var(--brand-primary) 15%, transparent), color-mix(in srgb, var(--brand-accent) 15%, transparent))" }}>
+              <div className="flex size-8 items-center justify-center rounded-md" style={{ background: "color-mix(in srgb, var(--brand-primary) 15%, transparent)" }}>
                 <Plus className="size-4 text-brand-primary" />
               </div>
               Create New Project
@@ -257,7 +257,7 @@ export default function DashboardPage() {
               variant="outline"
               className="w-full justify-start gap-3 border-white/[0.08] bg-white/[0.03] text-white/80 hover:bg-white/[0.06] hover:text-white"
             >
-              <div className="flex size-8 items-center justify-center rounded-md" style={{ background: "linear-gradient(to bottom right, color-mix(in srgb, var(--brand-accent) 15%, transparent), color-mix(in srgb, var(--brand-primary) 15%, transparent))" }}>
+              <div className="flex size-8 items-center justify-center rounded-md" style={{ background: "color-mix(in srgb, var(--brand-primary) 15%, transparent)" }}>
                 <Send className="size-4 text-brand-accent" />
               </div>
               Invite Team Members
