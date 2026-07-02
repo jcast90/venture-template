@@ -14,6 +14,7 @@ import { ProblemSection as SharedProblemSection } from "./shared/problem-section
 import { TestimonialsSection as SharedTestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection as SharedFaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
+import { FeatureVisual } from "./shared/feature-visual";
 import { BrandIconBox } from "./shared/gradient-text";
 import {
   ArrowRight,
@@ -174,11 +175,14 @@ function FeaturesSection() {
                   </p>
                 </div>
 
-                {/* Visual side */}
+                {/* Visual side — a DISTINCT lightweight visual per feature
+                   (varies by index), not the same product mock repeated. A
+                   real screenshot, when supplied, still wins. */}
                 <div className="flex-1 w-full max-w-lg">
-                  <ProductFrame
+                  <FeatureVisual
+                    index={i}
+                    title={feature.title}
                     imageUrl={featureImage}
-                    alt={feature.title}
                     className="shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)]"
                   />
                 </div>
