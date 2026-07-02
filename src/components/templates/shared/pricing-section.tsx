@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import config, { resolveLandingConfig, isLiveMode, type PricingTier } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { GradientText } from "./gradient-text";
 import { ArrowRight, Check } from "lucide-react";
 
@@ -50,10 +51,11 @@ function BillingToggle({
       </button>
       <button
         onClick={() => onChange(period === "monthly" ? "annual" : "monthly")}
-        className="relative h-7 w-12 rounded-full transition-colors"
+        className="relative h-7 w-12 rounded-full transition-colors duration-200 ease-out"
+        aria-label="Toggle annual billing"
         style={{
           background: period === "annual"
-            ? "linear-gradient(to right, var(--brand-primary), var(--brand-accent))"
+            ? "var(--brand-primary)"
             : "var(--brand-border-color)",
         }}
       >
@@ -71,8 +73,11 @@ function BillingToggle({
         </button>
         {annualDiscount && (
           <span
-            className="rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
-            style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+            className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
+            style={{
+              background: "var(--brand-primary)",
+              color: "var(--brand-primary-foreground)",
+            }}
           >
             {annualDiscount}
           </span>
@@ -87,12 +92,14 @@ export function PricingSection({
 }: {
   variant?: PricingVariant;
 }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
+  const toggle = landing.pricingToggle;
+  // All hooks must run before any early return (rules-of-hooks).
+  const [period, setPeriod] = useState<BillingPeriod>(toggle?.default ?? "annual");
+
   const waitlistMode = config.flags?.waitlistMode ?? true;
   if (waitlistMode && !isLiveMode) return null;
 
-  const toggle = landing.pricingToggle;
-  const [period, setPeriod] = useState<BillingPeriod>(toggle?.default ?? "annual");
   const showToggle = !!(toggle?.enabled && landing.pricing.some((t) => t.monthlyPrice || t.annualPrice));
 
   if (variant === "table") return <PricingTable landing={landing} period={period} setPeriod={setPeriod} showToggle={showToggle} toggle={toggle} />;
@@ -113,13 +120,10 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
   return (
     <section id="pricing" className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Simple, <GradientText>transparent</GradientText> pricing
+        <div className="mb-16 max-w-xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            Pricing
           </h2>
-          <p className="mt-4 text-zinc-400">
-            Start free. Upgrade when you&apos;re ready.
-          </p>
         </div>
 
         {showToggle && (
@@ -130,39 +134,36 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
           {landing.pricing.map((tier, i) => (
             <div
               key={i}
-              className={`relative flex flex-col rounded-2xl border p-8 transition-all ${
+              className={`relative flex flex-col rounded-2xl p-8 transition-colors duration-200 ease-out ${
                 tier.highlighted
-                  ? "border-brand-primary/30 shadow-2xl"
-                  : "border-brand-border bg-brand-surface-card hover:border-brand-border-hover"
+                  ? "bg-brand-surface-card"
+                  : "hover:bg-brand-surface-card"
               }`}
               style={
                 tier.highlighted
-                  ? {
-                      background: `linear-gradient(to bottom, color-mix(in srgb, var(--brand-primary) 8%, transparent), color-mix(in srgb, var(--brand-accent) 4%, transparent))`,
-                      boxShadow: `0 25px 50px -12px color-mix(in srgb, var(--brand-primary) 10%, transparent)`,
-                    }
-                  : undefined
+                  ? { border: "1px solid color-mix(in srgb, var(--brand-primary) 35%, transparent)" }
+                  : { border: "1px solid var(--brand-border-color)" }
               }
             >
               {tier.highlighted && (
                 <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-semibold text-white"
+                  className="absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold"
                   style={{
-                    background:
-                      "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+                    background: "var(--brand-primary)",
+                    color: "var(--brand-primary-foreground)",
                   }}
                 >
-                  Most Popular
+                  Most popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="text-lg font-semibold">{tier.plan}</h3>
+                <h3 className="text-lg font-semibold font-display">{tier.plan}</h3>
                 <p className="mt-1 text-sm text-zinc-400">{tier.desc}</p>
               </div>
 
               <div className="mb-8">
-                <span className="text-4xl font-bold">{tierPrice(tier, period)}</span>
+                <span className="text-4xl font-semibold font-display">{tierPrice(tier, period)}</span>
                 {tier.period && (
                   <span className="text-zinc-500">{tier.period}</span>
                 )}
@@ -171,7 +172,7 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
               <ul className="mb-8 flex-1 space-y-3">
                 {tier.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-3 text-sm">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--brand-primary)" }} />
                     <span className="text-zinc-300">{feature}</span>
                   </li>
                 ))}
@@ -179,21 +180,20 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
 
               <a
                 href="/signup"
-                className={`inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition-all ${
-                  tier.highlighted
-                    ? "text-white hover:shadow-lg"
-                    : "border border-brand-border bg-brand-surface-input hover:bg-brand-surface-input"
-                }`}
+                className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
                 style={
                   tier.highlighted
                     ? {
-                        background:
-                          "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+                        background: "var(--brand-primary)",
+                        color: "var(--brand-primary-foreground)",
                       }
-                    : undefined
+                    : {
+                        border: "1px solid var(--brand-border-color)",
+                        background: "var(--brand-surface-input)",
+                      }
                 }
               >
-                {tier.cta || "Get Started"}
+                {tier.cta || "Get started"}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </div>
@@ -291,17 +291,17 @@ function PricingGlass({ landing, period, setPeriod, showToggle, toggle }: Pricin
             >
               {tier.highlighted && (
                 <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-semibold text-white"
+                  className="absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold"
                   style={{
-                    background:
-                      "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+                    background: "var(--brand-primary)",
+                    color: "var(--brand-primary-foreground)",
                   }}
                 >
-                  Most Popular
+                  Most popular
                 </div>
               )}
 
-              <h3 className="text-lg font-semibold">{tier.plan}</h3>
+              <h3 className="text-lg font-semibold font-display">{tier.plan}</h3>
               <p className="mt-1 text-sm text-zinc-400">{tier.desc}</p>
 
               <div className="my-6">
@@ -322,14 +322,20 @@ function PricingGlass({ landing, period, setPeriod, showToggle, toggle }: Pricin
 
               <a
                 href="/signup"
-                className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg"
-                style={{
-                  background: tier.highlighted
-                    ? "linear-gradient(to right, var(--brand-primary), var(--brand-accent))"
-                    : "var(--brand-border-color)",
-                }}
+                className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+                style={
+                  tier.highlighted
+                    ? {
+                        background: "var(--brand-primary)",
+                        color: "var(--brand-primary-foreground)",
+                      }
+                    : {
+                        border: "1px solid var(--brand-border-color)",
+                        background: "var(--brand-surface-input)",
+                      }
+                }
               >
-                {tier.cta || "Get Started"}
+                {tier.cta || "Get started"}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import config, { brand, resolveLandingConfig, isLiveMode } from "@/lib/config";
-import { Zap } from "lucide-react";
+import config, { brand, isLiveMode } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 
 type NavVariant = "default" | "precision" | "momentum";
 
 export function NavBar({ variant = "default" }: { variant?: NavVariant }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
   const href = waitlistMode && !isLiveMode ? "#waitlist" : "/signup";
 
@@ -33,9 +33,9 @@ export function NavBar({ variant = "default" }: { variant?: NavVariant }) {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${s.nav}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {brand.logoUrl ? (
-            // VOS-BRAND-LOGO-GEN: generated logomark, falls back to Zap mark.
+            // VOS-BRAND-LOGO-GEN: generated logomark, falls back to a wordmark.
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={brand.logoUrl}
@@ -43,31 +43,32 @@ export function NavBar({ variant = "default" }: { variant?: NavVariant }) {
               className={`h-8 w-8 ${s.logo} object-contain`}
             />
           ) : (
+            // Flat monogram tile. No gradient fill.
             <div
-              className={`h-8 w-8 ${s.logo} flex items-center justify-center`}
+              className={`h-8 w-8 ${s.logo} flex items-center justify-center text-sm font-semibold font-display`}
               style={{
-                background:
-                  "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))",
+                background: "var(--brand-primary)",
+                color: "var(--brand-primary-foreground)",
               }}
             >
-              <Zap className="h-4 w-4 text-white" />
+              {(config.name || "V").charAt(0).toUpperCase()}
             </div>
           )}
-          <span className="text-lg font-semibold tracking-tight">
+          <span className="text-base font-semibold tracking-tight font-display">
             {config.name}
           </span>
         </div>
         <a
           href={href}
-          className={`${s.btn} text-sm font-medium text-white transition-all hover:shadow-lg`}
+          className={`${s.btn} text-sm font-medium transition-colors duration-200 ease-out hover:opacity-90`}
           style={{
-            background:
-              "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+            background: "var(--brand-primary)",
+            color: "var(--brand-primary-foreground)",
           }}
         >
           {landing.navCta ||
             landing.primaryCta ||
-            (isLiveMode ? "Try it Free" : "Get Early Access")}
+            (isLiveMode ? "Try it free" : "Get early access")}
         </a>
       </div>
     </nav>

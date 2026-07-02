@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { resolveLandingConfig } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { GradientText } from "./gradient-text";
 
 type StatsVariant = "centered" | "horizontal" | "glass";
 
 export function StatsSection({ variant = "centered" }: { variant?: StatsVariant }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   if (!landing.painStats?.length) return null;
 
   if (variant === "horizontal") return <StatsHorizontal stats={landing.painStats} />;

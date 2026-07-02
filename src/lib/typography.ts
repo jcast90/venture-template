@@ -1,12 +1,89 @@
-import { Inter, Playfair_Display, JetBrains_Mono, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 
-// Load all font candidates at module scope so next/font can optimize them.
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
+// ─── Fontshare typography system ────────────────────────────────────────────
+//
+// Every venture picks ONE of the four named Fontshare presets (see the Venture
+// OS design bible, landing-design-guidelines.md section 7). Fonts are
+// self-hosted via next/font/local (woff2 downloaded from Fontshare into
+// src/fonts) for production reliability, so a slow or blocked CDN never leaves
+// a venture on a generic fallback.
+//
+// Fallback stacks are deliberately NEVER Inter/Roboto/Arial. A missing webfont
+// degrades to Helvetica Neue / Charter / Iowan, which still read as designed.
 
-export type TypographyPreset = "clean" | "editorial" | "technical" | "friendly";
+const clashDisplay = localFont({
+  variable: "--font-clash-display",
+  display: "swap",
+  src: [
+    { path: "../fonts/clash-display-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/clash-display-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/clash-display-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/clash-display-700.woff2", weight: "700", style: "normal" },
+  ],
+});
+
+const satoshi = localFont({
+  variable: "--font-satoshi",
+  display: "swap",
+  src: [
+    { path: "../fonts/satoshi-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/satoshi-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/satoshi-700.woff2", weight: "700", style: "normal" },
+  ],
+});
+
+const erode = localFont({
+  variable: "--font-erode",
+  display: "swap",
+  src: [
+    { path: "../fonts/erode-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/erode-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/erode-600.woff2", weight: "600", style: "normal" },
+  ],
+});
+
+const generalSans = localFont({
+  variable: "--font-general-sans",
+  display: "swap",
+  src: [
+    { path: "../fonts/general-sans-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/general-sans-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/general-sans-600.woff2", weight: "600", style: "normal" },
+  ],
+});
+
+const zodiak = localFont({
+  variable: "--font-zodiak",
+  display: "swap",
+  src: [
+    { path: "../fonts/zodiak-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/zodiak-700.woff2", weight: "700", style: "normal" },
+  ],
+});
+
+const switzer = localFont({
+  variable: "--font-switzer",
+  display: "swap",
+  src: [
+    { path: "../fonts/switzer-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/switzer-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/switzer-600.woff2", weight: "600", style: "normal" },
+  ],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+// Preset NAMES are the contract with the generator. Do NOT rename these keys.
+export type TypographyPreset =
+  | "grotesque-display"
+  | "editorial-serif"
+  | "technical-mono"
+  | "warm-humanist";
 
 export type TypographyPresetConfig = {
   /** Space-separated className list combining all next/font variables used. */
@@ -15,44 +92,65 @@ export type TypographyPresetConfig = {
   sansStack: string;
   /** CSS value for --font-display (headings). */
   displayStack: string;
-  /** CSS value for --font-mono (code). */
+  /** CSS value for --font-mono (code / labels). */
   monoStack: string;
 };
 
-const FALLBACK_SANS = `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
-const FALLBACK_SERIF = `Georgia, Cambria, "Times New Roman", Times, serif`;
-const FALLBACK_MONO = `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace`;
+// Fallbacks are chosen so a dropped webfont still looks intentional, never
+// generic. No Inter / Roboto / Arial anywhere.
+const FALLBACK_GROTESQUE = `"Helvetica Neue", "Segoe UI", sans-serif`;
+const FALLBACK_HUMANIST = `"Avenir Next", "Segoe UI", sans-serif`;
+const FALLBACK_SERIF = `"Iowan Old Style", Charter, "Hoefler Text", Palatino, serif`;
+const FALLBACK_MONO = `ui-monospace, "SFMono-Regular", Menlo, monospace`;
 
 export const TYPOGRAPHY_PRESETS: Record<TypographyPreset, TypographyPresetConfig> = {
-  clean: {
-    variableClassName: `${inter.variable} ${jetbrainsMono.variable}`,
-    sansStack: `var(--font-inter), ${FALLBACK_SANS}`,
-    displayStack: `var(--font-inter), ${FALLBACK_SANS}`,
+  // A. Bold, modern, product-led (Linear lane).
+  "grotesque-display": {
+    variableClassName: `${clashDisplay.variable} ${satoshi.variable} ${jetbrainsMono.variable}`,
+    sansStack: `var(--font-satoshi), ${FALLBACK_GROTESQUE}`,
+    displayStack: `var(--font-clash-display), ${FALLBACK_GROTESQUE}`,
     monoStack: `var(--font-mono), ${FALLBACK_MONO}`,
   },
-  editorial: {
-    variableClassName: `${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`,
-    sansStack: `var(--font-inter), ${FALLBACK_SANS}`,
-    displayStack: `var(--font-playfair), ${FALLBACK_SERIF}`,
+  // B. Refined, trustworthy, considered (Mercury lane).
+  "editorial-serif": {
+    variableClassName: `${erode.variable} ${generalSans.variable} ${jetbrainsMono.variable}`,
+    sansStack: `var(--font-general-sans), ${FALLBACK_HUMANIST}`,
+    displayStack: `var(--font-erode), ${FALLBACK_SERIF}`,
     monoStack: `var(--font-mono), ${FALLBACK_MONO}`,
   },
-  technical: {
-    variableClassName: `${inter.variable} ${jetbrainsMono.variable}`,
-    sansStack: `var(--font-inter), ${FALLBACK_SANS}`,
-    displayStack: `var(--font-mono), ${FALLBACK_MONO}`,
+  // C. Precise, engineer-facing (Braintrust lane). Mono ONLY in code/labels.
+  "technical-mono": {
+    variableClassName: `${satoshi.variable} ${jetbrainsMono.variable}`,
+    sansStack: `var(--font-satoshi), ${FALLBACK_GROTESQUE}`,
+    displayStack: `var(--font-satoshi), ${FALLBACK_GROTESQUE}`,
     monoStack: `var(--font-mono), ${FALLBACK_MONO}`,
   },
-  friendly: {
-    variableClassName: `${dmSans.variable} ${inter.variable} ${jetbrainsMono.variable}`,
-    sansStack: `var(--font-dm-sans), ${FALLBACK_SANS}`,
-    displayStack: `var(--font-dm-sans), ${FALLBACK_SANS}`,
+  // D. Approachable, warm without childish (consumer/community).
+  "warm-humanist": {
+    variableClassName: `${zodiak.variable} ${switzer.variable} ${jetbrainsMono.variable}`,
+    sansStack: `var(--font-switzer), ${FALLBACK_HUMANIST}`,
+    displayStack: `var(--font-zodiak), ${FALLBACK_SERIF}`,
     monoStack: `var(--font-mono), ${FALLBACK_MONO}`,
   },
 };
 
+// Legacy preset names map onto the closest Fontshare preset so older
+// venture.config.json files (clean/editorial/technical/friendly) keep working.
+const LEGACY_ALIASES: Record<string, TypographyPreset> = {
+  clean: "grotesque-display",
+  editorial: "editorial-serif",
+  technical: "technical-mono",
+  friendly: "warm-humanist",
+};
+
+const DEFAULT_PRESET: TypographyPreset = "grotesque-display";
+
 export function resolveTypographyPreset(preset?: string | null): TypographyPresetConfig {
-  const key = (preset ?? "clean") as TypographyPreset;
-  return TYPOGRAPHY_PRESETS[key] ?? TYPOGRAPHY_PRESETS.clean;
+  const raw = (preset ?? DEFAULT_PRESET).trim();
+  const key = (TYPOGRAPHY_PRESETS[raw as TypographyPreset]
+    ? (raw as TypographyPreset)
+    : LEGACY_ALIASES[raw]) ?? DEFAULT_PRESET;
+  return TYPOGRAPHY_PRESETS[key];
 }
 
 export type Density = "compact" | "default" | "spacious";

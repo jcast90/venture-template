@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
-import { FadeIn as MotionFadeIn } from "@/components/motion";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm, LiveCtaButtons } from "./shared/waitlist-form";
 import { PricingSection } from "./shared/pricing-section";
@@ -14,7 +14,7 @@ import { ProblemSection as SharedProblemSection } from "./shared/problem-section
 import { TestimonialsSection as SharedTestimonialsSection } from "./shared/testimonials-section";
 import { FaqSection as SharedFaqSection } from "./shared/faq-section";
 import { ProductFrame } from "./shared/product-frame";
-import { GradientText, BrandIconBox } from "./shared/gradient-text";
+import { BrandIconBox } from "./shared/gradient-text";
 import {
   ArrowRight,
   Target,
@@ -24,8 +24,6 @@ import {
   Shield,
   TrendingUp,
   Zap,
-  ChevronDown,
-  Quote,
 } from "lucide-react";
 
 const ICON_MAP: Record<string, typeof Zap> = {
@@ -97,103 +95,58 @@ function FadeIn({
   );
 }
 
-/* ─── Hero ─── */
+/* ─── Hero (asymmetric: left copy, right product) ─── */
 function WarmthHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative flex flex-col items-center px-6 pt-36 pb-16 text-center overflow-hidden">
-      {/* Soft glow */}
-      <div
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[800px] rounded-full blur-[140px] opacity-[0.07]"
-        style={{
-          background: `linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
-        }}
-      />
+    <section className="relative px-6 pt-36 pb-20 overflow-x-clip">
+      <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        {/* Copy side */}
+        <div className="min-w-0 max-w-xl">
+          <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl">
+            {landing.headline}
+          </h1>
 
-      <div className="relative z-10 max-w-3xl">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface-card px-5 py-2 text-sm text-zinc-400">
-          <Sparkles className="h-3.5 w-3.5 text-brand-primary" />
-          <span>{isLiveMode ? "Now available" : "Now in early access"}</span>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-zinc-400">
+            {landing.subheadline}
+          </p>
+
+          {waitlistMode && !isLiveMode ? (
+            <WaitlistForm className="mt-9 max-w-md" />
+          ) : (
+            <div className="mt-9">
+              <LiveCtaButtons />
+            </div>
+          )}
         </div>
 
-        <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-          <GradientText>{landing.headline}</GradientText>
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400 sm:text-xl">
-          {landing.subheadline}
-        </p>
-
-        {waitlistMode && !isLiveMode ? (
-          <WaitlistForm className="mx-auto mt-10 max-w-md" />
-        ) : (
-          <LiveCtaButtons />
-        )}
+        {/* Product side, bleeding slightly past its column on wide screens only */}
+        <FadeIn className="relative min-w-0 lg:-mr-10" delay={200}>
+          <ProductFrame
+            imageUrl={landing.heroImage}
+            alt={`${config.name} product interface`}
+            className="shadow-[0_24px_70px_-20px_rgba(0,0,0,0.55)]"
+          />
+        </FadeIn>
       </div>
-
-      {/* Product frame below hero */}
-      <FadeIn className="relative z-10 mx-auto mt-16 w-full max-w-3xl" delay={300}>
-        <ProductFrame
-          imageUrl={landing.heroImage}
-          alt={`${config.name} dashboard`}
-          className="shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]"
-        />
-      </FadeIn>
     </section>
-  );
-}
-
-/* ─── Social proof bar ─── */
-function SocialProofBar() {
-  const { landing } = resolveLandingConfig();
-  if (!landing.socialProofLine) return null;
-
-  return (
-    <FadeIn className="border-y border-brand-border py-8">
-      <p className="text-center text-sm text-zinc-500">
-        {landing.socialProofLine}
-      </p>
-    </FadeIn>
-  );
-}
-
-/* ─── Problem statement ─── */
-function ProblemSection() {
-  const { landing } = resolveLandingConfig();
-  if (!landing.painPoints?.length) return null;
-
-  return (
-    <FadeIn className="px-6 py-24">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          The problem with <GradientText>today</GradientText>
-        </h2>
-        <div className="mx-auto mt-8 max-w-2xl space-y-4">
-          {landing.painPoints.map((point, i) => (
-            <p key={i} className="text-lg leading-relaxed text-zinc-400">
-              {point}
-            </p>
-          ))}
-        </div>
-      </div>
-    </FadeIn>
   );
 }
 
 /* ─── Alternating features ─── */
 function FeaturesSection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features;
   if (!features?.length) return null;
 
   return (
     <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <FadeIn className="text-center mb-20">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything you <GradientText>need</GradientText>
+        <FadeIn className="mb-20 max-w-xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            Everything you need
           </h2>
         </FadeIn>
 
@@ -212,10 +165,10 @@ function FeaturesSection() {
                 {/* Text side */}
                 <div className="flex-1 lg:max-w-md">
                   <BrandIconBox size="lg">
-                    <Icon className="h-7 w-7 text-brand-primary" />
+                    <Icon className="h-7 w-7" style={{ color: "var(--brand-primary)" }} />
                   </BrandIconBox>
-                  <h3 className="mt-6 text-2xl font-bold">{feature.title}</h3>
-                  <p className="mt-4 text-lg leading-relaxed text-zinc-400">
+                  <h3 className="mt-6 text-2xl font-semibold font-display">{feature.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-zinc-400">
                     {feature.description}
                   </p>
                 </div>
@@ -237,232 +190,35 @@ function FeaturesSection() {
   );
 }
 
-/* ─── How it works (vertical numbered steps with dotted line) ─── */
-function StepsSection() {
-  const { landing } = resolveLandingConfig();
-  const stepIcons = [Target, Layers, Sparkles];
-
-  return (
-    <section className="px-6 py-24 border-t border-brand-border">
-      <div className="mx-auto max-w-3xl">
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            How it <GradientText>works</GradientText>
-          </h2>
-          <p className="mt-4 text-zinc-400">
-            Get started in minutes, not months.
-          </p>
-        </FadeIn>
-
-        <div className="relative">
-          {/* Dotted connecting line */}
-          <div
-            className="absolute left-6 top-0 bottom-0 w-px hidden sm:block"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(to bottom, color-mix(in srgb, var(--brand-primary) 30%, transparent) 0px, color-mix(in srgb, var(--brand-primary) 30%, transparent) 4px, transparent 4px, transparent 12px)",
-            }}
-          />
-
-          <div className="space-y-12">
-            {landing.steps.map((step, i) => {
-              const Icon = stepIcons[i] || Sparkles;
-              return (
-                <FadeIn
-                  key={i}
-                  delay={i * 150}
-                  className="flex items-start gap-6 sm:pl-0"
-                >
-                  {/* Number circle */}
-                  <div
-                    className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                    style={{
-                      background: `linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
-                    }}
-                  >
-                    {i + 1}
-                  </div>
-
-                  <div className="pt-1">
-                    <h3 className="text-xl font-semibold">{step.title}</h3>
-                    <p className="mt-2 text-base leading-relaxed text-zinc-400">
-                      {step.desc}
-                    </p>
-                  </div>
-                </FadeIn>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Testimonials (CSS scroll-snap carousel) ─── */
-function TestimonialsSection() {
-  const { landing } = resolveLandingConfig();
-  const testimonials = landing.testimonials;
-  if (!testimonials?.length) return null;
-
-  return (
-    <section className="py-24 border-t border-brand-border">
-      <FadeIn className="px-6">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
-            What people are <GradientText>saying</GradientText>
-          </h2>
-        </div>
-      </FadeIn>
-
-      <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-6 pb-4 scrollbar-hide">
-        <div className="shrink-0 w-[calc((100%-theme(maxWidth.5xl))/2)]" />
-        {testimonials.map((t, i) => (
-          <FadeIn
-            key={i}
-            delay={i * 100}
-            className="snap-center shrink-0 w-[340px] sm:w-[400px]"
-          >
-            <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-all hover:border-brand-border-hover hover:scale-[1.02]">
-              <Quote className="h-8 w-8 text-brand-primary opacity-40 mb-4" />
-              <p className="text-base leading-relaxed text-zinc-300">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="mt-6 flex items-center gap-3">
-                <div
-                  className="h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold text-white"
-                  style={{
-                    background: `linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
-                  }}
-                >
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-xs text-zinc-500">
-                    {t.role}, {t.company}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
-        ))}
-        <div className="shrink-0 w-6" />
-      </div>
-    </section>
-  );
-}
-
-/* ─── FAQ Accordion ─── */
-function FaqSection() {
-  const { landing } = resolveLandingConfig();
-  const faq = landing.faq;
-  if (!faq?.length) return null;
-
-  return (
-    <FadeIn className="px-6 py-24 border-t border-brand-border">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
-          Frequently asked <GradientText>questions</GradientText>
-        </h2>
-
-        <div className="space-y-3">
-          {faq.map((item, i) => (
-            <FaqAccordionItem key={i} question={item.question} answer={item.answer} />
-          ))}
-        </div>
-      </div>
-    </FadeIn>
-  );
-}
-
-function FaqAccordionItem({
-  question,
-  answer,
-}: {
-  question: string;
-  answer: string;
-}) {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
-
-  return (
-    <details
-      ref={detailsRef}
-      className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border-hover"
-    >
-      <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-base font-medium list-none">
-        {question}
-        <ChevronDown className="h-4 w-4 text-zinc-500 transition-transform group-open:rotate-180" />
-      </summary>
-      <div className="px-6 pb-5 text-sm leading-relaxed text-zinc-400">
-        {answer}
-      </div>
-    </details>
-  );
-}
-
-/* ─── Pain stats ─── */
-function PainStatsSection() {
-  const { landing } = resolveLandingConfig();
-
-  return (
-    <FadeIn>
-      <section className="relative border-y border-brand-border bg-brand-surface-card">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-brand-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {landing.painStats.map((item, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center gap-2 px-8 py-12 text-center"
-            >
-              <GradientText>
-                <span className="text-4xl font-bold">{item.stat}</span>
-              </GradientText>
-              <span className="text-sm text-zinc-400">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    </FadeIn>
-  );
-}
-
 /* ─── Final CTA ─── */
 function FinalCtaSection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 py-32 overflow-hidden">
-      {/* Glow */}
-      <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full blur-[140px] opacity-[0.06]"
-        style={{
-          background: `linear-gradient(135deg, var(--brand-primary), var(--brand-accent))`,
-        }}
-      />
-
-      <FadeIn className="relative z-10 mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
-          <GradientText>{landing.finalCta.headline}</GradientText>
+    <section className="px-6 py-32 border-t border-brand-border">
+      <FadeIn className="mx-auto max-w-3xl">
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          {landing.finalCta.headline}
         </h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+        <p className="mt-5 max-w-xl text-lg text-zinc-400">
           {landing.finalCta.subheadline}
         </p>
 
-        <div className="mt-10 flex flex-col items-center gap-4">
+        <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-xl"
+            className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
             style={{
-              background:
-                "linear-gradient(to right, var(--brand-primary), var(--brand-accent))",
+              background: "var(--brand-primary)",
+              color: "var(--brand-primary-foreground)",
             }}
           >
             {landing.finalCtaButton ||
               landing.primaryCta ||
-              (isLiveMode ? "Try it Free" : "Join the Waitlist")}
+              (isLiveMode ? "Try it free" : "Join the waitlist")}
             <ArrowRight className="h-5 w-5" />
           </a>
           {landing.finalCta.secondaryButton && (
@@ -500,7 +256,7 @@ const WARMTH_DEFAULT_SECTIONS: LandingSectionId[] = [
 
 /* ─── Main Warmth template ─── */
 export default function Warmth({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? WARMTH_DEFAULT_SECTIONS;
 
   return (
@@ -514,11 +270,12 @@ export default function Warmth({ config: _config }: { config: VentureConfig }) {
           }
           return null;
         }
-        return (
-          <MotionFadeIn key={id} y={16} duration={0.55}>
-            {render()}
-          </MotionFadeIn>
-        );
+        // Render sections directly (no whileInView gate on the whole section).
+        // Gating every section behind scroll-reveal is both a design-bible
+        // anti-pattern (do not fade-in everything) and the fragile pattern
+        // that left content invisible in QA. Motion is reserved for smaller,
+        // self-healing moments inside sections (e.g. the hero product frame).
+        return <React.Fragment key={id}>{render()}</React.Fragment>;
       })}
       <FooterBar />
     </div>

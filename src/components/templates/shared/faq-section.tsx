@@ -1,19 +1,18 @@
 "use client";
 
-import { resolveLandingConfig } from "@/lib/config";
-import { GradientText } from "./gradient-text";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { ChevronDown } from "lucide-react";
 
 export function FaqSection() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const faq = landing.faq;
   if (!faq?.length) return null;
 
   return (
     <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl mb-16">
-          Frequently asked <GradientText>questions</GradientText>
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-12">
+          Frequently asked questions
         </h2>
 
         <div className="space-y-3">

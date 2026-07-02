@@ -247,3 +247,6 @@ export function resolveLandingConfig(): VentureConfig {
     landing: mergeLanding(typedBaseConfig.landing, selected.overrides),
   };
 }
+
+/** The deterministic base config, used by useResolvedLanding before hydration. */
+export const baseVentureConfig: VentureConfig = typedBaseConfig;

@@ -27,15 +27,31 @@ export function PageviewTracker() {
     const ingestUrl =
       process.env.NEXT_PUBLIC_VOS_ANALYTICS_URL || DEFAULT_INGEST_URL;
 
+    const payload = JSON.stringify({
+      venture_slug: ventureSlug,
+      path: pathname,
+      referrer: document.referrer,
+    });
+
+    // This endpoint lives on a DIFFERENT origin (venture-os.co) than the
+    // venture domain. A normal JSON POST triggers a CORS preflight that the
+    // ingest endpoint does not answer, which logs a red CORS error to the
+    // console even though we swallow the rejection. Two changes avoid that:
+    //   1. Prefer navigator.sendBeacon, which is fire-and-forget and exempt
+    //      from CORS console noise. It is the right tool for pageview pings.
+    //   2. Fall back to fetch with mode:"no-cors" and a non-preflighted body,
+    //      so the browser sends a simple request with no failing preflight.
     try {
-      fetch(ingestUrl, {
+      if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+        navigator.sendBeacon(ingestUrl, new Blob([payload], { type: "text/plain" }));
+        return;
+      }
+      void fetch(ingestUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          venture_slug: ventureSlug,
-          path: pathname,
-          referrer: document.referrer,
-        }),
+        mode: "no-cors",
+        // text/plain is a CORS-safelisted content type, so no preflight fires.
+        headers: { "Content-Type": "text/plain" },
+        body: payload,
         keepalive: true,
       }).catch(() => {
         // Silently ignore tracking failures.

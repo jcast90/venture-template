@@ -131,7 +131,7 @@ export default function SettingsPage() {
               </div>
               <Separator className="bg-white/[0.06]" />
               <div className="flex justify-end">
-                <Button className="text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
+                <Button className="text-white" style={{ background: "var(--brand-primary)" }}>
                   Save Changes
                 </Button>
               </div>
@@ -153,7 +153,7 @@ export default function SettingsPage() {
                       You are currently on the Pro plan.
                     </CardDescription>
                   </div>
-                  <Badge className="border-0 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
+                  <Badge className="border-0 text-white" style={{ background: "var(--brand-primary)" }}>
                     Pro
                   </Badge>
                 </div>
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                 </div>
                 <Separator className="bg-white/[0.06]" />
                 <div className="flex gap-3">
-                  <Button className="text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
+                  <Button className="text-white" style={{ background: "var(--brand-primary)" }}>
                     Upgrade to Enterprise
                   </Button>
                   <Button
@@ -250,7 +250,7 @@ export default function SettingsPage() {
                     placeholder="colleague@example.com"
                     className="flex-1 border-white/[0.08] bg-white/[0.03] text-white placeholder:text-white/30 focus-visible:border-brand-primary/50 focus-visible:ring-brand-primary/20"
                   />
-                  <Button className="gap-2 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
+                  <Button className="gap-2 text-white" style={{ background: "var(--brand-primary)" }}>
                     <Plus className="size-4" />
                     Invite
                   </Button>
@@ -275,7 +275,7 @@ export default function SettingsPage() {
                       className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-white/[0.03] p-4"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="flex size-9 items-center justify-center rounded-full" style={{ background: "linear-gradient(to bottom right, color-mix(in srgb, var(--brand-primary) 20%, transparent), color-mix(in srgb, var(--brand-accent) 20%, transparent))" }}>
+                        <div className="flex size-9 items-center justify-center rounded-full" style={{ background: "color-mix(in srgb, var(--brand-primary) 15%, transparent)" }}>
                           <span className="text-sm font-semibold text-white/70">
                             {member.name
                               .split(" ")
@@ -337,7 +337,7 @@ export default function SettingsPage() {
                       Manage your API keys for programmatic access.
                     </CardDescription>
                   </div>
-                  <Button className="gap-2 text-white" style={{ background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}>
+                  <Button className="gap-2 text-white" style={{ background: "var(--brand-primary)" }}>
                     <Plus className="size-4" />
                     Create Key
                   </Button>
@@ -414,7 +414,7 @@ export default function SettingsPage() {
                     <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: "25.7%", background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+                        style={{ width: "25.7%", background: "var(--brand-primary)" }}
                       />
                     </div>
                   </div>
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                     <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: "32%", background: "linear-gradient(to right, var(--brand-primary), var(--brand-accent))" }}
+                        style={{ width: "32%", background: "var(--brand-primary)" }}
                       />
                     </div>
                   </div>

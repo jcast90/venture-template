@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import config, { isLiveMode, resolveLandingConfig, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import config, { isLiveMode, hasRenderableFinalCta, type VentureConfig, type LandingSectionId } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import { NavBar } from "./shared/nav";
 import { FooterBar } from "./shared/footer";
 import { WaitlistForm } from "./shared/waitlist-form";
@@ -17,13 +18,15 @@ import { ArrowRight, MessageCircle, Users, Sparkles } from "lucide-react";
 /* Community: social/membership products. Avatar cluster, activity feed mock,
    conversational tone, rounded shapes. */
 
+// Monochrome avatar tints. Distinct-but-quiet neutral steps read more premium
+// than a decorative rainbow, and keep saturated color reserved for the CTA.
 const AVATAR_COLORS = [
-  "linear-gradient(135deg, #f472b6, #f59e0b)",
-  "linear-gradient(135deg, #60a5fa, #a78bfa)",
-  "linear-gradient(135deg, #34d399, #10b981)",
-  "linear-gradient(135deg, #fb7185, #f43f5e)",
-  "linear-gradient(135deg, #fbbf24, #f97316)",
-  "linear-gradient(135deg, #a78bfa, #ec4899)",
+  "#3f3f46",
+  "#52525b",
+  "#71717a",
+  "#3f3f46",
+  "#52525b",
+  "#71717a",
 ];
 
 function AvatarCluster() {
@@ -50,23 +53,13 @@ function AvatarCluster() {
 }
 
 function CommunityHero() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-28 pb-20 overflow-hidden">
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[30rem] w-[50rem] rounded-full blur-3xl opacity-25"
-        style={{ background: "var(--brand-primary)" }}
-      />
+    <section className="relative px-6 pt-28 pb-20">
       <div className="relative mx-auto max-w-4xl text-center">
-        <div className="inline-flex items-center gap-3 rounded-full px-4 py-1.5"
-          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <AvatarCluster />
-          <span className="text-xs font-medium text-white/80">Join the community</span>
-        </div>
-        <h1 className="mt-8 text-4xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
+        <h1 className="text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
           {landing.headline}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
@@ -79,13 +72,18 @@ function CommunityHero() {
           ) : (
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-[1.03]"
-              style={{ background: "var(--brand-primary)" }}
+              className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+              style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
             >
               {landing.primaryCta || "Join the community"}
               <ArrowRight className="h-4 w-4" />
             </a>
           )}
+        </div>
+
+        <div className="mt-10 flex items-center justify-center gap-3">
+          <AvatarCluster />
+          <span className="text-xs font-medium text-white/60">2,000+ members already inside</span>
         </div>
       </div>
     </section>
@@ -93,7 +91,7 @@ function CommunityHero() {
 }
 
 function CommunityActivityFeed() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const features = landing.features || [];
   if (features.length === 0) return null;
 
@@ -149,7 +147,7 @@ function CommunityActivityFeed() {
 }
 
 function CommunityCta() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   // VOS-969: hide the section entirely when finalCta is empty/missing.
   if (!hasRenderableFinalCta(landing.finalCta)) return null;
   const waitlistMode = config.flags?.waitlistMode ?? true;
@@ -166,15 +164,15 @@ function CommunityCta() {
         <div className="mb-6 flex justify-center">
           <AvatarCluster />
         </div>
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-4 text-white/70 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white"
-            style={{ background: "var(--brand-primary)" }}
+            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold transition-opacity duration-200 ease-out hover:opacity-90"
+            style={{ background: "var(--brand-primary)", color: "var(--brand-primary-foreground)" }}
           >
             <Users className="h-4 w-4" />
             {landing.finalCtaButton || landing.primaryCta || "Join the community"}
@@ -211,7 +209,7 @@ const COMMUNITY_DEFAULT_SECTIONS: LandingSectionId[] = [
 ];
 
 export default function Community({ config: _config }: { config: VentureConfig }) {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const sections = landing.sections ?? COMMUNITY_DEFAULT_SECTIONS;
 
   return (

@@ -1,10 +1,10 @@
 "use client";
 
-import { resolveLandingConfig } from "@/lib/config";
+import { useResolvedLanding } from "@/lib/use-landing";
 import Image from "next/image";
 
 export function LogoBar() {
-  const { landing } = resolveLandingConfig();
+  const { landing } = useResolvedLanding();
   const logos = landing.socialProof?.logos;
   const line = landing.socialProof?.line || landing.socialProofLine;
 

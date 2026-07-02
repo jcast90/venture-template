@@ -7,11 +7,11 @@ import { UserMenu } from "@/components/dashboard/user-menu";
 export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col border-r border-white/[0.06] bg-brand-surface-light lg:flex">
-      {/* Brand gradient top line */}
-      <div className="h-[2px] w-full shrink-0" style={{ background: `linear-gradient(to right, var(--brand-primary), var(--brand-accent))` }} />
+      {/* Brand accent top line */}
+      <div className="h-[2px] w-full shrink-0" style={{ background: `var(--brand-primary)` }} />
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 px-6">
-        <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))" }}>
+        <div className="flex size-8 items-center justify-center rounded-lg" style={{ background: "var(--brand-primary)" }}>
           <Zap className="size-4 text-white" />
         </div>
         <span className="text-base font-semibold tracking-tight text-white">
