@@ -131,7 +131,15 @@ const typedBaseConfig = baseConfig as VentureConfig;
 
 export default typedBaseConfig;
 
-export const brand = typedBaseConfig.brand;
+// Optional generated brand assets (VOS-BRAND-LOGO-GEN). Present when the build
+// pipeline generated a real logomark; absent -> components fall back to initials.
+export type BrandAssets = {
+  logoUrl?: string;
+  faviconUrl?: string;
+};
+
+export const brand = typedBaseConfig.brand as typeof typedBaseConfig.brand &
+  BrandAssets;
 export const isLiveMode = !typedBaseConfig.flags?.waitlistMode || typedBaseConfig.flags?.mvpReady;
 
 export function getLandingExperimentConfig(): LandingExperimentConfig | null {
