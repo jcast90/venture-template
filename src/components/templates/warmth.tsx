@@ -127,6 +127,7 @@ function WarmthHero() {
           <ProductFrame
             imageUrl={landing.heroImage}
             alt={`${config.name} product interface`}
+            variant="board"
             className="shadow-[0_24px_70px_-20px_rgba(0,0,0,0.55)]"
           />
         </FadeIn>
