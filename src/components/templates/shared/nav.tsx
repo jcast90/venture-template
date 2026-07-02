@@ -1,6 +1,6 @@
 "use client";
 
-import config, { resolveLandingConfig, isLiveMode } from "@/lib/config";
+import config, { brand, resolveLandingConfig, isLiveMode } from "@/lib/config";
 import { Zap } from "lucide-react";
 
 type NavVariant = "default" | "precision" | "momentum";
@@ -34,15 +34,25 @@ export function NavBar({ variant = "default" }: { variant?: NavVariant }) {
     <nav className={`fixed top-0 left-0 right-0 z-50 ${s.nav}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-2">
-          <div
-            className={`h-8 w-8 ${s.logo} flex items-center justify-center`}
-            style={{
-              background:
-                "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))",
-            }}
-          >
-            <Zap className="h-4 w-4 text-white" />
-          </div>
+          {brand.logoUrl ? (
+            // VOS-BRAND-LOGO-GEN: generated logomark, falls back to Zap mark.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={brand.logoUrl}
+              alt={`${config.name} logo`}
+              className={`h-8 w-8 ${s.logo} object-contain`}
+            />
+          ) : (
+            <div
+              className={`h-8 w-8 ${s.logo} flex items-center justify-center`}
+              style={{
+                background:
+                  "linear-gradient(to bottom right, var(--brand-primary), var(--brand-accent))",
+              }}
+            >
+              <Zap className="h-4 w-4 text-white" />
+            </div>
+          )}
           <span className="text-lg font-semibold tracking-tight">
             {config.name}
           </span>

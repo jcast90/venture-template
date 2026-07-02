@@ -1,6 +1,23 @@
-import config from "@/lib/config";
+import config, { brand } from "@/lib/config";
 
 export function Logo({ size = 32 }: { size?: number }) {
+  // VOS-BRAND-LOGO-GEN: render the generated logomark when present; otherwise
+  // fall back to gradient initials.
+  const logoUrl = brand.logoUrl;
+  if (logoUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={logoUrl}
+        alt={`${config.name} logo`}
+        width={size}
+        height={size}
+        className="rounded-lg shrink-0 object-contain"
+        style={{ width: size, height: size }}
+      />
+    );
+  }
+
   const initials = config.name
     .split(/[\s-]+/)
     .map((w) => w[0])
