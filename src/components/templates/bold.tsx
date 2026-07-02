@@ -18,37 +18,112 @@ import { ArrowUpRight } from "lucide-react";
 /* Bold: high-contrast editorial. Oversized display type, thick rules,
    numbered sections, magazine-like layout with strong typographic hierarchy. */
 
+/* Editorial "tearsheet" visual. Not a browser chrome mock: a magazine-style
+   data panel that matches Bold's high-contrast, ruled-line character. Shows a
+   real headline metric with context, a bar chart, and a couple of ledger rows.
+   No skeletons, no gradient. */
+function BoldTearsheet() {
+  const bars = [40, 66, 52, 78, 61, 90, 72];
+  return (
+    <div className="border-[3px] border-white bg-black">
+      <div className="flex items-baseline justify-between border-b-[3px] border-white px-5 py-3">
+        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/60">
+          Index
+        </span>
+        <span className="font-mono text-[10px] text-white/50">Q3 · live</span>
+      </div>
+      <div className="px-5 pt-5 pb-4">
+        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/50">
+          Monthly active
+        </div>
+        <div className="mt-1 flex items-baseline gap-3">
+          <span className="text-4xl font-semibold leading-none tracking-tight text-white">
+            3,481
+          </span>
+          <span
+            className="font-mono text-sm font-bold"
+            style={{ color: "var(--brand-primary)" }}
+          >
+            +12.4%
+          </span>
+        </div>
+        <div className="mt-1 text-[11px] text-white/45">vs 3,096 last month</div>
+      </div>
+      {/* Bar chart, ruled baseline */}
+      <div className="flex h-24 items-end gap-2 border-t border-white/20 px-5 pt-4 pb-4">
+        {bars.map((h, i) => (
+          <div key={i} className="flex h-full flex-1 items-end">
+            <div
+              className="w-full"
+              style={{
+                height: `${h}%`,
+                background: i === bars.length - 1 ? "var(--brand-primary)" : "#ffffff",
+                opacity: i === bars.length - 1 ? 1 : 0.22,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      {/* Ledger rows */}
+      <div className="border-t-[3px] border-white">
+        {[
+          { k: "Retention", v: "94%" },
+          { k: "Avg. session", v: "18m" },
+          { k: "New this week", v: "+412" },
+        ].map((row, i) => (
+          <div
+            key={row.k}
+            className={`flex items-center justify-between px-5 py-2.5 ${i > 0 ? "border-t border-white/15" : ""}`}
+          >
+            <span className="text-[11px] uppercase tracking-wider text-white/55">
+              {row.k}
+            </span>
+            <span className="font-mono text-sm font-bold text-white">{row.v}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function BoldHero() {
   const { landing } = useResolvedLanding();
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-32 pb-24 border-b-[3px] border-white">
+    <section className="relative px-6 pt-28 pb-16 border-b-[3px] border-white">
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-white/60 mb-10">
+        <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-white/60 mb-8">
           <span className="px-2 py-1 bg-white text-black">Issue 01</span>
           <span>·</span>
           <span>{config.name}</span>
         </div>
-        <h1 className="font-semibold leading-[0.95] tracking-tight text-white text-4xl sm:text-5xl">
-          {landing.headline}
-        </h1>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 items-end">
-          <p className="text-xl sm:text-2xl leading-snug text-white/80 max-w-2xl">
-            {landing.subheadline}
-          </p>
-          <div className="flex md:justify-end">
-            {waitlistMode && !isLiveMode ? (
-              <WaitlistForm className="w-full max-w-sm" />
-            ) : (
-              <a
-                href="/signup"
-                className="group inline-flex items-center gap-3 border-[3px] border-white px-8 py-4 text-base font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black"
-              >
-                {landing.primaryCta || "Start"}
-                <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </a>
-            )}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
+          {/* Text column */}
+          <div>
+            <h1 className="font-semibold leading-[0.95] tracking-tight text-white text-4xl sm:text-5xl">
+              {landing.headline}
+            </h1>
+            <p className="mt-6 text-lg sm:text-xl leading-snug text-white/80 max-w-xl">
+              {landing.subheadline}
+            </p>
+            <div className="mt-9">
+              {waitlistMode && !isLiveMode ? (
+                <WaitlistForm className="w-full max-w-sm" />
+              ) : (
+                <a
+                  href="/signup"
+                  className="group inline-flex items-center gap-3 border-[3px] border-white px-8 py-4 text-base font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black"
+                >
+                  {landing.primaryCta || "Start"}
+                  <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              )}
+            </div>
+          </div>
+          {/* Editorial data visual */}
+          <div className="hidden lg:block">
+            <BoldTearsheet />
           </div>
         </div>
       </div>
@@ -144,7 +219,7 @@ const BOLD_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
 };
 
 const BOLD_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "social-proof", "features", "stats", "testimonials", "pricing", "cta",
+  "hero", "social-proof", "stats", "features", "problem", "steps", "testimonials", "pricing", "cta",
 ];
 
 export default function Bold({ config: _config }: { config: VentureConfig }) {

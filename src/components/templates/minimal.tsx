@@ -23,20 +23,20 @@ function MinimalHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 pt-40 pb-32">
+    <section className="px-6 pt-32 pb-24">
       <div className="mx-auto max-w-2xl">
         <p className="text-sm font-medium text-zinc-500 mb-8">{config.name}</p>
         <h1 className="text-4xl sm:text-5xl font-medium leading-[1.15] tracking-tight text-white">
           {landing.headline}
         </h1>
-        <p className="mt-8 text-lg leading-relaxed text-zinc-400">
+        <p className="mt-7 text-lg leading-relaxed text-zinc-400">
           {landing.subheadline}
         </p>
 
         {waitlistMode && !isLiveMode ? (
-          <WaitlistForm className="mt-12 max-w-md" />
+          <WaitlistForm className="mt-10 max-w-md" />
         ) : (
-          <div className="mt-12">
+          <div className="mt-10">
             <a
               href="/signup"
               className="inline-flex items-center gap-2 text-sm font-medium text-white border-b border-white pb-1 hover:gap-3 transition-all"
@@ -57,8 +57,8 @@ function MinimalFeaturesRows() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-24">
-      <div className="mx-auto max-w-2xl space-y-20">
+    <section id="features" className="px-6 py-20">
+      <div className="mx-auto max-w-2xl space-y-16">
         {features.map((f, i) => (
           <div key={i}>
             <p className="text-xs font-medium text-zinc-600 mb-3">
@@ -84,7 +84,7 @@ function MinimalCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-32">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-2xl">
         <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-white leading-tight">
           {landing.finalCta.headline}
@@ -126,7 +126,7 @@ const MINIMAL_SECTIONS: Record<LandingSectionId, () => React.ReactNode> = {
 };
 
 const MINIMAL_DEFAULT_SECTIONS: LandingSectionId[] = [
-  "hero", "features", "pricing", "faq", "cta",
+  "hero", "stats", "features", "steps", "pricing", "faq", "cta",
 ];
 
 export default function Minimal({ config: _config }: { config: VentureConfig }) {
