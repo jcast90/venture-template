@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import config from "@/lib/config";
+import config, { resolvedNavItems } from "@/lib/config";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -69,7 +69,7 @@ function TopNavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   return (
     <>
-      {config.dashboard.navItems.map((item) => {
+      {resolvedNavItems.map((item) => {
         const Icon = iconMap[item.icon] ?? LayoutDashboard;
         const isActive =
           pathname === item.href ||
