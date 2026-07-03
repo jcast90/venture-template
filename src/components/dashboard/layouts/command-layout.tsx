@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import config from "@/lib/config";
+import config, { resolvedNavItems } from "@/lib/config";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import {
   CommandPalette,
@@ -80,7 +80,7 @@ export function CommandLayout({ children }: { children: React.ReactNode }) {
         </Link>
 
         <nav className="mt-6 flex flex-1 flex-col items-center gap-1">
-          {config.dashboard.navItems.map((item) => {
+          {resolvedNavItems.map((item) => {
             const Icon = iconMap[item.icon] ?? LayoutDashboard;
             const isActive =
               pathname === item.href ||

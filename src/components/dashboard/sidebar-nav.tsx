@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import config from "@/lib/config";
+import { resolvedNavItems } from "@/lib/config";
 import {
   LayoutDashboard,
   Settings,
@@ -86,7 +86,7 @@ const iconMap: Record<string, LucideIcon> = {
   CreditCard,
 };
 
-const navItems = config.dashboard.navItems;
+const navItems = resolvedNavItems;
 const warnedIcons = new Set<string>();
 
 export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {

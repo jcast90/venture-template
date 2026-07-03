@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Allow the E2B live-preview tunnel (https://<sandbox>-3000.e2b.app) to reach
+  // the Next dev server. Next 16 blocks cross-origin dev requests, including the
+  // HMR websocket, from non-localhost origins unless they are listed here.
+  allowedDevOrigins: ["*.e2b.app", "localhost", "127.0.0.1"],
 };
 
 export default withSentryConfig(nextConfig, {

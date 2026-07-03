@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Command } from "cmdk";
-import config from "@/lib/config";
+import { resolvedNavItems } from "@/lib/config";
 import {
   LayoutDashboard,
   Settings,
@@ -118,7 +118,7 @@ export function CommandPalette({
               heading="Navigation"
               className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:pt-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-white/40"
             >
-              {config.dashboard.navItems.map((item) => {
+              {resolvedNavItems.map((item) => {
                 const Icon = iconMap[item.icon] ?? LayoutDashboard;
                 return (
                   <Command.Item

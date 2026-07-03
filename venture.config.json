@@ -200,21 +200,6 @@
         "icon": "LayoutDashboard"
       },
       {
-        "label": "{{NAV_1}}",
-        "href": "/dashboard/{{NAV_1_SLUG}}",
-        "icon": "{{NAV_1_ICON}}"
-      },
-      {
-        "label": "{{NAV_2}}",
-        "href": "/dashboard/{{NAV_2_SLUG}}",
-        "icon": "{{NAV_2_ICON}}"
-      },
-      {
-        "label": "Contacts",
-        "href": "/dashboard/contacts",
-        "icon": "Users"
-      },
-      {
         "label": "Settings",
         "href": "/dashboard/settings",
         "icon": "Settings"

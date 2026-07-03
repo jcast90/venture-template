@@ -142,6 +142,30 @@ export const brand = typedBaseConfig.brand as typeof typedBaseConfig.brand &
   BrandAssets;
 export const isLiveMode = !typedBaseConfig.flags?.waitlistMode || typedBaseConfig.flags?.mvpReady;
 
+export type DashboardNavItem = BaseVentureConfig["dashboard"]["navItems"][number];
+
+/**
+ * VOS-TEMPLATE-CLEAN-SHELL: a nav item is "unresolved" when any of its fields
+ * still carries an unfilled generator token (e.g. "{{NAV_1}}") or is blank.
+ * The template must never render a placeholder like "Nav 1" — the MVP build
+ * fills in real feature nav items per venture, and anything it leaves unfilled
+ * is simply dropped.
+ */
+function isUnresolvedNavItem(item: DashboardNavItem): boolean {
+  const fields = [item.label, item.href, item.icon];
+  return fields.some(
+    (value) => typeof value !== "string" || !value.trim() || value.includes("{{")
+  );
+}
+
+/**
+ * The dashboard nav items with unresolved/placeholder rows removed. Every
+ * layout (sidebar, topnav, command) reads this so a half-filled config can
+ * never surface a fake "Nav 1"/"Nav 2" entry.
+ */
+export const resolvedNavItems: DashboardNavItem[] =
+  typedBaseConfig.dashboard.navItems.filter((item) => !isUnresolvedNavItem(item));
+
 export function getLandingExperimentConfig(): LandingExperimentConfig | null {
   return typedBaseConfig.experiments?.landingPage || null;
 }
