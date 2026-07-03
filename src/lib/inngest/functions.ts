@@ -88,7 +88,7 @@ export const signupDrip = inngest.createFunction(
       await resend.emails.send({
         from: fromAddress,
         to: email,
-        subject: `You're on the list — welcome to ${productName}!`,
+        subject: `You're on the list. Welcome to ${productName}!`,
         html: emailWrapper(`
           <h1>You're officially on the list.</h1>
           <p>Thank you for your interest in ${productName}. We're building something we think you're going to love, and we're thrilled to have you along for the ride.</p>
@@ -96,7 +96,7 @@ export const signupDrip = inngest.createFunction(
             <p>You've secured your spot. We'll keep you updated on our progress and let you know the moment early access opens up.</p>
           </div>
           <p>Over the next few days, we'll share more about what ${productName} can do for you and why we built it.</p>
-          <p>In the meantime, if you have any questions, just reply to this email. We read every message.</p>
+          <p>In the meantime, if you have any questions, reply to this email and we'll get back to you.</p>
           <p style="margin-top: 32px;">Welcome aboard,<br/><strong>The ${productName} Team</strong></p>
         `),
       });
