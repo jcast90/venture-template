@@ -119,10 +119,10 @@ export const signupDrip = inngest.createFunction(
           <p>We didn't build ${productName} to be another tool that collects dust. We built it to solve real problems that slow you down every day.</p>
           <h2>What makes ${productName} different:</h2>
           <ul>
-            <li><strong>Save hours every week</strong> — Automate the repetitive tasks that drain your time and energy.</li>
-            <li><strong>Stay focused on what matters</strong> — A clean, intentional interface that keeps you in flow.</li>
-            <li><strong>Get results faster</strong> — Purpose-built workflows designed around outcomes, not features.</li>
-            <li><strong>Scale with confidence</strong> — Infrastructure that grows with you, not against you.</li>
+            <li><strong>Save hours every week</strong>: Automate the repetitive tasks that drain your time and energy.</li>
+            <li><strong>Stay focused on what matters</strong>: A clean, intentional interface that keeps you in flow.</li>
+            <li><strong>Get results faster</strong>: Purpose-built workflows designed around outcomes, not features.</li>
+            <li><strong>Scale with confidence</strong>: Infrastructure that grows with you, not against you.</li>
           </ul>
           <div class="highlight">
             <p>We're putting the finishing touches on early access. You'll be among the first to experience it.</p>
@@ -155,7 +155,7 @@ export const signupDrip = inngest.createFunction(
             <li><strong>Professionals</strong> want to reclaim their time and focus on high-impact work.</li>
           </ul>
           <div class="highlight">
-            <p>The demand has been incredible. We're finalizing early access — and as an early sign-up, you'll get priority.</p>
+            <p>The demand has been incredible. We're finalizing early access, and as an early sign-up, you'll get priority.</p>
           </div>
           <p>We can't wait to show you what we've been building.</p>
           <p style="margin-top: 32px;">Cheers,<br/><strong>The ${productName} Team</strong></p>
@@ -174,21 +174,21 @@ export const signupDrip = inngest.createFunction(
       await resend.emails.send({
         from: fromAddress,
         to: email,
-        subject: `Early access spots are limited — don't miss out`,
+        subject: `Early access spots are limited, don't miss out`,
         html: emailWrapper(`
           <h1>We're almost ready to open the doors.</h1>
           <p>Early access to ${productName} is right around the corner, and we want to make sure you don't miss your window.</p>
           <div class="highlight">
-            <p>We're offering a limited number of early access spots with exclusive benefits — including discounted pricing that won't be available after launch.</p>
+            <p>We're offering a limited number of early access spots with exclusive benefits, including discounted pricing that won't be available after launch.</p>
           </div>
           <h2>Early access members get:</h2>
           <ul>
-            <li><strong>Founding member pricing</strong> — locked in for life, significantly below our planned retail price.</li>
-            <li><strong>Direct access to the team</strong> — share feedback and shape the product roadmap.</li>
-            <li><strong>First look at every new feature</strong> — before anyone else sees it.</li>
+            <li><strong>Founding member pricing</strong>: locked in for life, significantly below our planned retail price.</li>
+            <li><strong>Direct access to the team</strong>: share feedback and shape the product roadmap.</li>
+            <li><strong>First look at every new feature</strong>: before anyone else sees it.</li>
           </ul>
           <p>Spots are limited because we want to onboard members thoughtfully and ensure a great experience for everyone.</p>
-          <p>Keep an eye on your inbox — your invitation is coming soon.</p>
+          <p>Keep an eye on your inbox. Your invitation is coming soon.</p>
           <p style="margin-top: 32px;">Talk soon,<br/><strong>The ${productName} Team</strong></p>
         `),
       });
