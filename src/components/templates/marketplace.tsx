@@ -23,13 +23,13 @@ function MarketplaceHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-28 pb-20 overflow-hidden">
+    <section className="relative px-6 pt-32 pb-24 overflow-hidden">
       <div className="relative mx-auto max-w-6xl text-center">
-        <p className="text-sm font-medium text-white/60 mb-4">A marketplace for {config.name}</p>
-        <h1 className="mt-2 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
+        <p className="text-sm font-medium text-[var(--brand-fg-muted)] mb-4">A marketplace for {config.name}</p>
+        <h1 className="mt-2 text-5xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-[var(--brand-fg)]">
           {landing.headline}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
@@ -41,7 +41,7 @@ function MarketplaceHero() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="/signup?role=buyer"
-              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-lg"
+              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-[var(--brand-fg)] shadow-lg"
               style={{ background: "var(--brand-primary)" }}
             >
               <Search className="h-4 w-4" />
@@ -50,8 +50,8 @@ function MarketplaceHero() {
             </a>
             <a
               href="/signup?role=seller"
-              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}
+              className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-[var(--brand-fg)]"
+              style={{ background: "var(--brand-hairline-strong)", border: "1px solid var(--brand-fg-faint)" }}
             >
               <Store className="h-4 w-4" />
               I&apos;m selling
@@ -59,7 +59,7 @@ function MarketplaceHero() {
           </div>
         )}
 
-        <div className="mt-10 flex items-center justify-center gap-6 text-xs text-white/50">
+        <div className="mt-10 flex items-center justify-center gap-6 text-xs text-[var(--brand-fg-muted)]">
           <span className="inline-flex items-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5" />
             Verified sellers
@@ -80,16 +80,16 @@ function MarketplaceCategoryGrid() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+            <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
               Browse categories
             </h2>
-            <p className="mt-3 text-white/70">Find what you need, or list what you offer.</p>
+            <p className="mt-3 text-[var(--brand-fg-muted)]">Find what you need, or list what you offer.</p>
           </div>
-          <a href="#" className="text-sm font-medium text-white/70 hover:text-white inline-flex items-center gap-1">
+          <a href="#" className="text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] inline-flex items-center gap-1">
             View all <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -99,8 +99,8 @@ function MarketplaceCategoryGrid() {
               key={i}
               className="group rounded-2xl p-5 transition-all hover:-translate-y-1 cursor-pointer"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "var(--brand-hairline)",
+                border: "1px solid var(--brand-hairline-strong)",
               }}
             >
               <div
@@ -112,8 +112,8 @@ function MarketplaceCategoryGrid() {
               >
                 {f.icon || "◆"}
               </div>
-              <h3 className="text-sm font-semibold text-white mb-1">{f.title}</h3>
-              <p className="text-xs leading-relaxed text-white/60 line-clamp-2">{f.description}</p>
+              <h3 className="text-sm font-semibold text-[var(--brand-fg)] mb-1">{f.title}</h3>
+              <p className="text-xs leading-relaxed text-[var(--brand-fg-muted)] line-clamp-2">{f.description}</p>
             </div>
           ))}
         </div>
@@ -129,9 +129,9 @@ function MarketplaceCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div
-        className="mx-auto max-w-5xl rounded-3xl px-8 py-16 text-center"
+        className="mx-auto max-w-5xl rounded-3xl px-8 py-20 text-center"
         style={{ background: "var(--brand-primary)" }}
       >
         <h2
@@ -149,14 +149,14 @@ function MarketplaceCta() {
         <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup?role=buyer"}
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-black"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-primary-foreground)] px-6 py-3 text-sm font-semibold text-[var(--brand-primary)]"
           >
             Start buying
             <ArrowRight className="h-4 w-4" />
           </a>
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup?role=seller"}
-            className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white border border-white/40"
+            className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-[var(--brand-fg)] border border-[var(--brand-hairline-strong)]"
           >
             List an item
           </a>
@@ -188,7 +188,7 @@ export default function Marketplace({ config: _config }: { config: VentureConfig
   const sections = landing.sections ?? MARKETPLACE_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = MARKETPLACE_SECTIONS[id];

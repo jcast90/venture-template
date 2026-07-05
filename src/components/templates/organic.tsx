@@ -23,13 +23,13 @@ function OrganicHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-32 pb-24 overflow-hidden">
+    <section className="relative px-6 pt-36 pb-28 overflow-hidden">
       <div className="relative mx-auto max-w-4xl text-center">
-        <p className="text-sm font-medium text-white/60 mb-6">A kinder way to work</p>
-        <h1 className="mt-2 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
+        <p className="text-sm font-medium text-[var(--brand-fg-muted)] mb-6">A kinder way to work</p>
+        <h1 className="mt-2 text-5xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-[var(--brand-fg)]">
           {landing.headline}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
@@ -46,7 +46,7 @@ function OrganicHero() {
               <ArrowRight className="h-4 w-4" />
             </a>
           )}
-          <p className="text-xs text-white/50 flex items-center gap-1.5">
+          <p className="text-xs text-[var(--brand-fg-muted)] flex items-center gap-1.5">
             <Heart className="h-3 w-3" style={{ color: "var(--brand-primary)" }} />
             No credit card required
           </p>
@@ -62,11 +62,11 @@ function OrganicFeaturesCards() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-24">
+    <section id="features" className="px-6 py-28">
       <div className="mx-auto max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Leaf className="mx-auto h-6 w-6 mb-4" style={{ color: "var(--brand-primary)" }} />
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
             Designed with care
           </h2>
         </div>
@@ -76,8 +76,8 @@ function OrganicFeaturesCards() {
               key={i}
               className="rounded-3xl p-8 transition-all hover:-translate-y-1"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "var(--brand-hairline)",
+                border: "1px solid var(--brand-hairline-strong)",
               }}
             >
               <div
@@ -89,8 +89,8 @@ function OrganicFeaturesCards() {
               >
                 {f.icon || "✦"}
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-sm leading-relaxed text-white/70">{f.description}</p>
+              <h3 className="text-lg font-semibold text-[var(--brand-fg)] mb-2">{f.title}</h3>
+              <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{f.description}</p>
             </div>
           ))}
         </div>
@@ -106,9 +106,9 @@ function OrganicCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div
-        className="relative mx-auto max-w-5xl rounded-[2.5rem] px-8 py-20 text-center overflow-hidden"
+        className="relative mx-auto max-w-5xl rounded-[2.5rem] px-8 py-24 text-center overflow-hidden"
         style={{ background: "var(--brand-primary)" }}
       >
         <div className="relative">
@@ -127,7 +127,7 @@ function OrganicCta() {
           <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
             <a
               href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-black transition-transform hover:scale-[1.03] shadow-lg shadow-black/20"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-primary-foreground)] px-8 py-4 text-base font-semibold text-[var(--brand-primary)] transition-transform hover:scale-[1.03] shadow-lg shadow-black/20"
             >
               {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try Free" : "Get Started")}
               <ArrowRight className="h-4 w-4" />
@@ -170,7 +170,7 @@ export default function Organic({ config: _config }: { config: VentureConfig }) 
   const sections = landing.sections ?? ORGANIC_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="momentum" />
       {sections.map((id) => {
         const render = ORGANIC_SECTIONS[id];

@@ -57,7 +57,7 @@ export function WaitlistForm({ className }: { className?: string }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="flex-1 rounded-xl border border-brand-border bg-brand-surface-input px-5 py-3.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-brand-primary/50 focus:bg-brand-surface-input"
+            className="flex-1 rounded-xl border border-brand-border bg-brand-surface-input px-5 py-3.5 text-sm text-[var(--brand-fg)] placeholder-zinc-500 outline-none transition-colors focus:border-brand-primary/50 focus:bg-brand-surface-input"
           />
           <button
             type="submit"
@@ -83,7 +83,7 @@ export function WaitlistForm({ className }: { className?: string }) {
       {status === "error" && (
         <p className="mt-3 text-sm text-red-400">{errorMsg}</p>
       )}
-      <p className="mt-4 text-xs text-zinc-600">
+      <p className="mt-4 text-xs text-[var(--brand-fg-faint)]">
         No spam. Unsubscribe anytime.
       </p>
     </div>
@@ -107,7 +107,7 @@ export function LiveCtaButtons() {
       </a>
       <a
         href="#pricing"
-        className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-8 py-3.5 text-sm font-medium transition-all hover:bg-white/5"
+        className="inline-flex items-center gap-2 rounded-xl border border-[var(--brand-hairline)] px-8 py-3.5 text-sm font-medium transition-all hover:bg-[var(--brand-surface-card)]"
       >
         {landing.secondaryCta || "View Pricing"}
       </a>

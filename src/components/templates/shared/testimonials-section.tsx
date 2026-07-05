@@ -9,10 +9,10 @@ export function TestimonialsSection() {
   if (!testimonials?.length) return null;
 
   return (
-    <section className="py-24 border-t border-brand-border">
+    <section className="py-28 border-t border-brand-border">
       <div className="px-6">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-16">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl mb-16">
             What people are saying
           </h2>
         </div>
@@ -27,7 +27,7 @@ export function TestimonialsSection() {
           >
             <div className="h-full rounded-2xl border border-brand-border bg-brand-surface-card p-8 transition-colors duration-200 ease-out hover:border-brand-border-hover">
               <Quote className="h-7 w-7 mb-4" style={{ color: "var(--brand-primary)", opacity: 0.4 }} />
-              <p className="text-base leading-relaxed text-zinc-200">
+              <p className="text-base leading-relaxed text-[var(--brand-fg-muted)]">
                 &ldquo;{t.quote}&rdquo;
               </p>
               <div className="mt-6 flex items-center gap-3">
@@ -42,7 +42,7 @@ export function TestimonialsSection() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-xs text-zinc-500">
+                  <p className="text-xs text-[var(--brand-fg-faint)]">
                     {t.role}, {t.company}
                   </p>
                 </div>

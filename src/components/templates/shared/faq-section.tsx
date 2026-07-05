@@ -9,9 +9,9 @@ export function FaqSection() {
   if (!faq?.length) return null;
 
   return (
-    <section className="px-6 py-24 border-t border-brand-border">
+    <section className="px-6 py-28 border-t border-brand-border">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl mb-12">
+        <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-5xl mb-12">
           Frequently asked questions
         </h2>
 
@@ -36,9 +36,9 @@ function FaqAccordionItem({
     <details className="group rounded-xl border border-brand-border bg-brand-surface-card transition-all hover:border-brand-border-hover">
       <summary className="flex cursor-pointer items-center justify-between px-6 py-5 text-base font-medium list-none">
         {question}
-        <ChevronDown className="h-4 w-4 text-zinc-500 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-[var(--brand-fg-faint)] transition-transform group-open:rotate-180" />
       </summary>
-      <div className="px-6 pb-5 text-sm leading-relaxed text-zinc-400">
+      <div className="px-6 pb-5 text-sm leading-relaxed text-[var(--brand-fg-muted)]">
         {answer}
       </div>
     </details>

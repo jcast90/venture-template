@@ -27,7 +27,7 @@ function StatsCentered({ stats }: StatsProps) {
             <GradientText>
               <span className="text-4xl font-bold">{item.stat}</span>
             </GradientText>
-            <span className="text-sm text-zinc-400">{item.label}</span>
+            <span className="text-sm text-[var(--brand-fg-muted)]">{item.label}</span>
           </div>
         ))}
       </div>
@@ -45,8 +45,8 @@ function StatsHorizontal({ stats }: StatsProps) {
             key={i}
             className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-brand-border" : ""}`}
           >
-            <span className="font-mono text-2xl font-bold text-white">{item.stat}</span>
-            <span className="text-xs uppercase tracking-wider text-zinc-500">{item.label}</span>
+            <span className="font-mono text-2xl font-bold text-[var(--brand-fg)]">{item.stat}</span>
+            <span className="text-xs uppercase tracking-wider text-[var(--brand-fg-faint)]">{item.label}</span>
           </div>
         ))}
       </div>
@@ -57,7 +57,7 @@ function StatsHorizontal({ stats }: StatsProps) {
 /* ─── Glass cards with animated counters (Momentum) ─── */
 function StatsGlass({ stats }: StatsProps) {
   return (
-    <section className="px-6 py-16">
+    <section className="px-6 py-20">
       <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((item, i) => (
           <div
@@ -69,7 +69,7 @@ function StatsGlass({ stats }: StatsProps) {
             }}
           >
             <AnimatedStat value={item.stat} />
-            <span className="text-sm text-zinc-400">{item.label}</span>
+            <span className="text-sm text-[var(--brand-fg-muted)]">{item.label}</span>
           </div>
         ))}
       </div>

@@ -23,17 +23,17 @@ function ClarityHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-32 pb-20">
+    <section className="relative px-6 pt-36 pb-24">
       <div className="relative mx-auto max-w-5xl">
-        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-zinc-500 mb-6">
+        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[var(--brand-fg-faint)] mb-6">
           <span className="h-px w-8 bg-brand-primary" />
           <Terminal className="h-3.5 w-3.5" style={{ color: "var(--brand-primary)" }} />
           <span>documentation-grade clarity</span>
         </div>
-        <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl max-w-3xl">
+        <h1 className="text-5xl font-semibold leading-[1.1] tracking-tight sm:text-6xl max-w-3xl">
           {landing.headline}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400">
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
@@ -51,7 +51,7 @@ function ClarityHero() {
             </a>
             <a
               href="#features"
-              className="inline-flex items-center gap-2 rounded-md border border-brand-border px-5 py-3 text-sm font-medium text-zinc-300 hover:border-brand-border-hover hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 rounded-md border border-brand-border px-5 py-3 text-sm font-medium text-[var(--brand-fg-muted)] hover:border-brand-border-hover hover:text-[var(--brand-fg)] transition-colors"
             >
               <BookOpen className="h-4 w-4" />
               Read the docs
@@ -62,18 +62,18 @@ function ClarityHero() {
         {/* Code snippet preview */}
         <div className="mt-14 rounded-lg border border-brand-border bg-brand-surface-card overflow-hidden shadow-2xl">
           <div className="flex items-center gap-2 border-b border-brand-border px-4 py-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-            <span className="ml-3 text-xs font-mono text-zinc-500">~/project $ {config.name.toLowerCase()}</span>
+            <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+            <span className="ml-3 text-xs font-mono text-[var(--brand-fg-faint)]">~/project $ {config.name.toLowerCase()}</span>
           </div>
-          <pre className="overflow-x-auto px-5 py-4 text-xs leading-relaxed font-mono text-zinc-300">
+          <pre className="overflow-x-auto px-5 py-4 text-xs leading-relaxed font-mono text-[var(--brand-fg-muted)]">
             <code>
-              <span className="text-zinc-500"># install</span>{"\n"}
+              <span className="text-[var(--brand-fg-faint)]"># install</span>{"\n"}
               <span style={{ color: "var(--brand-primary)" }}>$</span> npm install {config.name.toLowerCase().replace(/\s+/g, "-")}{"\n\n"}
-              <span className="text-zinc-500"># import and use</span>{"\n"}
-              <span className="text-zinc-400">import</span> {"{ "}client{" }"} <span className="text-zinc-400">from</span> <span style={{ color: "var(--brand-primary)" }}>&quot;{config.name.toLowerCase().replace(/\s+/g, "-")}&quot;</span>;{"\n\n"}
-              <span className="text-zinc-400">await</span> client.run({"{ "}ready: <span style={{ color: "var(--brand-primary)" }}>true</span> {"}"});
+              <span className="text-[var(--brand-fg-faint)]"># import and use</span>{"\n"}
+              <span className="text-[var(--brand-fg-muted)]">import</span> {"{ "}client{" }"} <span className="text-[var(--brand-fg-muted)]">from</span> <span style={{ color: "var(--brand-primary)" }}>&quot;{config.name.toLowerCase().replace(/\s+/g, "-")}&quot;</span>;{"\n\n"}
+              <span className="text-[var(--brand-fg-muted)]">await</span> client.run({"{ "}ready: <span style={{ color: "var(--brand-primary)" }}>true</span> {"}"});
             </code>
           </pre>
         </div>
@@ -88,24 +88,24 @@ function ClarityFeaturesList() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20 border-t border-brand-border">
+    <section id="features" className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
-            <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2">Reference</p>
-            <h2 className="text-3xl font-semibold tracking-tight">What you get</h2>
+            <p className="text-xs font-mono uppercase tracking-widest text-[var(--brand-fg-faint)] mb-2">Reference</p>
+            <h2 className="text-4xl font-semibold tracking-tight">What you get</h2>
           </div>
-          <Code2 className="h-6 w-6 text-zinc-600" />
+          <Code2 className="h-6 w-6 text-[var(--brand-fg-faint)]" />
         </div>
         <div className="divide-y divide-brand-border border border-brand-border rounded-lg overflow-hidden bg-brand-surface-card">
           {features.map((f, i) => (
             <div key={i} className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-4 p-6 hover:bg-brand-surface transition-colors">
-              <div className="font-mono text-xs uppercase tracking-wider text-zinc-500 pt-1">
+              <div className="font-mono text-xs uppercase tracking-wider text-[var(--brand-fg-faint)] pt-1">
                 {String(i + 1).padStart(2, "0")} / {String(features.length).padStart(2, "0")}
               </div>
               <div>
                 <h3 className="text-base font-semibold mb-1">{f.title}</h3>
-                <p className="text-sm leading-relaxed text-zinc-400">{f.description}</p>
+                <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{f.description}</p>
               </div>
             </div>
           ))}
@@ -122,15 +122,15 @@ function ClarityCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-20 border-t border-brand-border">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4">
+        <p className="text-xs font-mono uppercase tracking-widest text-[var(--brand-fg-faint)] mb-4">
           $ begin
         </p>
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-zinc-400">{landing.finalCta.subheadline}</p>
+        <p className="mt-4 text-[var(--brand-fg-muted)]">{landing.finalCta.subheadline}</p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
@@ -143,7 +143,7 @@ function ClarityCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+              className="text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton} →
             </a>
@@ -176,7 +176,7 @@ export default function Clarity({ config: _config }: { config: VentureConfig }) 
   const sections = landing.sections ?? CLARITY_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="precision" />
       {sections.map((id) => {
         const render = CLARITY_SECTIONS[id];

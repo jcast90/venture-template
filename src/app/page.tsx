@@ -57,8 +57,8 @@ const TEMPLATES: Record<string, React.ComponentType<{ config: VentureConfig }>> 
 
 function TemplateShell() {
   return (
-    <div className="min-h-screen bg-brand-surface text-white flex items-center justify-center">
-      <div className="h-6 w-6 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)] flex items-center justify-center">
+      <div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--brand-hairline)] border-t-[var(--brand-fg)]" />
     </div>
   );
 }

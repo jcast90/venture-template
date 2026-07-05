@@ -66,13 +66,13 @@ function MomentumHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative flex flex-col items-center px-6 pt-36 pb-24 text-center overflow-hidden">
+    <section className="relative flex flex-col items-center px-6 pt-40 pb-28 text-center overflow-hidden">
       <div className="relative z-10 max-w-3xl">
-        <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+        <h1 className="text-5xl font-semibold leading-tight tracking-tight sm:text-6xl">
           {landing.headline}
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400 sm:text-xl">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)] sm:text-xl">
           {landing.subheadline}
         </p>
 
@@ -101,7 +101,7 @@ function GlassStats() {
   const { landing } = useResolvedLanding();
 
   return (
-    <section className="px-6 py-16">
+    <section className="px-6 py-20">
       <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-4">
         {landing.painStats.map((item, i) => (
           <div
@@ -109,7 +109,7 @@ function GlassStats() {
             className="flex flex-col items-center gap-3 rounded-2xl p-8 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border"
           >
             <AnimatedStat value={item.stat} />
-            <span className="text-sm text-zinc-400">{item.label}</span>
+            <span className="text-sm text-[var(--brand-fg-muted)]">{item.label}</span>
           </div>
         ))}
       </div>
@@ -129,9 +129,9 @@ function BentoFeatures() {
     : "grid-cols-1 sm:grid-cols-2";
 
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl mb-16">
+        <h2 className="text-center text-4xl font-semibold tracking-tight sm:text-5xl mb-16">
           <GradientText>Features</GradientText>
         </h2>
 
@@ -152,7 +152,7 @@ function BentoFeatures() {
                     <Icon className="h-5 w-5 text-brand-primary" />
                   </BrandIconBox>
                   <h3 className="mt-4 text-lg font-semibold">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--brand-fg-muted)]">
                     {feature.description}
                   </p>
 
@@ -179,14 +179,14 @@ function BentoFallback() {
   const { landing } = useResolvedLanding();
 
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {landing.painPoints.map((point, i) => (
           <div
             key={i}
             className="rounded-2xl p-6 backdrop-blur-xl transition-all hover:bg-brand-surface-input bg-brand-surface-card border border-brand-border"
           >
-            <p className="text-sm leading-relaxed text-zinc-300">{point}</p>
+            <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{point}</p>
           </div>
         ))}
       </div>
@@ -200,9 +200,9 @@ function HowItWorks() {
   const stepIcons = [Target, Layers, Sparkles];
 
   return (
-    <section className="px-6 py-20 border-t border-brand-border">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl font-semibold tracking-tight mb-12">
+        <h2 className="text-3xl font-semibold tracking-tight mb-12">
           <GradientText>How it works</GradientText>
         </h2>
 
@@ -222,7 +222,7 @@ function HowItWorks() {
                   {i + 1}
                 </div>
                 <h3 className="text-base font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                <p className="mt-2 text-sm leading-relaxed text-[var(--brand-fg-muted)]">
                   {step.desc}
                 </p>
               </div>
@@ -242,12 +242,12 @@ function CompactCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 py-24 overflow-hidden">
+    <section className="relative px-6 py-28 overflow-hidden">
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           <GradientText>{landing.finalCta.headline}</GradientText>
         </h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+        <p className="mx-auto mt-6 max-w-xl text-lg text-[var(--brand-fg-muted)]">
           {landing.finalCta.subheadline}
         </p>
 
@@ -263,7 +263,7 @@ function CompactCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm text-zinc-400 hover:text-white transition-colors"
+              className="text-sm text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton}
             </a>
@@ -298,7 +298,7 @@ export default function Momentum({ config: _config }: { config: VentureConfig })
   const sections = landing.sections ?? MOMENTUM_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="momentum" />
       {sections.map((id) => {
         const render = MOMENTUM_SECTIONS[id];

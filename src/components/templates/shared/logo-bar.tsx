@@ -14,7 +14,7 @@ export function LogoBar() {
     <section className="border-y border-brand-border py-10 px-6">
       <div className="mx-auto max-w-5xl">
         {line && (
-          <p className="text-center text-sm text-zinc-500 mb-6">{line}</p>
+          <p className="text-center text-sm text-[var(--brand-fg-faint)] mb-6">{line}</p>
         )}
         {logos && logos.length > 0 && (
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">

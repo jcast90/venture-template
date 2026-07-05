@@ -32,7 +32,7 @@ function PrecisionHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-32 pb-20 overflow-hidden">
+    <section className="relative px-6 pt-36 pb-24 overflow-hidden">
       {/* Flat accent hairline */}
       <div
         className="pointer-events-none absolute top-0 left-0 right-0 h-px"
@@ -41,10 +41,10 @@ function PrecisionHero() {
 
       <div className="relative z-10 mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
-          <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+          <h1 className="text-5xl font-semibold leading-tight tracking-tight sm:text-6xl">
             {landing.headline}
           </h1>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-400">
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--brand-fg-muted)]">
             {landing.subheadline}
           </p>
 
@@ -88,10 +88,10 @@ function StatsBar() {
             key={i}
             className={`flex items-center justify-center gap-3 px-6 py-6 ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-brand-border" : ""}`}
           >
-            <span className="font-mono text-2xl font-bold text-white">
+            <span className="font-mono text-2xl font-bold text-[var(--brand-fg)]">
               {item.stat}
             </span>
-            <span className="text-xs uppercase tracking-wider text-zinc-500">
+            <span className="text-xs uppercase tracking-wider text-[var(--brand-fg-faint)]">
               {item.label}
             </span>
           </div>
@@ -106,9 +106,9 @@ function TimelineSection() {
   const { landing } = useResolvedLanding();
 
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-xl font-semibold tracking-tight mb-12">How it works</h2>
+        <h2 className="text-2xl font-semibold tracking-tight mb-12">How it works</h2>
 
         <div className="relative">
           {/* Connecting line */}
@@ -127,7 +127,7 @@ function TimelineSection() {
                   0{i + 1}
                 </div>
                 <h3 className="text-sm font-semibold mb-1">{step.title}</h3>
-                <p className="text-xs leading-relaxed text-zinc-500">
+                <p className="text-xs leading-relaxed text-[var(--brand-fg-faint)]">
                   {step.desc}
                 </p>
               </div>
@@ -144,9 +144,9 @@ function PainPointsGrid() {
   const { landing } = useResolvedLanding();
 
   return (
-    <section className="px-6 py-16 border-t border-brand-border">
+    <section className="px-6 py-20 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-xl font-bold tracking-tight mb-8">
+        <h2 className="text-2xl font-bold tracking-tight mb-8">
           Problems we solve
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -158,7 +158,7 @@ function PainPointsGrid() {
               <span className="font-mono text-xs text-brand-primary mt-0.5">
                 {painIcons[i % painIcons.length]}
               </span>
-              <p className="text-sm leading-relaxed text-zinc-400">{point}</p>
+              <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{point}</p>
             </div>
           ))}
         </div>
@@ -175,11 +175,11 @@ function MinimalCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-20 border-t border-brand-border">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
-          <h2 className="text-2xl font-semibold">{landing.finalCta.headline}</h2>
-          <p className="mt-2 text-sm text-zinc-400">
+          <h2 className="text-3xl font-semibold">{landing.finalCta.headline}</h2>
+          <p className="mt-2 text-sm text-[var(--brand-fg-muted)]">
             {landing.finalCta.subheadline}
           </p>
         </div>
@@ -195,7 +195,7 @@ function MinimalCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm text-zinc-400 hover:text-white transition-colors"
+              className="text-sm text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton}
             </a>
@@ -230,7 +230,7 @@ export default function Precision({ config: _config }: { config: VentureConfig }
   const sections = landing.sections ?? PRECISION_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="precision" />
       {sections.map((id) => {
         const render = PRECISION_SECTIONS[id];
