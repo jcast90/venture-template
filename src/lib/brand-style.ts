@@ -3,7 +3,7 @@ import { brand as configBrand } from "@/lib/config";
 import { resolveTypographyPreset, resolveDensity } from "@/lib/typography";
 
 /**
- * brand-style — the SINGLE source of truth for the derived brand CSS custom
+ * brand-style: the SINGLE source of truth for the derived brand CSS custom
  * properties. Both `layout.tsx` (sets the core scheme tokens on `<html>` so the
  * body inherits them) and `brand-provider.tsx` (sets the full token set on the
  * page wrapper) consume this helper so the two can never drift.
