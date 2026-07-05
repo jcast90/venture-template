@@ -23,13 +23,13 @@ function MinimalHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 pt-32 pb-24">
+    <section className="px-6 pt-36 pb-28">
       <div className="mx-auto max-w-2xl">
-        <p className="text-sm font-medium text-zinc-500 mb-8">{config.name}</p>
-        <h1 className="text-4xl sm:text-5xl font-medium leading-[1.15] tracking-tight text-white">
+        <p className="text-sm font-medium text-[var(--brand-fg-faint)] mb-8">{config.name}</p>
+        <h1 className="text-5xl sm:text-6xl font-medium leading-[1.15] tracking-tight text-[var(--brand-fg)]">
           {landing.headline}
         </h1>
-        <p className="mt-7 text-lg leading-relaxed text-zinc-400">
+        <p className="mt-7 text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
@@ -39,7 +39,7 @@ function MinimalHero() {
           <div className="mt-10">
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 text-sm font-medium text-white border-b border-white pb-1 hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-fg)] border-b border-[var(--brand-fg)] pb-1 hover:gap-3 transition-all"
             >
               {landing.primaryCta || "Get started"}
               <ArrowRight className="h-4 w-4" />
@@ -57,17 +57,17 @@ function MinimalFeaturesRows() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-2xl space-y-16">
         {features.map((f, i) => (
           <div key={i}>
-            <p className="text-xs font-medium text-zinc-600 mb-3">
+            <p className="text-xs font-medium text-[var(--brand-fg-faint)] mb-3">
               {String(i + 1).padStart(2, "0")}
             </p>
-            <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white mb-3">
+            <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-[var(--brand-fg)] mb-3">
               {f.title}
             </h3>
-            <p className="text-base leading-relaxed text-zinc-400 max-w-lg">
+            <p className="text-base leading-relaxed text-[var(--brand-fg-muted)] max-w-lg">
               {f.description}
             </p>
           </div>
@@ -84,16 +84,16 @@ function MinimalCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div className="mx-auto max-w-2xl">
-        <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-white leading-tight">
+        <h2 className="text-4xl sm:text-5xl font-medium tracking-tight text-[var(--brand-fg)] leading-tight">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-6 text-zinc-400 leading-relaxed">{landing.finalCta.subheadline}</p>
+        <p className="mt-6 text-[var(--brand-fg-muted)] leading-relaxed">{landing.finalCta.subheadline}</p>
         <div className="mt-12 flex items-center gap-8">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
-            className="inline-flex items-center gap-2 text-sm font-medium text-white border-b border-white pb-1 hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-fg)] border-b border-[var(--brand-fg)] pb-1 hover:gap-3 transition-all"
           >
             {landing.finalCtaButton || landing.primaryCta || (isLiveMode ? "Try Free" : "Get Started")}
             <ArrowRight className="h-4 w-4" />
@@ -101,7 +101,7 @@ function MinimalCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm font-medium text-zinc-500 hover:text-white transition-colors"
+              className="text-sm font-medium text-[var(--brand-fg-faint)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton}
             </a>
@@ -134,7 +134,7 @@ export default function Minimal({ config: _config }: { config: VentureConfig }) 
   const sections = landing.sections ?? MINIMAL_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = MINIMAL_SECTIONS[id];

@@ -25,12 +25,12 @@ function MockDashboardPreview() {
       {/* App chrome */}
       <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
         </div>
-        <span className="text-xs text-zinc-500 font-medium">{config.name} · Overview</span>
-        <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+        <span className="text-xs text-[var(--brand-fg-faint)] font-medium">{config.name} · Overview</span>
+        <div className="flex items-center gap-1.5 text-xs text-[var(--brand-fg-faint)]">
           <Circle className="h-2 w-2 fill-green-400 text-green-400" />
           Live
         </div>
@@ -41,7 +41,7 @@ function MockDashboardPreview() {
           {["Overview", "Projects", "Activity", "Reports", "Settings"].map((item, i) => (
             <div
               key={item}
-              className={`rounded-md px-3 py-2 text-xs font-medium ${i === 0 ? "text-white" : "text-zinc-500"}`}
+              className={`rounded-md px-3 py-2 text-xs font-medium ${i === 0 ? "text-[var(--brand-fg)]" : "text-[var(--brand-fg-faint)]"}`}
               style={i === 0 ? { background: "color-mix(in srgb, var(--brand-primary) 15%, transparent)" } : {}}
             >
               {item}
@@ -58,10 +58,10 @@ function MockDashboardPreview() {
             ].map((kpi) => (
               <div key={kpi.label} className="rounded-lg border border-brand-border bg-brand-surface p-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">{kpi.label}</span>
-                  <kpi.icon className="h-3 w-3 text-zinc-500" />
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--brand-fg-faint)]">{kpi.label}</span>
+                  <kpi.icon className="h-3 w-3 text-[var(--brand-fg-faint)]" />
                 </div>
-                <div className="mt-1.5 text-lg font-semibold text-white">{kpi.value}</div>
+                <div className="mt-1.5 text-lg font-semibold text-[var(--brand-fg)]">{kpi.value}</div>
                 <div className="text-[10px] font-medium" style={{ color: "var(--brand-primary)" }}>{kpi.delta}</div>
               </div>
             ))}
@@ -69,8 +69,8 @@ function MockDashboardPreview() {
           {/* Chart placeholder */}
           <div className="rounded-lg border border-brand-border bg-brand-surface p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-white">Weekly activity</span>
-              <span className="text-[10px] text-zinc-500">Last 7 days</span>
+              <span className="text-xs font-semibold text-[var(--brand-fg)]">Weekly activity</span>
+              <span className="text-[10px] text-[var(--brand-fg-faint)]">Last 7 days</span>
             </div>
             <div className="flex items-end gap-2 h-24">
               {[35, 58, 42, 72, 65, 88, 76].map((h, i) => (
@@ -93,14 +93,14 @@ function DashboardHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-28 pb-16">
+    <section className="relative px-6 pt-32 pb-20">
       <div className="mx-auto max-w-6xl">
         <div className="text-center max-w-3xl mx-auto">
-          <p className="text-sm font-medium text-zinc-400 mb-4">Now in beta</p>
-          <h1 className="mt-2 text-4xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
+          <p className="text-sm font-medium text-[var(--brand-fg-muted)] mb-4">Now in beta</p>
+          <h1 className="mt-2 text-5xl sm:text-6xl font-semibold tracking-tight text-[var(--brand-fg)] leading-tight">
             {landing.headline}
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed">
+          <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-[var(--brand-fg-muted)] leading-relaxed">
             {landing.subheadline}
           </p>
           <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
@@ -118,7 +118,7 @@ function DashboardHero() {
                 </a>
                 <a
                   href="#features"
-                  className="inline-flex items-center gap-2 rounded-md border border-brand-border bg-brand-surface-card px-6 py-3 text-sm font-medium text-zinc-300 hover:text-white hover:border-brand-border-hover transition-colors"
+                  className="inline-flex items-center gap-2 rounded-md border border-brand-border bg-brand-surface-card px-6 py-3 text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] hover:border-brand-border-hover transition-colors"
                 >
                   See it in action
                 </a>
@@ -142,13 +142,13 @@ function DashboardFeaturesGrid() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
             Everything in one place
           </h2>
-          <p className="mt-3 text-zinc-400">
+          <p className="mt-3 text-[var(--brand-fg-muted)]">
             Built to replace the patchwork of tools your team uses today.
           </p>
         </div>
@@ -167,8 +167,8 @@ function DashboardFeaturesGrid() {
               >
                 {f.icon || "●"}
               </div>
-              <h3 className="text-base font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-sm leading-relaxed text-zinc-400">{f.description}</p>
+              <h3 className="text-base font-semibold text-[var(--brand-fg)] mb-2">{f.title}</h3>
+              <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{f.description}</p>
             </div>
           ))}
         </div>
@@ -184,12 +184,12 @@ function DashboardCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-4xl rounded-2xl border border-brand-border bg-brand-surface-card p-10 sm:p-14 text-center">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-zinc-400 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
+        <p className="mt-4 text-[var(--brand-fg-muted)] max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
@@ -202,7 +202,7 @@ function DashboardCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+              className="text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton} →
             </a>
@@ -235,7 +235,7 @@ export default function Dashboard({ config: _config }: { config: VentureConfig }
   const sections = landing.sections ?? DASHBOARD_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = DASHBOARD_SECTIONS[id];

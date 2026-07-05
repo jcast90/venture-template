@@ -45,7 +45,7 @@ function BillingToggle({
     <div className="flex items-center justify-center gap-3 mb-12">
       <button
         onClick={() => onChange("monthly")}
-        className={`text-sm font-medium transition-colors ${period === "monthly" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+        className={`text-sm font-medium transition-colors ${period === "monthly" ? "text-[var(--brand-fg)]" : "text-[var(--brand-fg-faint)] hover:text-[var(--brand-fg-muted)]"}`}
       >
         Monthly
       </button>
@@ -60,14 +60,14 @@ function BillingToggle({
         }}
       >
         <span
-          className="absolute top-0.5 h-6 w-6 rounded-full bg-white transition-transform"
+          className="absolute top-0.5 h-6 w-6 rounded-full bg-[var(--brand-fg)] transition-transform"
           style={{ left: period === "annual" ? "calc(100% - 1.625rem)" : "0.125rem" }}
         />
       </button>
       <span className="flex items-center gap-2">
         <button
           onClick={() => onChange("annual")}
-          className={`text-sm font-medium transition-colors ${period === "annual" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+          className={`text-sm font-medium transition-colors ${period === "annual" ? "text-[var(--brand-fg)]" : "text-[var(--brand-fg-faint)] hover:text-[var(--brand-fg-muted)]"}`}
         >
           Annual
         </button>
@@ -118,10 +118,10 @@ type PricingProps = {
 /* ─── Card variant (Warmth) ─── */
 function PricingCards({ landing, period, setPeriod, showToggle, toggle }: PricingProps) {
   return (
-    <section id="pricing" className="px-6 py-24 border-t border-brand-border">
+    <section id="pricing" className="px-6 py-28 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 max-w-xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             Pricing
           </h2>
         </div>
@@ -159,13 +159,13 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
 
               <div className="mb-6">
                 <h3 className="text-lg font-semibold font-display">{tier.plan}</h3>
-                <p className="mt-1 text-sm text-zinc-400">{tier.desc}</p>
+                <p className="mt-1 text-sm text-[var(--brand-fg-muted)]">{tier.desc}</p>
               </div>
 
               <div className="mb-8">
                 <span className="text-4xl font-semibold font-display">{tierPrice(tier, period)}</span>
                 {tier.period && (
-                  <span className="text-zinc-500">{tier.period}</span>
+                  <span className="text-[var(--brand-fg-faint)]">{tier.period}</span>
                 )}
               </div>
 
@@ -173,7 +173,7 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
                 {tier.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-3 text-sm">
                     <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--brand-primary)" }} />
-                    <span className="text-zinc-300">{feature}</span>
+                    <span className="text-[var(--brand-fg-muted)]">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -207,9 +207,9 @@ function PricingCards({ landing, period, setPeriod, showToggle, toggle }: Pricin
 /* ─── Table variant (Precision) ─── */
 function PricingTable({ landing, period, setPeriod, showToggle, toggle }: PricingProps) {
   return (
-    <section id="pricing" className="px-6 py-20 border-t border-brand-border">
+    <section id="pricing" className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-2xl font-bold tracking-tight mb-12">Pricing</h2>
+        <h2 className="text-3xl font-bold tracking-tight mb-12">Pricing</h2>
         {showToggle && (
           <BillingToggle period={period} onChange={setPeriod} annualDiscount={toggle?.annualDiscount} />
         )}
@@ -217,13 +217,13 @@ function PricingTable({ landing, period, setPeriod, showToggle, toggle }: Pricin
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-brand-border">
-                <th className="py-4 pr-8 text-left text-xs uppercase tracking-wider text-zinc-500 font-medium">
+                <th className="py-4 pr-8 text-left text-xs uppercase tracking-wider text-[var(--brand-fg-faint)] font-medium">
                   Plan
                 </th>
-                <th className="py-4 pr-8 text-left text-xs uppercase tracking-wider text-zinc-500 font-medium">
+                <th className="py-4 pr-8 text-left text-xs uppercase tracking-wider text-[var(--brand-fg-faint)] font-medium">
                   Price
                 </th>
-                <th className="py-4 text-left text-xs uppercase tracking-wider text-zinc-500 font-medium">
+                <th className="py-4 text-left text-xs uppercase tracking-wider text-[var(--brand-fg-faint)] font-medium">
                   Includes
                 </th>
               </tr>
@@ -244,9 +244,9 @@ function PricingTable({ landing, period, setPeriod, showToggle, toggle }: Pricin
                   </td>
                   <td className="py-5 pr-8 font-mono text-lg">
                     {tierPrice(tier, period)}
-                    <span className="text-xs text-zinc-500">{tier.period}</span>
+                    <span className="text-xs text-[var(--brand-fg-faint)]">{tier.period}</span>
                   </td>
-                  <td className="py-5 text-zinc-400">
+                  <td className="py-5 text-[var(--brand-fg-muted)]">
                     {tier.features.join(" · ")}
                   </td>
                 </tr>
@@ -262,10 +262,10 @@ function PricingTable({ landing, period, setPeriod, showToggle, toggle }: Pricin
 /* ─── Glass variant (Momentum) ─── */
 function PricingGlass({ landing, period, setPeriod, showToggle, toggle }: PricingProps) {
   return (
-    <section id="pricing" className="px-6 py-24">
+    <section id="pricing" className="px-6 py-28">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
             <GradientText>Pricing</GradientText>
           </h2>
         </div>
@@ -302,12 +302,12 @@ function PricingGlass({ landing, period, setPeriod, showToggle, toggle }: Pricin
               )}
 
               <h3 className="text-lg font-semibold font-display">{tier.plan}</h3>
-              <p className="mt-1 text-sm text-zinc-400">{tier.desc}</p>
+              <p className="mt-1 text-sm text-[var(--brand-fg-muted)]">{tier.desc}</p>
 
               <div className="my-6">
                 <span className="text-4xl font-bold">{tierPrice(tier, period)}</span>
                 {tier.period && (
-                  <span className="text-zinc-500">{tier.period}</span>
+                  <span className="text-[var(--brand-fg-faint)]">{tier.period}</span>
                 )}
               </div>
 
@@ -315,7 +315,7 @@ function PricingGlass({ landing, period, setPeriod, showToggle, toggle }: Pricin
                 {tier.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-3 text-sm">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary" />
-                    <span className="text-zinc-300">{feature}</span>
+                    <span className="text-[var(--brand-fg-muted)]">{feature}</span>
                   </li>
                 ))}
               </ul>

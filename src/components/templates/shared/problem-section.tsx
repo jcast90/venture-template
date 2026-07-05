@@ -22,7 +22,7 @@ function ProblemCentered({ painPoints }: ProblemProps) {
   // size and space, not a "The Problem" scaffolding heading.
   const [lead, ...rest] = painPoints;
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div className="mx-auto max-w-3xl">
         <p className="text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
           {lead}
@@ -30,7 +30,7 @@ function ProblemCentered({ painPoints }: ProblemProps) {
         {rest.length > 0 && (
           <div className="mt-8 max-w-2xl space-y-3">
             {rest.map((point, i) => (
-              <p key={i} className="text-base leading-relaxed text-zinc-400">
+              <p key={i} className="text-base leading-relaxed text-[var(--brand-fg-muted)]">
                 {point}
               </p>
             ))}
@@ -44,7 +44,7 @@ function ProblemCentered({ painPoints }: ProblemProps) {
 /* ─── 2-col compact list (Precision) ─── */
 function ProblemGrid({ painPoints }: ProblemProps) {
   return (
-    <section className="px-6 py-20 border-t border-brand-border">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
         <div className="grid grid-cols-1 gap-x-12 gap-y-5 sm:grid-cols-2">
           {painPoints.map((point, i) => (
@@ -56,7 +56,7 @@ function ProblemGrid({ painPoints }: ProblemProps) {
               >
                 {painIcons[i % painIcons.length]}
               </span>
-              <p className="text-sm leading-relaxed text-zinc-300">{point}</p>
+              <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{point}</p>
             </div>
           ))}
         </div>

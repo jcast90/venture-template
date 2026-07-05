@@ -26,35 +26,35 @@ function AgenticChatPreview() {
       className="mx-auto mt-14 w-full max-w-2xl rounded-2xl overflow-hidden text-left font-mono text-sm shadow-2xl"
       style={{
         background: "rgba(10,10,12,0.8)",
-        border: "1px solid rgba(255,255,255,0.1)",
+        border: "1px solid var(--brand-hairline-strong)",
       }}
     >
-      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/10">
+      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-[var(--brand-hairline)]">
         <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
-        <span className="ml-3 text-xs text-white/40">agent · running</span>
+        <span className="ml-3 text-xs text-[var(--brand-fg-faint)]">agent · running</span>
       </div>
       <div className="p-5 space-y-3.5 text-xs sm:text-[13px] leading-relaxed">
         <div className="flex gap-2">
-          <span className="text-white/40 shrink-0">user</span>
-          <span className="text-white/90">{sample}</span>
+          <span className="text-[var(--brand-fg-faint)] shrink-0">user</span>
+          <span className="text-[var(--brand-fg)]">{sample}</span>
         </div>
         <div className="flex gap-2">
           <span className="shrink-0" style={{ color: "var(--brand-primary)" }}>agent</span>
-          <span className="text-white/70">
-            <span className="inline-flex items-center gap-1.5 text-white/50">
+          <span className="text-[var(--brand-fg-muted)]">
+            <span className="inline-flex items-center gap-1.5 text-[var(--brand-fg-muted)]">
               <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: "var(--brand-primary)" }} />
               thinking
             </span>
           </span>
         </div>
-        <div className="pl-10 space-y-1.5 text-white/50 text-[11px]">
+        <div className="pl-10 space-y-1.5 text-[var(--brand-fg-muted)] text-[11px]">
           <div className="flex items-center gap-2"><Check className="h-3 w-3 text-emerald-400" /> parsed request</div>
           <div className="flex items-center gap-2"><Check className="h-3 w-3 text-emerald-400" /> queried data</div>
           <div className="flex items-center gap-2"><Check className="h-3 w-3 text-emerald-400" /> ran 3 tools</div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full border border-white/30 animate-spin border-t-white/80" />
+            <span className="h-3 w-3 rounded-full border border-[var(--brand-hairline-strong)] animate-spin border-t-white/80" />
             composing answer
           </div>
         </div>
@@ -68,20 +68,20 @@ function AgenticHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-24 pb-16">
+    <section className="relative px-6 pt-28 pb-20">
       <div className="relative mx-auto max-w-5xl text-center">
-        <p className="text-xs font-mono uppercase tracking-wide text-white/50">
+        <p className="text-xs font-mono uppercase tracking-wide text-[var(--brand-fg-muted)]">
           AI agent, {config.name}
         </p>
-        <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
+        <h1 className="mt-6 text-5xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-[var(--brand-fg)]">
           {landing.headline}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
-        <div className="mt-8 flex items-center justify-center gap-2 text-xs text-white/40 font-mono flex-wrap">
-          <span className="inline-flex items-center gap-1.5 rounded-md px-2 py-1" style={{ background: "rgba(255,255,255,0.04)" }}>
+        <div className="mt-8 flex items-center justify-center gap-2 text-xs text-[var(--brand-fg-faint)] font-mono flex-wrap">
+          <span className="inline-flex items-center gap-1.5 rounded-md px-2 py-1" style={{ background: "var(--brand-hairline)" }}>
             <Cpu className="h-3 w-3" /> claude · gpt-4 · local
           </span>
           <span>·</span>
@@ -118,16 +118,16 @@ function AgenticCapabilities() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-12 max-w-2xl">
-          <p className="text-xs font-mono text-white/50 mb-3">{"// capabilities"}</p>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+        <div className="mb-12 max-w-2xl mx-auto text-center">
+          <p className="text-xs font-mono text-[var(--brand-fg-muted)] mb-3">{"// capabilities"}</p>
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
             What the agent can do
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px rounded-2xl overflow-hidden"
-          style={{ background: "rgba(255,255,255,0.08)" }}
+          style={{ background: "var(--brand-hairline-strong)" }}
         >
           {features.map((f, i) => (
             <div
@@ -136,17 +136,17 @@ function AgenticCapabilities() {
               style={{ background: "var(--brand-surface, #0b0b0c)" }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-mono text-white/40">
+                <span className="text-xs font-mono text-[var(--brand-fg-faint)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
                   className="h-1 w-1 rounded-full"
                   style={{ background: "var(--brand-primary)" }}
                 />
-                <span className="text-xs font-mono text-white/60">tool</span>
+                <span className="text-xs font-mono text-[var(--brand-fg-muted)]">tool</span>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-sm leading-relaxed text-white/60">{f.description}</p>
+              <h3 className="text-lg font-semibold text-[var(--brand-fg)] mb-2">{f.title}</h3>
+              <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{f.description}</p>
             </div>
           ))}
         </div>
@@ -162,12 +162,12 @@ function AgenticCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)] leading-tight">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-white/70 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
+        <p className="mt-4 text-[var(--brand-fg-muted)] max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-10">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
@@ -206,7 +206,7 @@ export default function Agentic({ config: _config }: { config: VentureConfig }) 
   const sections = landing.sections ?? AGENTIC_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = AGENTIC_SECTIONS[id];

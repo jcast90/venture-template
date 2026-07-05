@@ -102,15 +102,15 @@ function WarmthHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-36 pb-20 overflow-x-clip">
+    <section className="relative px-6 pt-40 pb-24 overflow-x-clip">
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
         {/* Copy side */}
         <div className="min-w-0 max-w-xl">
-          <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl">
+          <h1 className="text-5xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
             {landing.headline}
           </h1>
 
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-zinc-400">
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-[var(--brand-fg-muted)]">
             {landing.subheadline}
           </p>
 
@@ -144,10 +144,10 @@ function FeaturesSection() {
   if (!features?.length) return null;
 
   return (
-    <section className="px-6 py-24 border-t border-brand-border">
+    <section className="px-6 py-28 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <FadeIn className="mb-20 max-w-xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        <FadeIn className="mb-20 max-w-2xl mx-auto text-center">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             Everything you need
           </h2>
         </FadeIn>
@@ -170,7 +170,7 @@ function FeaturesSection() {
                     <Icon className="h-7 w-7" style={{ color: "var(--brand-primary)" }} />
                   </BrandIconBox>
                   <h3 className="mt-6 text-2xl font-semibold font-display">{feature.title}</h3>
-                  <p className="mt-4 text-base leading-relaxed text-zinc-400">
+                  <p className="mt-4 text-base leading-relaxed text-[var(--brand-fg-muted)]">
                     {feature.description}
                   </p>
                 </div>
@@ -205,10 +205,10 @@ function FinalCtaSection() {
   return (
     <section className="px-6 py-32 border-t border-brand-border">
       <FadeIn className="mx-auto max-w-3xl">
-        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-5 max-w-xl text-lg text-zinc-400">
+        <p className="mt-5 max-w-xl text-lg text-[var(--brand-fg-muted)]">
           {landing.finalCta.subheadline}
         </p>
 
@@ -229,7 +229,7 @@ function FinalCtaSection() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm text-zinc-400 hover:text-white transition-colors"
+              className="text-sm text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] transition-colors"
             >
               {landing.finalCta.secondaryButton}
             </a>
@@ -265,7 +265,7 @@ export default function Warmth({ config: _config }: { config: VentureConfig }) {
   const sections = landing.sections ?? WARMTH_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = WARMTH_SECTIONS[id];

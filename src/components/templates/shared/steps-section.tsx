@@ -19,10 +19,10 @@ type StepsProps = { steps: { title: string; desc: string }[] };
 /* ─── Vertical dotted line (Warmth) ─── */
 function StepsVertical({ steps }: StepsProps) {
   return (
-    <section className="px-6 py-24 border-t border-brand-border">
+    <section className="px-6 py-28 border-t border-brand-border">
       <div className="mx-auto max-w-3xl">
         <div className="mb-16 max-w-xl">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             From signup to shipped in three steps
           </h2>
         </div>
@@ -48,7 +48,7 @@ function StepsVertical({ steps }: StepsProps) {
                 </div>
                 <div className="pt-1">
                   <h3 className="text-xl font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-base leading-relaxed text-zinc-400">{step.desc}</p>
+                  <p className="mt-2 text-base leading-relaxed text-[var(--brand-fg-muted)]">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -62,9 +62,9 @@ function StepsVertical({ steps }: StepsProps) {
 /* ─── Horizontal timeline (Precision) ─── */
 function StepsHorizontal({ steps }: StepsProps) {
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-xl font-bold tracking-tight mb-12">How it works</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-12">How it works</h2>
 
         <div className="relative">
           <div
@@ -82,7 +82,7 @@ function StepsHorizontal({ steps }: StepsProps) {
                   0{i + 1}
                 </div>
                 <h3 className="text-sm font-semibold mb-1">{step.title}</h3>
-                <p className="text-xs leading-relaxed text-zinc-500">{step.desc}</p>
+                <p className="text-xs leading-relaxed text-[var(--brand-fg-faint)]">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -95,9 +95,9 @@ function StepsHorizontal({ steps }: StepsProps) {
 /* ─── Glass cards (Momentum) ─── */
 function StepsCards({ steps }: StepsProps) {
   return (
-    <section className="px-6 py-20 border-t border-brand-border">
+    <section className="px-6 py-24 border-t border-brand-border">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-2xl font-bold tracking-tight mb-12">
+        <h2 className="text-3xl font-bold tracking-tight mb-12">
           <GradientText>How it works</GradientText>
         </h2>
 
@@ -121,7 +121,7 @@ function StepsCards({ steps }: StepsProps) {
                 {i + 1}
               </div>
               <h3 className="text-base font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">{step.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--brand-fg-muted)]">{step.desc}</p>
             </div>
           ))}
         </div>

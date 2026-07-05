@@ -40,10 +40,10 @@ function AvatarCluster() {
         />
       ))}
       <div
-        className="h-9 w-9 rounded-full border-2 flex items-center justify-center text-[10px] font-semibold text-white"
+        className="h-9 w-9 rounded-full border-2 flex items-center justify-center text-[10px] font-semibold text-[var(--brand-fg)]"
         style={{
           borderColor: "var(--brand-surface, #0b0b0c)",
-          background: "rgba(255,255,255,0.12)",
+          background: "var(--brand-hairline-strong)",
         }}
       >
         +2k
@@ -57,12 +57,12 @@ function CommunityHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-28 pb-20">
+    <section className="relative px-6 pt-32 pb-24">
       <div className="relative mx-auto max-w-4xl text-center">
-        <h1 className="text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
+        <h1 className="text-5xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-[var(--brand-fg)]">
           {landing.headline}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--brand-fg-muted)]">
           {landing.subheadline}
         </p>
 
@@ -83,7 +83,7 @@ function CommunityHero() {
 
         <div className="mt-10 flex items-center justify-center gap-3">
           <AvatarCluster />
-          <span className="text-xs font-medium text-white/60">2,000+ members already inside</span>
+          <span className="text-xs font-medium text-[var(--brand-fg-muted)]">2,000+ members already inside</span>
         </div>
       </div>
     </section>
@@ -96,14 +96,14 @@ function CommunityActivityFeed() {
   if (features.length === 0) return null;
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
           <MessageCircle className="mx-auto h-6 w-6 mb-4" style={{ color: "var(--brand-primary)" }} />
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
             What&apos;s happening inside
           </h2>
-          <p className="mt-3 text-white/70">Real conversations, real help, real momentum.</p>
+          <p className="mt-3 text-[var(--brand-fg-muted)]">Real conversations, real help, real momentum.</p>
         </div>
 
         <div className="space-y-4">
@@ -112,8 +112,8 @@ function CommunityActivityFeed() {
               key={i}
               className="flex gap-4 rounded-2xl p-5"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "var(--brand-hairline)",
+                border: "1px solid var(--brand-hairline-strong)",
               }}
             >
               <div
@@ -122,14 +122,14 @@ function CommunityActivityFeed() {
               />
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm font-semibold text-white">{f.title}</p>
-                  <span className="text-xs text-white/40">·</span>
-                  <span className="text-xs text-white/40">
+                  <p className="text-sm font-semibold text-[var(--brand-fg)]">{f.title}</p>
+                  <span className="text-xs text-[var(--brand-fg-faint)]">·</span>
+                  <span className="text-xs text-[var(--brand-fg-faint)]">
                     {i === 0 ? "just now" : i === 1 ? "2m ago" : `${i * 4}h ago`}
                   </span>
                 </div>
-                <p className="text-sm leading-relaxed text-white/70">{f.description}</p>
-                <div className="mt-3 flex items-center gap-4 text-xs text-white/50">
+                <p className="text-sm leading-relaxed text-[var(--brand-fg-muted)]">{f.description}</p>
+                <div className="mt-3 flex items-center gap-4 text-xs text-[var(--brand-fg-muted)]">
                   <span className="inline-flex items-center gap-1">
                     <MessageCircle className="h-3 w-3" /> {12 + i * 3}
                   </span>
@@ -153,21 +153,21 @@ function CommunityCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div
-        className="mx-auto max-w-4xl rounded-[2rem] px-8 py-16 text-center"
+        className="mx-auto max-w-4xl rounded-[2rem] px-8 py-20 text-center"
         style={{
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background: "var(--brand-hairline)",
+          border: "1px solid var(--brand-hairline-strong)",
         }}
       >
         <div className="mb-6 flex justify-center">
           <AvatarCluster />
         </div>
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)] leading-tight">
           {landing.finalCta.headline}
         </h2>
-        <p className="mt-4 text-white/70 max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
+        <p className="mt-4 text-[var(--brand-fg-muted)] max-w-2xl mx-auto">{landing.finalCta.subheadline}</p>
         <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/signup"}
@@ -180,7 +180,7 @@ function CommunityCta() {
           {landing.finalCta.secondaryButton && (
             <a
               href={landing.finalCta.secondaryHref || "#pricing"}
-              className="text-sm font-medium text-white/70 hover:text-white"
+              className="text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)]"
             >
               {landing.finalCta.secondaryButton}
             </a>
@@ -213,7 +213,7 @@ export default function Community({ config: _config }: { config: VentureConfig }
   const sections = landing.sections ?? COMMUNITY_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="momentum" />
       {sections.map((id) => {
         const render = COMMUNITY_SECTIONS[id];

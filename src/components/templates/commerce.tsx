@@ -23,17 +23,17 @@ function CommerceHero() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="relative px-6 pt-24 pb-16">
+    <section className="relative px-6 pt-28 pb-20">
       <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
-          <p className="inline-flex items-center gap-2 text-xs font-medium tracking-wide text-white/60">
+          <p className="inline-flex items-center gap-2 text-xs font-medium tracking-wide text-[var(--brand-fg-muted)]">
             <Star className="h-3 w-3" style={{ color: "var(--brand-primary)" }} fill="currentColor" />
             New collection
           </p>
-          <h1 className="mt-5 text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight text-white">
+          <h1 className="mt-5 text-5xl sm:text-6xl font-semibold leading-[1.05] tracking-tight text-[var(--brand-fg)]">
             {landing.headline}
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-white/70">{landing.subheadline}</p>
+          <p className="mt-6 text-lg leading-relaxed text-[var(--brand-fg-muted)]">{landing.subheadline}</p>
 
           <div className="mt-8">
             {waitlistMode && !isLiveMode ? (
@@ -49,14 +49,14 @@ function CommerceHero() {
                   {landing.primaryCta || "Shop now"}
                   <ArrowRight className="h-4 w-4" />
                 </a>
-                <a href="#features" className="text-sm font-medium text-white/80 hover:text-white underline underline-offset-4">
+                <a href="#features" className="text-sm font-medium text-[var(--brand-fg)] hover:text-[var(--brand-fg)] underline underline-offset-4">
                   Browse the collection
                 </a>
               </div>
             )}
           </div>
 
-          <div className="mt-10 flex items-center gap-6 text-xs text-white/60">
+          <div className="mt-10 flex items-center gap-6 text-xs text-[var(--brand-fg-muted)]">
             <span className="inline-flex items-center gap-1.5">
               <Truck className="h-4 w-4" />
               Free shipping over $75
@@ -78,15 +78,15 @@ function CommerceHero() {
             <ShoppingBag className="h-28 w-28" style={{ color: "var(--brand-primary)" }} />
           </div>
           <div className="absolute bottom-6 left-6 right-6 rounded-2xl p-4 backdrop-blur-md"
-            style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.15)" }}
+            style={{ background: "var(--brand-surface-card)", border: "1px solid var(--brand-hairline)" }}
           >
-            <p className="text-xs font-medium text-white/70 uppercase tracking-wide">Best seller</p>
-            <p className="mt-1 text-base font-semibold text-white">{config.name} Essentials</p>
+            <p className="text-xs font-medium text-[var(--brand-fg-muted)] uppercase tracking-wide">Best seller</p>
+            <p className="mt-1 text-base font-semibold text-[var(--brand-fg)]">{config.name} Essentials</p>
             <div className="mt-2 flex items-center gap-1">
               {[0,1,2,3,4].map((i) => (
-                <Star key={i} className="h-3.5 w-3.5 text-white" fill="currentColor" />
+                <Star key={i} className="h-3.5 w-3.5 text-[var(--brand-fg)]" fill="currentColor" />
               ))}
-              <span className="ml-2 text-xs text-white/70">4.9 (1.2k)</span>
+              <span className="ml-2 text-xs text-[var(--brand-fg-muted)]">4.9 (1.2k)</span>
             </div>
           </div>
         </div>
@@ -105,13 +105,13 @@ function CommerceCollection() {
   const tileBg = "var(--brand-surface-light)";
 
   return (
-    <section id="features" className="px-6 py-20">
+    <section id="features" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--brand-fg)]">
             Shop the collection
           </h2>
-          <a href="/shop" className="text-sm font-medium text-white/70 hover:text-white inline-flex items-center gap-1">
+          <a href="/shop" className="text-sm font-medium text-[var(--brand-fg-muted)] hover:text-[var(--brand-fg)] inline-flex items-center gap-1">
             View all <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -122,8 +122,8 @@ function CommerceCollection() {
                 className="aspect-square w-full rounded-2xl mb-3 relative overflow-hidden transition-colors duration-200 ease-out group-hover:border-brand-border-hover"
                 style={{ background: tileBg, border: "1px solid var(--brand-border-color)" }}
               >
-                <div className="absolute top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide"
-                  style={{ background: "rgba(0,0,0,0.4)", color: "rgba(255,255,255,0.85)" }}
+                <div className="absolute top-3 right-3 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide backdrop-blur-md"
+                  style={{ background: "var(--brand-surface-card)", color: "var(--brand-fg)" }}
                 >
                   {i === 0 ? "New" : i === 1 ? "Best seller" : "Limited"}
                 </div>
@@ -133,10 +133,10 @@ function CommerceCollection() {
               </div>
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="text-sm font-semibold text-white">{f.title}</p>
-                  <p className="text-xs text-white/50 line-clamp-1 mt-0.5">{f.description}</p>
+                  <p className="text-sm font-semibold text-[var(--brand-fg)]">{f.title}</p>
+                  <p className="text-xs text-[var(--brand-fg-muted)] line-clamp-1 mt-0.5">{f.description}</p>
                 </div>
-                <p className="text-sm font-semibold text-white whitespace-nowrap">
+                <p className="text-sm font-semibold text-[var(--brand-fg)] whitespace-nowrap">
                   ${(39 + i * 10).toFixed(0)}
                 </p>
               </div>
@@ -144,7 +144,7 @@ function CommerceCollection() {
                 {[0,1,2,3,4].map((s) => (
                   <Star key={s} className="h-3 w-3" style={{ color: "var(--brand-primary)" }} fill="currentColor" />
                 ))}
-                <span className="ml-1.5 text-[10px] text-white/50">({100 + i * 47})</span>
+                <span className="ml-1.5 text-[10px] text-[var(--brand-fg-muted)]">({100 + i * 47})</span>
               </div>
             </div>
           ))}
@@ -161,22 +161,22 @@ function CommerceCta() {
   const waitlistMode = config.flags?.waitlistMode ?? true;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-28">
       <div
-        className="mx-auto max-w-5xl rounded-3xl px-8 py-16 text-center"
+        className="mx-auto max-w-5xl rounded-3xl px-8 py-20 text-center"
         style={{
           background: "var(--brand-primary)",
           color: "var(--brand-primary-foreground)",
         }}
       >
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
+        <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight">
           {landing.finalCta.headline}
         </h2>
         <p className="mt-4 max-w-2xl mx-auto" style={{ opacity: 0.9 }}>{landing.finalCta.subheadline}</p>
         <div className="mt-10">
           <a
             href={waitlistMode && !isLiveMode ? "#waitlist" : "/shop"}
-            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-opacity duration-200 ease-out hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-primary-foreground)] px-8 py-3.5 text-sm font-semibold text-[var(--brand-primary)] transition-opacity duration-200 ease-out hover:opacity-90"
           >
             <ShoppingBag className="h-4 w-4" />
             {landing.finalCtaButton || landing.primaryCta || "Shop now"}
@@ -209,7 +209,7 @@ export default function Commerce({ config: _config }: { config: VentureConfig })
   const sections = landing.sections ?? COMMERCE_DEFAULT_SECTIONS;
 
   return (
-    <div className="min-h-screen bg-brand-surface text-white">
+    <div className="min-h-screen bg-brand-surface text-[var(--brand-fg)]">
       <NavBar variant="default" />
       {sections.map((id) => {
         const render = COMMERCE_SECTIONS[id];

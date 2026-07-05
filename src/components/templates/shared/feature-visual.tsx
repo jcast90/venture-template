@@ -19,8 +19,8 @@ import { Check } from "lucide-react";
  */
 
 const SURFACE = "var(--brand-surface-light, #141416)";
-const PANEL = "rgba(255,255,255,0.02)";
-const HAIRLINE = "rgba(255,255,255,0.07)";
+const PANEL = "var(--brand-surface-card)";
+const HAIRLINE = "var(--brand-hairline)";
 const ACCENT = "var(--brand-primary)";
 const ACCENT_TINT = "color-mix(in srgb, var(--brand-primary) 16%, transparent)";
 
@@ -47,7 +47,7 @@ function Frame({
         className="flex items-center justify-between border-b px-4 py-2.5"
         style={{ borderColor: HAIRLINE }}
       >
-        <span className="text-[10px] font-medium uppercase tracking-wider text-white/45">
+        <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--brand-fg-faint)]">
           {label}
         </span>
         <span
@@ -69,10 +69,10 @@ function MetricVisual({ title }: { title: string }) {
     <Frame label={title}>
       <div className="flex items-end justify-between gap-4">
         <div>
-          <div className="text-[9px] uppercase tracking-wider text-white/40">
+          <div className="text-[9px] uppercase tracking-wider text-[var(--brand-fg-faint)]">
             This month
           </div>
-          <div className="mt-1 text-3xl font-semibold leading-none text-white">
+          <div className="mt-1 text-3xl font-semibold leading-none text-[var(--brand-fg)]">
             +47%
           </div>
           <div
@@ -117,7 +117,7 @@ function ChecklistVisual({ title }: { title: string }) {
             <span
               className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
               style={{
-                background: r.done ? ACCENT : "rgba(255,255,255,0.05)",
+                background: r.done ? ACCENT : "var(--brand-surface-card)",
                 border: r.done ? "none" : `1px solid ${HAIRLINE}`,
               }}
             >
@@ -130,7 +130,7 @@ function ChecklistVisual({ title }: { title: string }) {
               )}
             </span>
             <span
-              className={`text-[11px] ${r.done ? "text-white/80" : "text-white/35"}`}
+              className={`text-[11px] ${r.done ? "text-[var(--brand-fg)]" : "text-[var(--brand-fg-faint)]"}`}
             >
               {r.label}
             </span>
@@ -151,16 +151,16 @@ function CompareVisual({ title }: { title: string }) {
           className="rounded-lg p-3"
           style={{ background: PANEL, border: `1px solid ${HAIRLINE}` }}
         >
-          <div className="text-[8.5px] uppercase tracking-wider text-white/35">
+          <div className="text-[8.5px] uppercase tracking-wider text-[var(--brand-fg-faint)]">
             Before
           </div>
-          <div className="mt-2 text-lg font-semibold leading-none text-white/50">
+          <div className="mt-2 text-lg font-semibold leading-none text-[var(--brand-fg-muted)]">
             6 hrs
           </div>
           <div className="mt-2 space-y-1">
-            <span className="block h-1 w-full rounded bg-white/10" />
-            <span className="block h-1 w-4/5 rounded bg-white/10" />
-            <span className="block h-1 w-3/5 rounded bg-white/10" />
+            <span className="block h-1 w-full rounded bg-[var(--brand-hairline-strong)]" />
+            <span className="block h-1 w-4/5 rounded bg-[var(--brand-hairline-strong)]" />
+            <span className="block h-1 w-3/5 rounded bg-[var(--brand-hairline-strong)]" />
           </div>
         </div>
         <div
@@ -173,7 +173,7 @@ function CompareVisual({ title }: { title: string }) {
           <div className="text-[8.5px] uppercase tracking-wider" style={{ color: ACCENT }}>
             After
           </div>
-          <div className="mt-2 text-lg font-semibold leading-none text-white">
+          <div className="mt-2 text-lg font-semibold leading-none text-[var(--brand-fg)]">
             8 min
           </div>
           <div className="mt-2 space-y-1">
@@ -215,7 +215,7 @@ function TimelineVisual({ title }: { title: string }) {
                 }}
               />
               <span
-                className={`text-[11px] ${s.active ? "font-medium text-white/90" : "text-white/45"}`}
+                className={`text-[11px] ${s.active ? "font-medium text-[var(--brand-fg)]" : "text-[var(--brand-fg-faint)]"}`}
               >
                 {s.label}
               </span>

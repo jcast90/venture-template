@@ -30,17 +30,17 @@ export function ProductFrame({
 
   return (
     <div
-      className={`overflow-hidden rounded-xl border border-white/[0.08] shadow-2xl ${className || ""}`}
+      className={`overflow-hidden rounded-xl border border-[var(--brand-hairline)] shadow-2xl ${className || ""}`}
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+      <div className="flex items-center gap-2 border-b border-[var(--brand-hairline)] bg-[var(--brand-surface-card)] px-4 py-2.5">
         <div className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand-hairline-strong)]" />
         </div>
         <div className="flex-1 text-center">
-          <span className="text-[10px] text-zinc-500">{domain}</span>
+          <span className="text-[10px] text-[var(--brand-fg-faint)]">{domain}</span>
         </div>
         <div className="w-10" />
       </div>
@@ -66,8 +66,8 @@ export function ProductFrame({
 }
 
 const SURFACE = "var(--brand-surface-light, #141416)";
-const PANEL = "rgba(255,255,255,0.02)";
-const HAIRLINE = "rgba(255,255,255,0.07)";
+const PANEL = "var(--brand-surface-card)";
+const HAIRLINE = "var(--brand-hairline)";
 
 /* ── Variant A: analytics overview ─────────────────────────────────────────
    Top-left holds the single most important KPI (F-pattern anchor), each
@@ -94,10 +94,10 @@ function AnalyticsMock() {
       <div className="flex h-full flex-col p-4 sm:p-5">
         {/* Header row */}
         <div className="mb-3 flex items-center justify-between">
-          <span className="text-[11px] font-semibold text-white/90">
+          <span className="text-[11px] font-semibold text-[var(--brand-fg)]">
             {config.name} · Overview
           </span>
-          <span className="inline-flex items-center gap-1.5 text-[9px] text-white/45">
+          <span className="inline-flex items-center gap-1.5 text-[9px] text-[var(--brand-fg-faint)]">
             <span
               className="h-1.5 w-1.5 rounded-full"
               style={{ background: "var(--brand-success, #22c55e)" }}
@@ -117,10 +117,10 @@ function AnalyticsMock() {
                 border: `1px solid ${k.lead ? "color-mix(in srgb, var(--brand-primary) 30%, transparent)" : HAIRLINE}`,
               }}
             >
-              <div className="text-[8px] uppercase tracking-wider text-white/45">
+              <div className="text-[8px] uppercase tracking-wider text-[var(--brand-fg-faint)]">
                 {k.label}
               </div>
-              <div className="mt-1 text-[15px] font-semibold leading-none text-white">
+              <div className="mt-1 text-[15px] font-semibold leading-none text-[var(--brand-fg)]">
                 {k.value}
               </div>
               <div
@@ -143,10 +143,10 @@ function AnalyticsMock() {
           style={{ background: PANEL, border: `1px solid ${HAIRLINE}` }}
         >
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-[9px] font-medium text-white/70">
+            <span className="text-[9px] font-medium text-[var(--brand-fg-muted)]">
               Weekly activity
             </span>
-            <span className="text-[8px] text-white/40">Last 7 days</span>
+            <span className="text-[8px] text-[var(--brand-fg-faint)]">Last 7 days</span>
           </div>
           <div className="flex h-[52px] items-end gap-1.5">
             {bars.map((h, i) => (
@@ -174,10 +174,10 @@ function AnalyticsMock() {
               className="flex items-center gap-2 rounded-md px-2 py-1.5"
               style={{ background: PANEL }}
             >
-              <span className="text-[9.5px] font-medium text-white/85">
+              <span className="text-[9.5px] font-medium text-[var(--brand-fg)]">
                 {r.name}
               </span>
-              <span className="truncate text-[9px] text-white/40">{r.meta}</span>
+              <span className="truncate text-[9px] text-[var(--brand-fg-faint)]">{r.meta}</span>
               <span className="ml-auto">
                 <StatusChip label={r.status} tone={r.tone} />
               </span>
@@ -221,10 +221,10 @@ function BoardMock() {
     >
       <div className="flex h-full flex-col p-4 sm:p-5">
         <div className="mb-3 flex items-center justify-between">
-          <span className="text-[11px] font-semibold text-white/90">
+          <span className="text-[11px] font-semibold text-[var(--brand-fg)]">
             {config.name} · Board
           </span>
-          <span className="rounded-md px-2 py-0.5 text-[8.5px] font-medium text-white/70"
+          <span className="rounded-md px-2 py-0.5 text-[8.5px] font-medium text-[var(--brand-fg-muted)]"
             style={{ background: "color-mix(in srgb, var(--brand-primary) 16%, transparent)", color: "var(--brand-primary)" }}
           >
             This week
@@ -235,10 +235,10 @@ function BoardMock() {
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col">
               <div className="mb-1.5 flex items-center gap-1.5">
-                <span className="text-[9px] font-medium text-white/70">
+                <span className="text-[9px] font-medium text-[var(--brand-fg-muted)]">
                   {col.title}
                 </span>
-                <span className="text-[8px] text-white/35">{col.count}</span>
+                <span className="text-[8px] text-[var(--brand-fg-faint)]">{col.count}</span>
               </div>
               <div className="space-y-1.5">
                 {col.cards.map((c) => (
@@ -247,7 +247,7 @@ function BoardMock() {
                     className="rounded-md p-2"
                     style={{ background: PANEL, border: `1px solid ${HAIRLINE}` }}
                   >
-                    <div className="text-[9.5px] font-medium leading-tight text-white/85">
+                    <div className="text-[9.5px] font-medium leading-tight text-[var(--brand-fg)]">
                       {c.name}
                     </div>
                     <div className="mt-1.5">
@@ -257,7 +257,7 @@ function BoardMock() {
                 ))}
                 {/* Ghost row hints at more without adding a skeleton */}
                 <div
-                  className="rounded-md border border-dashed py-1.5 text-center text-[8px] text-white/30"
+                  className="rounded-md border border-dashed py-1.5 text-center text-[8px] text-[var(--brand-fg-faint)]"
                   style={{ borderColor: HAIRLINE }}
                 >
                   + Add
@@ -288,8 +288,8 @@ function StatusChip({
         ? "var(--brand-warning, #eab308)"
         : "var(--brand-error, #ef4444)";
   return (
-    <span className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[8px] font-medium text-white/70"
-      style={{ background: "rgba(255,255,255,0.04)" }}
+    <span className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[8px] font-medium text-[var(--brand-fg-muted)]"
+      style={{ background: "var(--brand-hairline)" }}
     >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
       {label}
@@ -317,7 +317,7 @@ function Tag({
       bg: "color-mix(in srgb, var(--brand-warning, #eab308) 18%, transparent)",
       fg: "var(--brand-warning, #eab308)",
     },
-    muted: { bg: "rgba(255,255,255,0.05)", fg: "rgba(255,255,255,0.6)" },
+    muted: { bg: "var(--brand-hairline)", fg: "var(--brand-fg-muted)" },
   };
   const s = styles[tone] || styles.muted;
   return (

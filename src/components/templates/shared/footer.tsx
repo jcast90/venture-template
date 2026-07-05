@@ -38,7 +38,7 @@ export function FooterBar() {
           )}
           <span className="text-sm font-medium">{config.name}</span>
         </div>
-        <p className="text-xs text-zinc-600">
+        <p className="text-xs text-[var(--brand-fg-faint)]">
           &copy; {COPYRIGHT_YEAR} {config.name}. All rights reserved.
         </p>
       </div>
