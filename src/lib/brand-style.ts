@@ -100,8 +100,14 @@ export function brandCssVars(brand: SchemeBrand = configBrand): CSSProperties {
     "--brand-primary": brand.primary,
     "--brand-primary-dark": brand.primaryDark,
     "--brand-accent": brand.accent,
-    "--brand-surface-card": brand.surfaceCard ?? surfaceCard,
-    "--brand-surface-input": brand.surfaceInput ?? surfaceInput,
+    // Card + input surfaces are ALWAYS scheme-derived, never taken from the
+    // palette/config: the curated palettes only define primary/accent/surface/
+    // surfaceLight/ink, and a stale dark surfaceCard/surfaceInput left in a base
+    // config (e.g. #141416) would otherwise win here and paint black cards +
+    // black inputs on a LIGHT venture (the hero mock, stats band, and email
+    // field all read --brand-surface-card/-input). Derive from the scheme.
+    "--brand-surface-card": surfaceCard,
+    "--brand-surface-input": surfaceInput,
     "--brand-radius": radius,
     "--brand-border-opacity": borderOpacity,
     "--brand-border-color": borderColor,
