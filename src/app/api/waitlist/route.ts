@@ -88,10 +88,22 @@ export async function POST(request: NextRequest) {
 
     await posthogCapture("waitlist_signup_succeeded", payload);
 
-    await inngest.send({
-      name: ventureEvent("user.signup"),
-      data: { email },
-    });
+    // Best-effort: the signup is already captured in the waitlist table above,
+    // so downstream fan-out must never turn a successful capture into a 500 for
+    // the visitor. Landing-only deploys have no INNGEST_* env, so this send
+    // throws — swallow it (like posthogCapture / experiment_events) instead of
+    // failing the request.
+    try {
+      await inngest.send({
+        name: ventureEvent("user.signup"),
+        data: { email },
+      });
+    } catch (e) {
+      console.error(
+        "inngest send failed (signup still captured):",
+        e instanceof Error ? e.message : String(e),
+      );
+    }
 
     return NextResponse.json({ message: "Success" });
   } catch {
